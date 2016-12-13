@@ -6,6 +6,7 @@ angular.module('soundxtreamappApp')
        // $scope.tracks = [];
         $scope.tracks = tracksApp;
         $scope.playlists = [];
+        $scope.resultsSearch = [];
 
         $http({
             method: 'GET',
@@ -14,9 +15,29 @@ angular.module('soundxtreamappApp')
             $scope.playlists = response.data;
         });
 
-        tracksApp.$promise.then(function(){
+        var wrap = angular.element("#search-wrapper");
 
+        wrap.focus(function(e) {
+            console.log(e)
+            $('#resultSearch').show();
+        }).blur(function(e) {
+            console.log(e)
+            $('#resultSearch').hide();
         });
+
+        $scope.search = function(query){
+            $http({
+                method: 'GET',
+                url: 'api/_search/'+query
+            }).then(function successCallback(response) {
+                $scope.resultsSearch = response.data;
+            }, function errorCallback(response) {
+            });
+        }
+
+        $scope.go = function () {
+            $state.go('search',{q: $scope.searchQuery});
+        }
 
         $scope.styles = [];
 

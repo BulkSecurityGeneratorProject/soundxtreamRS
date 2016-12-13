@@ -1,8 +1,115 @@
+<style>
+    #resultSearch{
+        position: relative;
+        height: auto;
+        overflow-y: auto;
+        max-height: 350px;
+        background: #333;
+        color: #fff;
+        max-width: 500px;
+        border-radius: 0px 0px 5px 5px;
+    }
+
+    #resultSearch::-webkit-scrollbar {
+        width: 12px;
+    }
+    #resultSearch::-webkit-scrollbar {
+        width: 6px;
+    }
+    #resultSearch::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background: #eee;
+    }
+    #resultSearch::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #888;
+    }
+    #resultSearch::-webkit-scrollbar-thumb:window-inactive {
+        background: rgba(100,100,100,0.4);
+    }
+    #inputor{
+        width: 500px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        outline: 0!important;
+        background: #333;
+        color: #fff;
+        border-bottom-width: 0;
+        border-color: rgba(255,255,255,0.2);
+    }
+    #inputor:focus{
+        outline: 0;
+    }
+    .search-row {
+        padding: 10px;
+        max-width: 100%;
+        width: 100%;
+        height: 38px;
+        display: block;
+    }
+    .search-row *{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    #search-wrapper{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%);
+        z-index: 222;
+    }
+    .title_app{
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .page-content{
+        display: flex;
+        align-content: center;
+    }
+
+    .playlist-box{
+        height: 180px;
+        width: 180px;
+        display: inline-block;
+    }
+    .playlist-image {
+        height: 100%;
+        width: 100%;
+    }
+    .playlist-image img{
+        width: 100%;
+        height:100%;
+    }
+</style>
 <div class="hero-nav">
-    <div class="hero-nav__inner">
-        <h1>Soundxtream</h1>
-        <div>
-            <input id="inputor" placeholder="Search" type="text" class="form-control input_sx_mat"/>
+    <div class="hero-nav__inner" style="width: 100%;padding-top: 100px;">
+        <h1 class="title_app">Soundxtream</h1>
+        <div id="search-wrapper">
+            <input id="inputor" my-enter="go()" placeholder="Search" type="text" ng-model="searchQuery" ng-change="search(searchQuery)" class="form-control"/>
+            <div id="resultSearch" ng-if="searchQuery.length > 0">
+                <div ng-repeat="result in resultsSearch" class="search-row" style="cursor: pointer;">
+                    <div ng-if="result.name == undefined">
+                        <span ng-if="result.access_url == undefined" ui-sref="user-profile({login: result.login})">
+                            {{result.login}}
+                        </span>
+                    </div>
+                    <div ng-if="result.name != undefined">
+                        <span ng-if="result.access_url == undefined" ui-sref="playlist.detail({id: result.id})">
+                            {{result.name}} by {{result.user.login}}
+                        </span>
+                        <span ng-if="result.access_url != undefined"
+                              ui-sref="song.detail({accessUrl: result.access_url,user: result.user.login, id: result.id})">
+                            {{result.name}} by {{result.user.login}}
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -66,34 +173,8 @@
 </div>
 
 <style>
-    .header-image {
-        background-image: url('/assets/images/logo_home.jpg');
-        //background-position: center;
-        //background-size: cover;
-        //height: 320px;
-        /*margin-left: -15px;
-        margin-right: -15px;*/
-    }
-    .controls-main{
-        height: auto;
-        width: auto;
-        position: absolute;
-        bottom: 50%;
-        left: 43%;
-        transform: translate(-50%,50%);
-        padding: 2px;
-    }
-
-    #content {
-        position: absolute;
-        left: 0;
-        /*margin-left: 20px;
-        margin-right: 20px;*/
-    }
-
-
     .hero-nav {
-        position: relative;
+        /*position: relative;
         top: 0;
         right: 0;
 
@@ -111,13 +192,37 @@
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
-        height: 650px;
+        height: 400px;
         min-height: 105px;
         background-image:url('/assets/images/wallmountains.jpg');
         //background-image: url(https://images.unsplash.com/photo-1442606383395-175ee96ed967?q=80&fm=jpg&s=5c8c74be9bc91b47c79a1aaf92264be5);
         background-size: cover;
         background-position: center;
-        overflow: hidden;
+        overflow: hidden;*/
+
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: -webkit-box;
+        /* display: -webkit-flex; */
+        display: -ms-flexbox;
+        /* display: flex; */
+        /* -webkit-box-pack: center; */
+        /* -webkit-justify-content: center; */
+        -ms-flex-pack: center;
+        /* justify-content: center; */
+        /* -webkit-box-align: center; */
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        /* align-items: center; */
+        height: 400px;
+        min-height: 105px;
+        background-image: url(/assets/images/wallmountains.jpg);
+        background-size: cover;
+        background-position: center;
+        //overflow: hidden;
     }
     .hero-nav .hero-nav__inner {
         z-index: 1;
@@ -126,131 +231,8 @@
         color: #efefef;
         font-size: 5vw;
     }
-    /*.hero-nav:before {
-        content: "";
-        background: transparent;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        -webkit-transition: background 400ms;
-        transition: background 400ms;
-    }*/
     .hero-nav.fixme:before {
         background: rgba(0, 0, 0, 0.8);
     }
 
-    .page-content {
-        position: relative;
-        width: 90%;
-        padding: 2.5%;
-        margin: 0 auto;
-        //z-index: -3;
-        z-index: 0;
-        line-height: 1.625;
-    }
-
-    textarea[ui-mention], textarea[ui-mention] + * {
-        line-height: 1em;
-        font-size: 1rem;
-        padding: 5px;
-        border: 1px;
-        font-family: helvetica;
-        font-weight: normal; }
-
-    textarea[ui-mention] {
-        min-height: 100px;
-        width: 100%;
-        display: block;
-        border: 1px solid;
-        z-index: 2;
-        position: relative; }
-    textarea[ui-mention][ui-mention] {
-        background: transparent; }
-
-    a {
-        color: blue;
-        text-decoration: underline;
-        cursor: pointer; }
-    a:hover {
-        color: green; }
-
-    .mention-container {
-        position: relative; }
-
-    .mention-highlight {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border: 1px;
-        padding: 2px;
-        z-index: 1;
-        color: transparent;
-        white-space: pre-wrap;
-        border: 1px solid transparent;
-        width: 100%; }
-    .mention-highlight span {
-        border-radius: 3px;
-        background: lightblue;
-        box-shadow: 0px 0px 0px 1px blue; }
-
-    .dropdown {
-        position: absolute;
-        top: 100%;
-        min-width: 150px;
-        right: 0;
-        background: lightblue;
-        list-style: none;
-        padding: 0;
-        margin: 0; }
-    .dropdown a {
-        display: block;
-        padding: 10px;
-        text-decoration: none; }
-    .dropdown .active {
-        background: lightgreen; }
-
-    .playlist-box{
-        height: 180px;
-        width: 180px;
-        display: inline-block;
-    }
-    .playlist-image {
-        height: 100%;
-        width: 100%;
-    }
-
-    .playlist-image img{
-        width: 100%;
-        height:100%;
-    }
 </style>
-<script>
-    /*var heroShinker = function() {
-        var hero = $('.hero-nav'),
-            heroHeight = $('.hero-nav').outerHeight(true);
-        $(hero).parent().css('padding-top', heroHeight);
-        $("#content").scroll(function() {
-            var scrollOffset = $("#content").scrollTop();
-            if (scrollOffset < heroHeight) {
-                $(hero).css('height', (heroHeight - scrollOffset));
-            }
-            else{
-                $(hero).css('height', "150px");
-            }
-            if (scrollOffset > (heroHeight - 215)) {
-                hero.addClass('fixme');
-                $(hero).css('top',"50px");
-                $(hero).parent().css('padding-top', heroHeight-"50");
-            } else {
-                hero.removeClass('fixme');
-                $(hero).css('top',"0px");
-                $(hero).parent().css('padding-top', heroHeight+"50");
-            };
-        });
-    }
-    heroShinker();*/
-</script>

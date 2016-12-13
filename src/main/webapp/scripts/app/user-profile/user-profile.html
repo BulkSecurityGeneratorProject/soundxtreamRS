@@ -81,29 +81,43 @@
         width: 200px;
         margin: 0 auto;
         position: relative;
+        border-radius: 100%;
+    }
+    .profile-image span{
+        border-radius: 100%;
+        overflow: hidden;
     }
     .profile-image:before{
         content: '';
         position: absolute;
         //background: white;
-        background: linear-gradient(rgba(0,0,0,0) 31%, #fff 102%);
+        //background: linear-gradient(rgba(0,0,0,0) 31%, #fff 102%);
         top: -10px;
         left: -10px;
         bottom: -10px;
         right: -10px;
-        box-shadow: 0px 13px 16px -12px rgba(0,0,0,.5);
+        //box-shadow: 0px 13px 16px -12px rgba(0,0,0,.5);
+        border-radius: 100%;
+        /*-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);*/
+        //background: #fff;
     }
 </style>
 <div>
     <div class="row">
-        <div class="visual-profile">
+        <!--<div class="visual-profile">
             <div class="profile-image">
                 <span style="background-image: url('{{user.user_image}}');"></span>
             </div>
-        </div>
-        <div class="user-info">
-            <div style=" text-align: center;box-shadow: 0px 13px 16px -12px rgba(0,0,0,.5); width: 300px; margin: 0 auto;padding: 16px;
+        </div>-->
+        <div class="user-info" style="margin-top: 10px;">
+            <div class="card-prof" style=" text-align: center; width: 300px; margin: 0 auto;padding: 16px;
         background: linear-gradient(rgba(0,0,0,0) 31%, #fff 102%);margin-bottom: 10px;">
+                <div class="profile-image">
+                    <span style="background-image: url('{{user.user_image}}');"></span>
+                </div>
+                <div style="margin: 20px;"></div>
                 <div><span><b>{{user.login}}</b></span></div>
                 <div><span>{{user.firstName}} {{user.lastName}}</span></div>
                 <div style="margin-top: 2px;margin-bottom: 2px; ">
@@ -115,7 +129,7 @@
                         </button>
                     </span>
                 </div>
-                <div style="width: 45%;    padding-top: 10px; border-right: 1px solid rgba(128, 128, 128, 0.43);display: inline-block;" ui-sref="user-profile.followers">
+                <div style="width: 45%;padding-top: 10px; border-right: 1px solid rgba(128, 128, 128, 0.43);display: inline-block;" ui-sref="user-profile.followers">
                     <p><span><i class="fa fa-users" aria-hidden="true"></i> Followers</span></p>
                     <p style="font-size: 17px;margin-top: -9px;">{{user.totalFollowers}}</p>
                 </div>
@@ -213,6 +227,11 @@
     </div>
 </div>
 <style>
+    .card-prof{
+        -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Firefox 3.5 - 3.6 */
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+    }
     .btn-upload-over {
         position: absolute;
         top: 0;

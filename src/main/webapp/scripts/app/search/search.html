@@ -1,0 +1,96 @@
+<div>
+    <div class="input-search-wrapper">
+        <input type="text" ng-model="query" my-enter="search(query)" class="form-control input-search"/>
+        <i class="fa fa-level-down ico-enter" aria-hidden="true" ng-click="search(query)"></i>
+    </div>
+    <div style="margin-left: auto;margin-right: auto;width: 85%;">
+        <p><b>{{queryLast.length}} results for "{{queryLast}}"</b></p>
+        <span ng-repeat="result in results" class="result-row">
+            <span ng-if="result.name == undefined">
+                <img src="{{result.user_image ? result.user_image : '/assets/images/default_image.jpg'}}" width="140px" height="140px" alt="">
+                <span class="label" style="font-weight: lighter; color: rgba(0,0,0,.78); position: absolute; top: 20px; right: 0; font-size: 15px;">User</span>
+                <span class="info">
+                    <span><a ui-sref="user-profile({login: result.login})" style="color: #333;">{{result.login}}</a></span>
+                    <div><small>{{result.firstName}} {{result.lastName}}</small></div>
+                </span>
+            </span>
+            <span ng-if="result.name != undefined">
+                <img src="{{result.artwork}}" width="140px" height="140px" alt="">
+                <span class="label" style="font-weight: lighter; color: rgba(0,0,0,.78); position: absolute; top: 20px; right: 0; font-size: 15px;">{{result.duration ? 'Track' : 'Playlist'}}</span>
+                <span class="info" ng-if="result.duration != undefined"><a ui-sref="song.detail({accessUrl: result.access_url,user: result.user.login, id: result.id})" style="color: #333;">{{result.name}}</a></span>
+                <span class="info" ng-if="result.duration == undefined"><a ui-sref="playlist.detail({id: result.id})" style="color: #333;">{{result.name}}</a></span>
+            </span>
+        </span>
+    </div>
+
+    <!--<div>
+        <h4>Playlists</h4>
+        <span ng-repeat="result in results.playlists" class="result-row">
+            <span>
+                <img src="{{result.artwork}}" width="140px" height="140px" alt="">
+                <span class="info">{{result.name}}</span>
+            </span>
+        </span>
+    </div>
+
+    <div>
+        <h4>Users</h4>
+        <span ng-repeat="result in results.users" class="result-row">
+            <span>
+                <img src="{{result.user_image ? result.user_image : '/assets/images/default_image.jpg'}}" width="140px" height="140px" alt="">
+                <span class="info">{{result.login}}</span>
+            </span>
+        </span>
+    </div>
+
+    <div>
+        <h4>Tracks</h4>
+        <span ng-repeat="result in results.songs" class="result-row">
+            <span>
+                <img src="{{result.artwork}}" width="140px" height="140px" alt="">
+                <span class="info">{{result.name}}</span>
+            </span>
+        </span>
+    </div>-->
+</div>
+<style>
+    .result-row{
+        display: inline-block;
+        padding: 12px;
+        position: relative;
+        width: 49.5%;
+        margin-right: 5px;
+        margin-bottom: 10px;
+        -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Firefox 3.5 - 3.6 */
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+        background: #fff;
+    }
+    .info{
+        position: absolute;
+        top: 20px;
+        margin-left: 9px;
+        font-size: 18px;
+    }
+    .ico-enter{
+        transform: rotate(90deg);
+        margin: 11px;
+        position: absolute;
+        top: 4px;
+        right: 0;
+        color: #fff;
+        font-size: 20px;
+    }
+    .input-search{
+        width: 100%;
+        padding-right: 25px;
+        background: #333;
+        color: #fff;
+        height: 50px;
+    }
+    .input-search-wrapper{
+        width: 480px;
+        position: relative;
+        margin: 20px auto;
+    }
+</style>
