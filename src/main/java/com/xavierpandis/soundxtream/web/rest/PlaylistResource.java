@@ -6,6 +6,7 @@ import com.xavierpandis.soundxtream.domain.*;
 import com.xavierpandis.soundxtream.repository.*;
 import com.xavierpandis.soundxtream.repository.search.PlaylistSearchRepository;
 import com.xavierpandis.soundxtream.security.SecurityUtils;
+import com.xavierpandis.soundxtream.service.DateDiffService;
 import com.xavierpandis.soundxtream.web.rest.dto.ActivityDTO;
 import com.xavierpandis.soundxtream.web.rest.dto.PlaylistDTO;
 import com.xavierpandis.soundxtream.web.rest.dto.SongDTO;
@@ -68,6 +69,12 @@ public class PlaylistResource {
     private Playlist_userRepository playlist_userRepository;
 
     @Inject
+    private DateDiffService dateDiffService;
+
+    @Inject
+    private Song_userRepository song_userRepository;
+
+    @Inject
     private SongRepository songRepository;
 
     /**
@@ -127,7 +134,7 @@ public class PlaylistResource {
 
             List<Image> images = new ArrayList<>();
 
-            BufferedImage bImage = new BufferedImage(280, 280,
+            BufferedImage bImage = new BufferedImage(500, 500,
                 BufferedImage.TYPE_INT_RGB);
 
             try{
@@ -140,7 +147,7 @@ public class PlaylistResource {
             }
 
             Canvas cnvs = new Canvas();
-            cnvs.setSize(280,280);
+            cnvs.setSize(500,500);
 
             Graphics2D graphics = bImage.createGraphics();
 
@@ -373,90 +380,131 @@ public class PlaylistResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<ActivityDTO>> getAllActivityFollowing(Pageable pageable) throws URISyntaxException {
+    public ResponseEntity<List<ActivityUser>> getAllActivityFollowing(Pageable pageable) throws URISyntaxException {
 
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
         Page<Object[]> page = seguimientoRepository.findAllActFollowing(user.getLogin(),pageable);
+        List<Song> songs = seguimientoRepository.findActFollowingS(user.getLogin(),pageable);
+        List<Playlist> playlists = seguimientoRepository.findActFollowingP(user.getLogin(), pageable);
 
-        //DTO donde guardo luego la fusion de canciones y playlists
-        ArrayList<ActivityDTO> listActivity = new ArrayList<>();
+        List<Song_user> sharesUser = seguimientoRepository.findActFollowingShares(user.getLogin(),pageable);
+        List<Playlist_user> sharesP = seguimientoRepository.findActFollowingPlaylistShares(user.getLogin(), pageable);
 
-        // DTO para guardar canciones y playlists
-        ArrayList<ActivityDTO> listActivityTracks = new ArrayList<>();
-        ArrayList<ActivityDTO> listActivityPlaylists = new ArrayList<>();
-        ArrayList<ActivityDTO> listActivityShare = new ArrayList<>();
 
-        for (Object o[] : page) {
-            Song c = (Song) o[0];
+        List<ActivityUser> not = new ArrayList<>();
+        List<ActivityDTO> activity = new ArrayList<>();
 
-            ActivityDTO activityDTO1 = new ActivityDTO();
-            activityDTO1.setType("song");
-            activityDTO1.setSong(c);
-            activityDTO1.setDate(c.getDate_posted());
 
-            Boolean existTrack = false;
-            Boolean existPlaylist = false;
-            Boolean existShare = false;
+        ZonedDateTime now = ZonedDateTime.now();
 
-            for(int k = 0; k < listActivityTracks.size();k++){
-                if(listActivityTracks.get(k).getSong().getId() == c.getId()){
-                    existTrack = true;
-                }
+
+        for(Song song:songs){
+            Song_user song_user = song_userRepository.findExistUserLiked(song.getId(),user.getLogin());
+            SongDTO songDTO = new SongDTO();
+
+            songDTO.setTimeAfterUpload(dateDiffService.diffDatesMap(now, song.getDate_posted()));
+
+            songDTO.setSong(song);
+
+
+            if(song_user == null || song_user.getLiked() == null || !song_user.getLiked()){
+                songDTO.setLiked(false);
             }
-            if(!existTrack){
-                listActivityTracks.add(activityDTO1);
-            }
-
-            Playlist l = (Playlist) o[1];
-
-            ActivityDTO activityDTO2 = new ActivityDTO();
-            activityDTO2.setType("playlist");
-            activityDTO2.setPlaylist(l);
-            activityDTO2.setDate(l.getDateCreated());
-
-            for(int k = 0; k < listActivityPlaylists.size();k++){
-                if(listActivityPlaylists.get(k).getPlaylist().getId() == l.getId()){
-                    existPlaylist = true;
-                }
-            }
-            if(!existPlaylist){
-                listActivityPlaylists.add(activityDTO2);
+            else{
+                songDTO.setLiked(true);
             }
 
-            Song_user su = (Song_user) o[2];
 
-            ActivityDTO activityDTO3 = new ActivityDTO();
-            activityDTO3.setType("share");
-            activityDTO3.setShareTrack(su);
-            activityDTO3.setDate(su.getSharedDate());
-
-            for(int k = 0; k < listActivityShare.size();k++){
-                if(listActivityShare.get(k).getShareTrack().getId() == su.getId()){
-                    existShare = true;
-                }
+            if(song_user == null || song_user.getShared() == null || !song_user.getShared()){
+                songDTO.setShared(false);
             }
-            if(!existShare){
-                listActivityShare.add(activityDTO3);
+            else{
+                songDTO.setShared(true);
             }
 
-            //listActivity.add(activityDTO2);
-           // System.out.printf("\nPlaylist: %s \n Tracks: %s",l,c);
+
+            int countLikes = song_userRepository.findTotalLikes(song.getId());
+            int countShares = song_userRepository.findTotalShares(song.getId());
+            songDTO.setTotalLikes(countLikes);
+            songDTO.setTotalShares(countShares);
+
+
+            ActivityDTO actNew = new ActivityDTO();
+            actNew.setSong(songDTO);
+            actNew.setDate(song.getDate_posted());
+            actNew.setType("upload_track");
+            activity.add(actNew);
         }
 
-        for(int i = 0; i < listActivityPlaylists.size();i++){
-            listActivity.add(listActivityPlaylists.get(i));
-        }
-        for(int i = 0; i < listActivityTracks.size();i++){
-            listActivity.add(listActivityTracks.get(i));
+
+        for(Playlist playlist:playlists){
+            ActivityDTO actNew = new ActivityDTO();
+            actNew.setPlaylist(playlist);
+            actNew.setDate(playlist.getDateCreated());
+            actNew.setType("created_playlist");
+            activity.add(actNew);
         }
 
-        for(int i = 0; i < listActivityShare.size();i++){
-            listActivity.add(listActivityShare.get(i));
+
+        for(Song_user song_user: sharesUser){
+            Song_user song_user2 = song_userRepository.findExistUserLiked(song_user.getSong().getId(),user.getLogin());
+            SongDTO songDTO = new SongDTO();
+
+
+            songDTO.setTimeAfterUpload(dateDiffService.diffDatesMap(now, song_user.getSong().getDate_posted()));
+
+
+            songDTO.setSong(song_user.getSong());
+
+
+            if(song_user == null || song_user.getLiked() == null || !song_user.getLiked()){
+                songDTO.setLiked(false);
+            }
+            else{
+                songDTO.setLiked(true);
+            }
+
+
+            if(song_user == null || song_user.getShared() == null || !song_user.getShared()){
+                songDTO.setShared(false);
+            }
+            else{
+                songDTO.setShared(true);
+            }
+
+
+            int countLikes = song_userRepository.findTotalLikes(song_user.getSong().getId());
+            int countShares = song_userRepository.findTotalShares(song_user.getSong().getId());
+            songDTO.setTotalLikes(countLikes);
+            songDTO.setTotalShares(countShares);
+
+
+            ActivityDTO actNew = new ActivityDTO();
+            actNew.setSong(songDTO);
+            actNew.setDate(song_user.getSharedDate());
+            actNew.setType("shared_track");
+            actNew.setShareTrack(song_user);
+            activity.add(actNew);
         }
+
+
+        for(Playlist_user playlist_user: sharesP){
+            ActivityDTO actNew = new ActivityDTO();
+            actNew.setPlaylist(playlist_user.getPlaylist());
+            actNew.setDate(playlist_user.getSharedDate());
+            actNew.setType("shared_playlist");
+            activity.add(actNew);
+        }
+
+
+        not.addAll(activity);
+        not.sort(Comparator.comparing(ActivityUser::dateAction).reversed());
+
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/songs");
-        return new ResponseEntity<>(listActivity, headers, HttpStatus.OK);
+        return new ResponseEntity<>(not, headers,HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "/playlistUser/{login}",

@@ -1,0 +1,28 @@
+{
+    "soundxtreamappApp": {
+        "playlist_user" : {
+            "home": {
+                "title": "Playlist_users",
+                "createLabel": "Créer un nouveau Playlist_user",
+                "createOrEditLabel": "Créer ou éditer un Playlist_user",
+                "search": "Search for Playlist_user"
+            },
+            "created": "Un nouveau Playlist_user a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Playlist_user avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Playlist_user avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Playlist_user {{ id }} ?"
+            },
+            "detail": {
+                "title": "Playlist_user"
+            },
+            "liked": "Liked",
+            "shared": "Shared",
+            "likedDate": "LikedDate",
+            "sharedDate": "SharedDate",
+            "user": "User",
+            "playlist": "Playlist"
+        }
+    }
+}
+

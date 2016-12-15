@@ -36,6 +36,17 @@
         <div class="artwork-vs-blur" style="background-image: url('{{songDTO.song.artwork}}')"></div>
     </div>-->
     <img ng-src="{{songDTO.song.artwork}}" img-preload alt="{{songDTO.song.name}}">
+    <button class="button-options button-play">
+        <span ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id"
+              ng-click="mediaPlayer.playPause()">
+            <i style="font-size: 44px!important;" ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
+            <i style="font-size: 44px!important;" ng-if="mediaPlayer.playing" class="material-icons">pause</i>
+        </span>
+        <span ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id"
+              ng-click="playerPlaylist.addSong(songDTO.song,mediaPlayer)">
+            <i style="font-size: 44px!important;" class="material-icons">play_arrow</i>
+        </span>
+    </button>
 </div>
 <div class="row-track" ng-class="{true: 'track-no-image', false:''}[songDTO.song.banner_song == null]">
     <div id="watch-track-content">

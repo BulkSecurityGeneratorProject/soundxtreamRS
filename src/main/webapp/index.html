@@ -77,10 +77,6 @@
                         <div id="volume"></div>
                     </div>
                 </div>
-                <!--<div class="playlist-button">
-                    <md-switch tooltip-placement="top" uib-tooltip="Show playlist" tooltip-append-to-body="true" ng-model="playerPlaylist.showPlaylist" md-no-ink class="sx-switch md-primary" aria-label="Show playlist">
-                    </md-switch>
-                </div>-->
             </div>
             <div class="player-info-wrapper">
                 <div class="player-info">
@@ -89,7 +85,7 @@
                         <a href="/#/{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}/track/{{playerPlaylist.getSongAccess(mediaPlayer.currentTrack)}}">{{playerPlaylist.getSongName(mediaPlayer.currentTrack)}}</a>
                     </span>
                     <span class="player-info-artist">
-                        <a href="/#/profile/{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}">{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}</a>
+                        <a href="/#/u/{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}">{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}</a>
                     </span>
                 </div>
             </div>

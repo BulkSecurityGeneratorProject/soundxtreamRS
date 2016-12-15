@@ -1,5 +1,6 @@
 package com.xavierpandis.soundxtream.web.rest.dto;
 
+import com.xavierpandis.soundxtream.domain.ActivityUser;
 import com.xavierpandis.soundxtream.domain.Playlist;
 import com.xavierpandis.soundxtream.domain.Song;
 import com.xavierpandis.soundxtream.domain.Song_user;
@@ -9,12 +10,17 @@ import java.time.ZonedDateTime;
 /**
  * Created by Xavi on 20/04/2016.
  */
-public class ActivityDTO {
+public class ActivityDTO implements ActivityUser {
     private String type;
     private Playlist playlist;
-    private Song song;
-    private ZonedDateTime date;
+    private SongDTO song;
+    private ZonedDateTime dateAction;
     private Song_user shareTrack;
+
+    @Override
+    public ZonedDateTime dateAction() {
+        return getDate();
+    }
 
     public Song_user getShareTrack() {
         return shareTrack;
@@ -25,11 +31,11 @@ public class ActivityDTO {
     }
 
     public ZonedDateTime getDate() {
-        return date;
+        return dateAction;
     }
 
     public void setDate(ZonedDateTime date) {
-        this.date = date;
+        this.dateAction = date;
     }
 
     public String getType() {
@@ -48,11 +54,11 @@ public class ActivityDTO {
         this.playlist = playlist;
     }
 
-    public Song getSong() {
+    public SongDTO getSong() {
         return song;
     }
 
-    public void setSong(Song song) {
+    public void setSong(SongDTO song) {
         this.song = song;
     }
 }

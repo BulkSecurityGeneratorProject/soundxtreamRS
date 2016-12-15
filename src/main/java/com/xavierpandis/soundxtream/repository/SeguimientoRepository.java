@@ -45,4 +45,16 @@ public interface SeguimientoRepository extends JpaRepository<Seguimiento,Long> {
         "Playlist as playlist, Song_user as song_user where seguimiento.seguido.id = song_user.user.id AND song_user.shared = true AND seguimiento.seguido.id = playlist.user.id AND  seguimiento.seguido.id = song.user.id AND seguimiento.seguidor.login = :login AND seguimiento.siguiendo = true")
     Page<Object[]> findAllActFollowing (@Param("login") String login, Pageable pageable);
 
+    @Query("select song from  Seguimiento as seguimiento, Song as song where seguimiento.seguido.id = song.user.id AND seguimiento.seguidor.login = :login AND seguimiento.siguiendo = true")
+    List<Song> findActFollowingS(@Param("login") String login, Pageable pageable);
+
+    @Query("select playlist from  Seguimiento as seguimiento, Playlist as playlist where seguimiento.seguido.id = playlist.user.id AND seguimiento.seguidor.login = :login AND seguimiento.siguiendo = true")
+    List<Playlist> findActFollowingP(@Param("login") String login, Pageable pageable);
+
+    @Query("select song_user from  Seguimiento as seguimiento, Song_user as song_user where seguimiento.seguido.id = song_user.user.id AND song_user.shared = true AND seguimiento.siguiendo = true AND seguimiento.seguidor.login = :login")
+    List<Song_user> findActFollowingShares(@Param("login") String login, Pageable pageable);
+
+    @Query("select playlist_user from  Seguimiento as seguimiento, Playlist_user as playlist_user where seguimiento.seguido.id = playlist_user.user.id AND playlist_user.shared = true AND seguimiento.siguiendo = true AND seguimiento.seguidor.login = :login")
+    List<Playlist_user> findActFollowingPlaylistShares(@Param("login") String login, Pageable pageable);
+
 }

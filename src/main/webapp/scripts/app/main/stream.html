@@ -1,3 +1,251 @@
+<!--<pre><code>{{activities | json}}</code></pre>-->
+<div class="row">
+    <div class="col-xs-12">
+        <h4>Latest activity from the people you’re following:</h4>
+    </div>
+    <div class="col-md-10 col-md-push-1">
+        <div class="row">
+            <div class="col-md-8">
+                <div ng-repeat="activity in activities" class="result-row">
+                    <div ng-if="activity.type == 'upload_track'">
+                        <span class="type_feed"><i class="ion-feed ion-upload"></i> {{activity.song.song.user.login}} uploaded a track</span>
+                        <img src="{{activity.song.song.artwork ? activity.song.song.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <div class="feed-info">
+                            <p><span class="feed-title user">{{activity.song.song.user.login}}</span></p>
+                            <p><span class="feed-title" ui-sref="song.detail({accessUrl: activity.song.song.access_url,user: activity.song.song.user.login, id: activity.song.song.id})">{{activity.song.song.name}}</span></p>
+                            <span class="stats-feed">{{activity.song.totalLikes}} likes | {{activity.song.totalShares}} shares</span>
+                        </div>
+                    </div>
+                    <div ng-if="activity.type == 'shared_track'">
+                        <span class="type_feed"><i class="ion-feed ion-android-share"></i> {{activity.shareTrack.user.login}} shared a track</span>
+                        <img src="{{activity.song.song.artwork ? activity.song.song.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <div class="feed-info">
+                            <p><span class="feed-title user">{{activity.song.song.user.login}}</span></p>
+                            <p><span class="feed-title" ui-sref="song.detail({accessUrl: activity.song.song.access_url,user: activity.song.song.user.login, id: activity.song.song.id})">{{activity.song.song.name}}</span></p>
+                            <span class="stats-feed">{{activity.song.totalLikes}} likes | {{activity.song.totalShares}} shares</span>
+                        </div>
+                    </div>
+                    <div ng-if="activity.type == 'created_playlist'">
+                        <span class="type_feed"><i class="ion-feed ion-plus"></i> {{activity.playlist.user.login}} created a playlist</span>
+                        <img src="{{activity.playlist.artwork ? activity.playlist.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <div class="feed-info">
+                            <p><span class="feed-title user">{{activity.playlist.user.login}}</span></p>
+                            <p><span class="feed-title">{{activity.playlist.name}}</span></p>
+                        </div>
+                    </div>
+                    <div ng-if="activity.type == 'shared_playlist'">
+                        <span class="type_feed"><i class="ion-feed ion-plus"></i> {{activity.playlist.user.login}} shared a playlist</span>
+                        <img src="{{activity.playlist.artwork ? activity.playlist.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <div class="feed-info">
+                            <p><span class="feed-title user">{{activity.playlist.user.login}}</span></p>
+                            <p><span class="feed-title">{{activity.playlist.name}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                dasd
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .feed-info p{
+        margin-bottom: 0px;
+    }
+    .feed-title.user{
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    span.stats-feed {
+        color: #616161;
+        /* position: absolute; */
+        bottom: 0;
+        /* left: 168px; */
+        /* font-size: 16px; */
+    }
+    .feed-title{
+        /*display: inline-block;
+        //color: #333;
+        font-size: 16px;
+        //background: #bcb9b5;
+        padding: 3px 4px 3px 4px;
+        width: auto;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 100%;
+        color: rgb(31, 31, 31);
+        background: rgba(13, 52, 131, 0.26);*/
+
+        display: inline-block;
+        font-size: 16px;
+        padding: 3px 4px 3px 4px;
+        width: auto;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 100%;
+        color: rgb(255, 255, 255);
+        background: rgb(0, 0, 0);
+    }
+    .result-row .feed-info{
+        /*display: inline-block;
+        width: calc(99% - 210px);
+        margin-left: -4px;
+        padding-left: 6px;
+        padding-top: 6px;*/
+
+        display: inline-block;
+        width: 100%;
+        /* margin-left: -4px; */
+        /* padding-left: 6px; */
+        /* padding-top: 6px; */
+        /* margin-bottom: 6px; */
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 5px;
+    }
+    .result-row img{
+        display: inline-block;
+        width: auto;
+    }
+    .type_feed{
+        position: absolute;
+        top: -22px;
+        left: 0;
+        color: #504d4a;
+        font-size: 15px;
+        display: block;
+    }
+    .type_feed .ion-feed{
+        font-size: 24px;
+        margin-top: -6px;
+        margin-left: 5px;
+        display: inline-block;
+        position: relative;
+        height: 27px;
+    }
+    .header_feed{
+        width: 100%;
+        //height: 160px;
+        height: 300px;
+        object-fit: contain;
+    }
+    .result-row{
+        display: inline-block;
+        position: relative;
+        width: 300px;
+        margin-top: 30px;
+        margin-left: 9px;
+
+        /*display: block;
+        position: relative;
+        width: 100%;
+        //margin: 0 0 10px 0;
+        margin-top: 30px;*/
+        -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Firefox 3.5 - 3.6 */
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+        background: #fff;
+    }
+    .result-row *{
+        vertical-align: top;
+    }
+    .result-row > div{
+        position: relative;
+    }
+    .info{
+        position: absolute;
+        top: 20px;
+        margin-left: 9px;
+        font-size: 18px;
+    }
+
+
+    .header-image {
+        background-image: url('/assets/images/logo_home.jpg');
+        background-position: center;
+        background-size: cover;
+        height: 320px;
+        /*margin-left: -15px;
+        margin-right: -15px;*/
+    }
+    .controls-main{
+        height: auto;
+        width: auto;
+        position: absolute;
+        bottom: 50%;
+        left: 43%;
+        transform: translate(-50%,50%);
+        padding: 2px;
+    }
+    .media-body{
+        overflow: hidden;position: relative;
+    }
+    .banner-background{
+        position: absolute;
+        width: 100%;
+        z-index: 0;
+        top:0;
+        margin-top: -50px;
+        left: 0;
+    }
+    .media-heading{
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        padding: 5px;
+    }
+    .user-heading{
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        padding: 5px;
+        margin-bottom: 1px;
+        margin-top: 2px;
+    }
+    .media-body{
+        padding: 5px;
+        margin-bottom: 1px;
+        margin-top: 2px;
+    }
+    .user-heading-pro{
+        position: relative;
+        z-index: 1;
+        color: #fff;
+        background: rgba(0,0,0,.8);
+        display: inline-block;
+        padding: 5px;
+        margin-bottom: 1px;
+        margin-top: 2px;
+    }
+    .media-heading-pro{
+        position: relative;
+        z-index: 1;
+        color: #fff;
+        background: rgba(0,0,0,.8);
+        display: inline-block;
+        padding: 5px;
+    }
+    .banner-background{
+        background: rgba(40, 40, 40, 1);
+    }
+    .banner{
+        -webkit-filter: blur(5px);
+        filter: blur(5px);
+    }
+    .media > div > p > img{
+        border-radius: 100%;
+        margin-right: 2px;
+        padding-right: 2px;
+    }
+    .media > div > p{
+        font-size: 13px;
+    }
+</style>
+<!--
 <div class="row">
     <div class="col-xs-12">
         <h4>Latest activity from the people you’re following:</h4>
@@ -199,3 +447,4 @@
         font-size: 13px;
     }
 </style>
+-->

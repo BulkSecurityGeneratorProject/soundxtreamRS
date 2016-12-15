@@ -129,13 +129,17 @@
                         </button>
                     </span>
                 </div>
-                <div style="width: 45%;padding-top: 10px; border-right: 1px solid rgba(128, 128, 128, 0.43);display: inline-block;" ui-sref="user-profile.followers">
+                <div style="width: 32%;padding-top: 10px; border-right: 1px solid rgba(128, 128, 128, 0.43);display: inline-block;" ui-sref="user-profile.followers">
                     <p><span><i class="fa fa-users" aria-hidden="true"></i> Followers</span></p>
                     <p style="font-size: 17px;margin-top: -9px;">{{user.totalFollowers}}</p>
                 </div>
-                <div style="width: 45%;    padding-top: 10px;display: inline-block;" ui-sref="user-profile.following">
+                <div style="width: 32%;padding-top: 10px; border-right: 0px solid rgba(128, 128, 128, 0.43);display: inline-block;" ui-sref="user-profile.following">
                     <p><span><i class="fa fa-users" aria-hidden="true"></i> Following</span></p>
                     <p style="font-size: 17px;margin-top: -9px;">{{user.totalFollowings}}</p>
+                </div>
+                <div style="width: 32%;padding-top: 10px; border-left: 1px solid rgba(128, 128, 128, 0.43);display: inline-block;" ui-sref="user-profile.following">
+                    <p><span><i class="mdi mdi-bookmark-music mdi-24px" style="margin-top: 2px;" aria-hidden="true"></i> Tracks</span></p>
+                    <p style="font-size: 17px;margin-top: -9px;">{{tracksUser.length}}</p>
                 </div>
             </div>
         </div>
