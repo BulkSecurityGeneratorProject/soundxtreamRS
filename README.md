@@ -1,5 +1,9 @@
 # soundxtreamapp
 
+# VIDEO DEMOSTRATION
+
+[!['SOUNDXTREAM VIDEO'](http://img.youtube.com/vi/t2VaGxYRjW8/0.jpg)](http://www.youtube.com/watch?v=t2VaGxYRjW8 "Video Title")
+
 ##Installation
 
     1. Download repository with git clone https://github.com/xavierpandis/soundxtreamRS
