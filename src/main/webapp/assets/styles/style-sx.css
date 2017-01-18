@@ -1,6 +1,6 @@
 @font-face {
     font-family: bebas;
-    src: url('../font/BebasNeue_Bold.otf');
+    src: url('../font/BebasNeue.otf');
 }
 
 /* LEFT MENU */
@@ -1857,4 +1857,6 @@ button.button-prev span{
         height: 410px!important;
     }
 }
+
+
 
