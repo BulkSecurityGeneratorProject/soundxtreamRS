@@ -188,7 +188,16 @@ public class Track_countResource {
         Song song = songRepository.findOne(id);
 
         List<Track_count> res = track_countRepository.findPlayTrack(user.getLogin(), ip, song.getId());
-        Track_count track_count1 = res.get(res.size()-1);
+        Track_count track_count1 = null;
+        if(res.size() == 1){
+            track_count1 = res.get(0);
+        }
+        else{
+            if(res.size() > 1){
+                track_count1 = res.get(res.size()-1);
+            }
+        }
+
         ZonedDateTime now2 = ZonedDateTime.now();
         ZonedDateTime now = now2.withZoneSameInstant(ZoneOffset.UTC);
         track_count.setSong(song);
