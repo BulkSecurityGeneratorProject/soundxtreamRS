@@ -15,6 +15,7 @@
                 "seguimiento": "Seguimiento",
                 "samples": "Samples",
                 "playlist_user": "Playlist_user",
+                "track_count": "Track_count",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

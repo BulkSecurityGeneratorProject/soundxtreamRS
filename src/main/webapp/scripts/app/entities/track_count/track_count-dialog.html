@@ -1,0 +1,62 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myTrack_countLabel" translate="soundxtreamappApp.track_count.home.createOrEditLabel">Create or edit a Track_count</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="track_count.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="soundxtreamappApp.track_count.ip_client" for="field_ip_client">Ip_client</label>
+            <input type="text" class="form-control" name="ip_client" id="field_ip_client"
+                    ng-model="track_count.ip_client"
+                    required />
+            <div ng-show="editForm.ip_client.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.ip_client.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="soundxtreamappApp.track_count.date_played" for="field_date_played">Date_played</label>
+            <input type="datetime-local" class="form-control" name="date_played" id="field_date_played"
+                    ng-model="track_count.date_played"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="soundxtreamappApp.track_count.date_expire" for="field_date_expire">Date_expire</label>
+            <input type="datetime-local" class="form-control" name="date_expire" id="field_date_expire"
+                    ng-model="track_count.date_expire"
+                     />
+        </div>
+
+        <div class="form-group">
+            <label translate="soundxtreamappApp.track_count.user" for="field_user">user</label>
+            <select class="form-control" id="field_user" name="user" ng-model="track_count.user" ng-options="user as user.id for user in users track by user.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="soundxtreamappApp.track_count.song" for="field_song">song</label>
+            <select class="form-control" id="field_song" name="song" ng-model="track_count.song" ng-options="songDTO as songDTO.song.id for songDTO in songs track by songDTO.song.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

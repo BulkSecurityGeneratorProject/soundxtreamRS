@@ -11,6 +11,15 @@ public class SongDTO {
     private int totalLikes;
     private Boolean shared;
     private int totalShares;
+    private int plays;
+
+    public int getPlays() {
+        return plays;
+    }
+
+    public void setPlays(int plays) {
+        this.plays = plays;
+    }
 
     private Map<String, Long> timeAfterUpload = new HashMap<String, Long>();
 

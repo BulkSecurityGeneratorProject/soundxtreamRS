@@ -72,6 +72,9 @@ public class SongResource {
     @Inject
     private PlaylistRepository playlistRepository;
 
+    @Inject
+    private Track_countRepository track_countRepository;
+
     /**
      * POST  /songs -> Create a new song.
      */
@@ -516,9 +519,16 @@ public class SongResource {
         log.debug("REST request to get Track : {}", accessUrl);
         Song song = songRepository.findOneByAccessUrl(accessUrl,user);
 
+        if(song == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        int plays = track_countRepository.findNumberPlaysSong(song.getId());
+
         User userIn = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         SongDTO songDTO = new SongDTO();
         songDTO.setSong(song);
+        songDTO.setPlays(plays);
 
         Song_user song_user = song_userRepository.findExistUserLiked(song.getId(),userIn.getLogin());
 
@@ -541,11 +551,7 @@ public class SongResource {
         songDTO.setTotalLikes(countLikes);
         songDTO.setTotalShares(countShares);
 
-        return Optional.ofNullable(songDTO)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return new ResponseEntity<>(songDTO, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/trackByUser",

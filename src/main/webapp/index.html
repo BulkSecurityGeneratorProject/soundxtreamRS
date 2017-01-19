@@ -42,7 +42,6 @@
 
             <div id="content" ui-view="content"></div>
         </div>
-
         <div class="player-wrapper" id="player" ng-cloak="" ng-show="mediaPlayer.currentTrack">
             <audio id="mediaPlayer" media-player="mediaPlayer" playlist="playerPlaylist.audioPlaylist"></audio>
             <div class="player-controls">
@@ -132,7 +131,8 @@
         <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
         <script src="bower_components/jquery-ui/jquery-ui.js"></script>
         <!--<script src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>-->
-        <script src="bower_components/angular-media-player/dist/angular-media-player.min.js"></script>
+        <!--<script src="bower_components/angular-media-player/dist/angular-media-player.min.js"></script>-->
+        <script src="scripts/components/player/sx-player-angular.js"></script>
         <script src="bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/AngularJS-Toaster/toaster.js"></script>
@@ -311,6 +311,14 @@
     <script src="scripts/components/entities/playlist_user/playlist_user.search.service.js"></script>
     <script src="scripts/app/search/search.state.js"></script>
     <script src="scripts/app/search/search.controller.js"></script>
+    <script src="scripts/app/entities/track_count/track_count.js"></script>
+    <script src="scripts/app/entities/track_count/track_count.controller.js"></script>
+    <script src="scripts/app/entities/track_count/track_count-dialog.controller.js"></script>
+    <script src="scripts/app/entities/track_count/track_count-delete-dialog.controller.js"></script>
+    <script src="scripts/app/entities/track_count/track_count-detail.controller.js"></script>
+    <script src="scripts/components/entities/track_count/track_count.service.js"></script>
+    <script src="scripts/components/entities/track_count/track_count.search.service.js"></script>
+    <script src="scripts/app/entities/song/song-stats.controller.js"></script>
     <!-- endbuild -->
 </body>
 </html>

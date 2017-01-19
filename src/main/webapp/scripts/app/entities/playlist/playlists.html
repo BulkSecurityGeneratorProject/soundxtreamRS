@@ -83,8 +83,10 @@
         <button ui-sref="library.lists.new" class="sx__button sx__button__primary sx_button_floated ">
             <i class="fa fa-plus"></i>&nbsp;&nbsp;New playlist
         </button>
+
         <div class="clear"></div>
         <div ng-repeat="playlistDTO in playlists track by playlistDTO.playlist.id" class="allList">
+            <button style="position: absolute; left: 0; top: 0; z-index: 22;" ng-click="setPlaylist(playlistDTO)">AD</button>
             <div context-menu="menuOptions" class="firstImages" style="background-color: black;" ui-sref="playlist.detail({id: playlistDTO.playlist.id})">
                 <div class="blur">
                     <div ng-if="playlistDTO.playlist.artwork == null" class="background" style="background-image: url({{playlistDTO.playlist.songs[0].artwork}});"></div>

@@ -1,0 +1,62 @@
+
+<div>
+    <h2><span translate="soundxtreamappApp.track_count.detail.title">Track_count</span> {{track_count.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="soundxtreamappApp.track_count.ip_client">Ip_client</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{track_count.ip_client}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="soundxtreamappApp.track_count.date_played">Date_played</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{track_count.date_played | date:'medium'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="soundxtreamappApp.track_count.date_expire">Date_expire</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{track_count.date_expire | date:'medium'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="soundxtreamappApp.track_count.user">user</span>
+                </td>
+                <td>
+                    {{track_count.user.id}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="soundxtreamappApp.track_count.song">song</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="song.detail({id:track_count.song.id})">{{track_count.song.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

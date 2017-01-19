@@ -3,8 +3,10 @@
  */
 angular.module('soundxtreamappApp')
     .controller('playerPlaylistController', ['$scope','Principal','$rootScope','Song','Auth','$state',
-        '$cookies', '$http', '$q', '$cookies',
-        function ($scope,Principal,$rootScope,Song,Auth,$state,$cookies, $http, $q, $cookies) {
+        '$cookies', '$http', '$q', '$cookies', 'Track_count',
+        function ($scope,Principal,$rootScope,Song,Auth,$state,$cookies, $http, $q, $cookies, Track_count) {
+
+            var audioElemGlob = {};
 
             var volumeCookie = $cookies.get("volume");
 
@@ -27,21 +29,6 @@ angular.module('soundxtreamappApp')
                 }
                 event.stopPropagation()
             });
-
-            /*myEl.on("tap",function(){
-                if(!tapped){
-                    tapped = true;
-                    $('#volume-slider').animate({
-                        height: "120px"
-                    })
-                }else{
-                    tapped = false;
-                    $('#volume-slider').animate({
-                        height: "0px"
-                    })
-                }
-
-            });*/
 
             $('.ui-slider-handle').draggable();
 
@@ -78,22 +65,11 @@ angular.module('soundxtreamappApp')
             });
 
             this.audioPlaylist = [];
-            //De donde esta sonando( playlist, cancion solo)
             this.playlistCurrent = null;
-            //console.log(this.audioPlaylist);
             Principal.identity().then(function(account) {
                 $rootScope.account = account;
                 $scope.isAuthenticated = Principal.isAuthenticated;
             });
-
-            this.countPlay = function(song){
-                song.playsCount += 1;
-                Song.update(song, function(result){
-                    console.log(result);
-                }, function(result){
-                    console.log(result);
-                });
-            };
 
             $scope.logout = function () {
                 this.audioPlaylist = [];
@@ -107,50 +83,6 @@ angular.module('soundxtreamappApp')
 
 
             this.showPlaylist = false;
-
-            /*this.playAllStream = function(objects,mediaPlayer,indexSong){
-                console.log(objects);
-                for(var k = 0; k < objects.length;k++){
-                    if(objects[k].type == "playlist" && objects[k].playlists != null){
-                        for(var k = 0; k < objects[k].playlist.songs.length;k++){
-                            var songs = objects[k].playlist.songs;
-
-                            var song = {
-                                artist: songs.user.login,
-                                displayName: songs.name,
-                                image: songs.artwork,
-                                src: songs.url,
-                                title: songs.name,
-                                type: 'audio/mpeg',
-                                url: songs.url,
-                                id: songs.id
-                            };
-
-                            this.audioPlaylist.push(angular.copy(song));
-                        }
-                    }else{
-                        console.log(objects[k].song);
-                        var song = {
-                            artist: objects[k].song.user.login,
-                            displayName: objects[k].song.name,
-                            image: objects[k].song.artwork,
-                            src: objects[k].song.url,
-                            title: objects[k].song.name,
-                            type: 'audio/mpeg',
-                            url: objects[k].song.url,
-                            id: objects[k].song.id
-                        };
-
-                        this.audioPlaylist.push(angular.copy(song));
-
-                    }
-                }
-                setTimeout(function () {
-                    mediaPlayer.currentTrack = indexSong+1;
-                    mediaPlayer.play(indexSong);
-                    var song = {};
-                }, 200);
-            }*/
 
             this.playAllExplore = function(audioElements,mediaPlayer,indexSong){
                 $rootScope.$broadcast('playerBroadcast',mediaPlayer);
@@ -175,7 +107,7 @@ angular.module('soundxtreamappApp')
                 }
 
 
-                this.countPlay(audioElements[indexSong].song);
+
 
                 setTimeout(function () {
                     mediaPlayer.currentTrack = indexSong+1;
@@ -183,8 +115,9 @@ angular.module('soundxtreamappApp')
                     var song = {};
                 }, 200);
             }
+
             this.addSongAll = function (audioElements,mediaPlayer,indexSong,playingFrom) {
-                this.audioPlaylist = [];
+                var audioPlaylist = [];
                 this.playlistCurrent = playingFrom;
 
                 for(var k = 0; k < audioElements.length;k++){
@@ -202,21 +135,38 @@ angular.module('soundxtreamappApp')
                         access_url: audioElement.access_url
                     };
 
-                    this.audioPlaylist.push(angular.copy(song));
+                    audioPlaylist.push(angular.copy(song));
 
                 }
+
+                this.audioPlaylist = audioPlaylist;
 
                 setTimeout(function () {
                     mediaPlayer.currentTrack = indexSong+1;
                     mediaPlayer.play(indexSong);
-                    console.log(this.audioPlaylist);
                     var song = {};
                 }, 200);
 
             };
 
+            $rootScope.$on("next-track", function(e, res){
+                Track_count.countPlay({id: res});
+            });
+
+            $rootScope.$on("prev-track", function(e, res){
+                Track_count.countPlay({id: res});
+            });
+
+            $rootScope.$on("play-track", function(e, res){
+                Track_count.countPlay({id: res});
+            });
+
+            function countPlay(audioElements, index) {
+                var id = audioElements[index].song.id;
+                Track_count.countPlay({id: id});
+            }
+
             this.addSong = function (audioElement,mediaPlayer) {
-                console.log(audioElement);
                 this.audioPlaylist = [];
                 var song = {
                     artist: audioElement.user.login,
@@ -236,8 +186,6 @@ angular.module('soundxtreamappApp')
                     mediaPlayer.play();
                     var song = {};
                 }, 200);
-
-                //console.log(this.audioPlaylist);
             };
 
             this.addSongAndPlay = function(audioElement,mediaPlayer){
@@ -269,7 +217,6 @@ angular.module('soundxtreamappApp')
             };
 
             this.addSongs = function(playlist){
-                console.log(playlist);
                 var audioElement = {};
                 var songs = {};
 
@@ -293,7 +240,6 @@ angular.module('soundxtreamappApp')
             };
 
             this.addSongsAndPlay = function(playlist,mediaPlayer,playingFrom){
-                console.log(playlist);
                 var audioElement = {};
                 var songs = [];
                 this.playlistCurrent = playingFrom;
@@ -323,12 +269,9 @@ angular.module('soundxtreamappApp')
             };
 
             this.playTrackFromPlaylist = function(playlist,mediaPlayer,indexSong,playingFrom){
-                console.log(playlist);
-
                 var audioElement = {};
                 var songs = [];
                 this.playlistCurrent = playingFrom;
-                console.log(playingFrom +":"+this.playlistCurrent);
                 for(var k = 0; k < playlist.songs.length; k++){
                     audioElement = playlist.songs[k];
                     var song = {
@@ -349,9 +292,6 @@ angular.module('soundxtreamappApp')
 
                 setTimeout(function () {
                     mediaPlayer.currentTrack = indexSong+1;
-                    console.log($scope.playerPlaylist.getSongId(mediaPlayer.currentTrack));
-                    console.log("TRACK PLAYING: "+mediaPlayer.currentTrack);
-                    console.log("Index song passed: "+indexSong);
                     mediaPlayer.play(indexSong);
                     var song = {};
                 }, 200);

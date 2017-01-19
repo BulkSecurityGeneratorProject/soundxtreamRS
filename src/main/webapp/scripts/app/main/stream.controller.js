@@ -10,7 +10,6 @@ angular.module('soundxtreamappApp')
 
         $scope.loadAll = function() {
             Song.getTracksFollowing({},function(res){
-                console.log(res);
                 $scope.activities = res;
             });
             /*Song.getTracksFollowing({page: $scope.page, size: 100, sort: [$scope.predicate + ',' + ($scope.reverse ? 'asc' : 'desc'), 'id']}, function(result, headers) {

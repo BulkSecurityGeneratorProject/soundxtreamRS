@@ -1,0 +1,27 @@
+{
+    "soundxtreamappApp": {
+        "track_count" : {
+            "home": {
+                "title": "Track_counts",
+                "createLabel": "Créer un nouveau Track_count",
+                "createOrEditLabel": "Créer ou éditer un Track_count",
+                "search": "Search for Track_count"
+            },
+            "created": "Un nouveau Track_count a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Track_count avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Track_count avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Track_count {{ id }} ?"
+            },
+            "detail": {
+                "title": "Track_count"
+            },
+            "ip_client": "Ip_client",
+            "date_played": "Date_played",
+            "date_expire": "Date_expire",
+            "user": "User",
+            "song": "Song"
+        }
+    }
+}
+

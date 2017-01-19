@@ -205,5 +205,21 @@ angular.module('soundxtreamappApp')
                         return Song.getPlaylistWithSong({id:$stateParams.id_song});
                     }]
                 }
+            })
+            .state('song.stats', {
+                parent: 'song.detail',
+                url: '/stats',
+                data: {
+                    authorities: []
+                },
+                params: {
+                    id: 2
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/entities/song/song-stats.html',
+                        controller: 'statsSongController'
+                    }
+                }
             });
     });

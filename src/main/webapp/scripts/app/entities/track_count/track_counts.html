@@ -1,0 +1,83 @@
+<div>
+    <h2 translate="soundxtreamappApp.track_count.home.title">Track_counts</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="track_count.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+class="hidden-xs"                        translate="soundxtreamappApp.track_count.home.createLabel">Create new Track_count
+                    </span>
+                </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="searchQuery" id="searchQuery" placeholder="{{ 'soundxtreamappApp.track_count.home.search' | translate }}">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-info" ng-click="search()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+                    <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="ip_client"><span translate="soundxtreamappApp.track_count.ip_client">Ip_client</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="date_played"><span translate="soundxtreamappApp.track_count.date_played">Date_played</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="date_expire"><span translate="soundxtreamappApp.track_count.date_expire">Date_expire</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="user.id"><span translate="soundxtreamappApp.track_count.user">user</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="song.id"><span translate="soundxtreamappApp.track_count.song">song</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="track_count in track_counts track by track_count.id">
+                    <td><a ui-sref="track_count.detail({id:track_count.id})">{{track_count.id}}</a></td>
+                    <td>{{track_count.ip_client}}</td>
+                    <td>{{track_count.date_played | date:'medium'}}</td>
+                    <td>{{track_count.date_expire | date:'medium'}}</td>
+                    <td>
+                        {{track_count.user.id}}
+                    </td>
+                    <td>
+                        <a ui-sref="song.detail({id:track_count.song.id})">{{track_count.song.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="track_count.detail({id:track_count.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="track_count.edit({id:track_count.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="track_count.delete({id:track_count.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
+    </div>
+</div>
