@@ -87,6 +87,15 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
 
                     if (this.$playlist.length > index) {
                         this.currentTrack = index + 1;
+                        var trackId = [];
+                        console.log(self);
+                        if(self.currentTrack >= 1){
+                            trackId = self.$playlist[self.currentTrack-1].id;
+                        }
+                        else{
+                            trackId = self.$playlist[self.currentTrack].id;
+                        }
+                        $rootScope.$broadcast("play-track",trackId);
                         return this.load(this.$playlist[index], true);
                     }
                     // readyState = HAVE_NOTHING (0) means there's nothing into the <audio>/<video> tag
@@ -95,17 +104,36 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                     // In case the stream is completed, reboot it with a load()
                     if (this.ended) {
                         this.load(true);
+                        var trackId = [];
+                        console.log(self);
+                        if(self.currentTrack >= 1){
+                            trackId = self.$playlist[self.currentTrack-1].id;
+                        }
+                        else{
+                            trackId = self.$playlist[self.currentTrack].id;
+                        }
+                        $rootScope.$broadcast("play-track",trackId);
                     } else {
                         this.$domEl.play();
+                        var trackId = [];
+                        console.log(self);
+                        if(self.currentTrack >= 1){
+                            trackId = self.$playlist[self.currentTrack-1].id;
+                        }
+                        else{
+                            trackId = self.$playlist[self.currentTrack].id;
+                        }
+                        $rootScope.$broadcast("play-track",trackId);
                     }
-                    var trackId = [];
-                    if(self.current == 0){
-                        trackId = self.$playlist[self.currentTrack].id;
-                    }
-                    else{
+                    /*var trackId = [];
+                    console.log(self);
+                    if(self.currentTrack >= 1){
                         trackId = self.$playlist[self.currentTrack-1].id;
                     }
-                    $rootScope.$broadcast("play-track",trackId);
+                    else{
+                        trackId = self.$playlist[self.currentTrack].id;
+                    }
+                    $rootScope.$broadcast("play-track",trackId);*/
                 },
                 playPause: function (index, selectivePlay) {
                     // method overloading
@@ -145,11 +173,11 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                             self.load(wasPlaying); // setup autoplay here.
                             self.currentTrack++;
                             var trackId = [];
-                            if(self.current == 0){
-                                trackId = self.$playlist[self.currentTrack].id;
+                            if(self.currentTrack >= 1){
+                                trackId = self.$playlist[self.currentTrack-1].id;
                             }
                             else{
-                                trackId = self.$playlist[self.currentTrack-1].id;
+                                trackId = self.$playlist[self.currentTrack].id;
                             }
                             $rootScope.$broadcast("next-track",trackId);
                         });
@@ -166,11 +194,11 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                             self.load(wasPlaying); // setup autoplay here.
                             self.currentTrack--;
                             var trackId = [];
-                            if(self.current == 0){
-                                trackId = self.$playlist[self.currentTrack].id;
+                            if(self.currentTrack >= 1){
+                                trackId = self.$playlist[self.currentTrack-1].id;
                             }
                             else{
-                                trackId = self.$playlist[self.currentTrack-1].id;
+                                trackId = self.$playlist[self.currentTrack].id;
                             }
                             $rootScope.$broadcast("prev-track",trackId);
                         });
