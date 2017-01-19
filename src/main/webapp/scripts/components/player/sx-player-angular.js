@@ -125,15 +125,6 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                         }
                         $rootScope.$broadcast("play-track",trackId);
                     }
-                    /*var trackId = [];
-                    console.log(self);
-                    if(self.currentTrack >= 1){
-                        trackId = self.$playlist[self.currentTrack-1].id;
-                    }
-                    else{
-                        trackId = self.$playlist[self.currentTrack].id;
-                    }
-                    $rootScope.$broadcast("play-track",trackId);*/
                 },
                 playPause: function (index, selectivePlay) {
                     // method overloading
