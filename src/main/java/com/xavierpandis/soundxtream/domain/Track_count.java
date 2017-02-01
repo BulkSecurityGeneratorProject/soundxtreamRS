@@ -35,6 +35,18 @@ public class Track_count implements Serializable {
     @Column(name = "date_expire")
     private ZonedDateTime date_expire;
     
+    @Column(name = "latitude")
+    private Float latitude;
+    
+    @Column(name = "longitude")
+    private Float longitude;
+    
+    @Column(name = "country")
+    private String country;
+    
+    @Column(name = "city")
+    private String city;
+    
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -73,6 +85,38 @@ public class Track_count implements Serializable {
     
     public void setDate_expire(ZonedDateTime date_expire) {
         this.date_expire = date_expire;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+    
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+    
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+    
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+    
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public User getUser() {
@@ -118,6 +162,10 @@ public class Track_count implements Serializable {
             ", ip_client='" + ip_client + "'" +
             ", date_played='" + date_played + "'" +
             ", date_expire='" + date_expire + "'" +
+            ", latitude='" + latitude + "'" +
+            ", longitude='" + longitude + "'" +
+            ", country='" + country + "'" +
+            ", city='" + city + "'" +
             '}';
     }
 }

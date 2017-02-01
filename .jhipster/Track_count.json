@@ -33,7 +33,28 @@
             "fieldId": 3,
             "fieldName": "date_expire",
             "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "latitude",
+            "fieldType": "Float"
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "longitude",
+            "fieldType": "Float"
+        },
+        {
+            "fieldId": 6,
+            "fieldName": "country",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 7,
+            "fieldName": "city",
+            "fieldType": "String"
         }
+
     ],
     "changelogDate": "20170117135840",
     "dto": "no",

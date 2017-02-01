@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
-    'ngResource', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload','mediaPlayer','ngMaterial','ngAnimate',
-    'toaster', 'ui.select','ngSanitize','angularTrix','ngMessages','720kb.socialshare','hm.readmore','ui.mention', 'uiCropper',
+    'ngResource', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload','mediaPlayer','ngMaterial','ngAnimate','nvd3',
+    'toaster', 'ui.select','ngSanitize','angularTrix','ngMessages','720kb.socialshare', 'nemLogging', 'ngMap', 'hm.readmore','ui.mention', 'uiCropper',
     // jhipster-needle-angularjs-add-module JHipster will add new module here
     'ui.bootstrap', 'ui.router',  'infinite-scroll', 'angular-loading-bar'])
     .run(function ($log, $rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {

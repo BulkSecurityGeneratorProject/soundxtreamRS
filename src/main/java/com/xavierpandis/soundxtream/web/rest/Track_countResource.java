@@ -1,6 +1,11 @@
 package com.xavierpandis.soundxtream.web.rest;
 
+import com.codahale.metrics.ObjectNameFactory;
 import com.codahale.metrics.annotation.Timed;
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityResponse;
+import com.xavierpandis.soundxtream.domain.GeoIP;
 import com.xavierpandis.soundxtream.domain.Song;
 import com.xavierpandis.soundxtream.domain.Track_count;
 import com.xavierpandis.soundxtream.domain.User;
@@ -9,6 +14,7 @@ import com.xavierpandis.soundxtream.repository.Track_countRepository;
 import com.xavierpandis.soundxtream.repository.UserRepository;
 import com.xavierpandis.soundxtream.repository.search.Track_countSearchRepository;
 import com.xavierpandis.soundxtream.security.SecurityUtils;
+import com.xavierpandis.soundxtream.web.rest.dto.TrackCountDTO;
 import com.xavierpandis.soundxtream.web.rest.util.HeaderUtil;
 import com.xavierpandis.soundxtream.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -24,14 +30,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -46,6 +56,11 @@ public class Track_countResource {
 
     public static final int MINUTES_BEFORE_EXPIRATION = 30;
     private final Logger log = LoggerFactory.getLogger(Track_countResource.class);
+    private DatabaseReader dbReader;
+
+    public static final String DATABASE_COUNTRY_PATH = "./src/main/resources/GeoLite2-Country.mmdb";
+
+    public static final String DATABASE_CITY_PATH = "./src/main/resources/GeoLite2-City.mmdb";
 
     @Inject
     private UserRepository userRepository;
@@ -159,23 +174,107 @@ public class Track_countResource {
             .collect(Collectors.toList());
     }
 
+    @RequestMapping(value = "/ps-all-tracks/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<TrackCountDTO>> getAllTracksPlayStats(@PathVariable Long id) throws URISyntaxException {
+
+        List<Track_count> statsPlay = track_countRepository.findPlaysWOTrack(id);
+
+       Map<LocalDate, Long> map = statsPlay
+           .stream()
+           .map(track_count -> new TrackCountDTO(track_count, track_count.getDate_played().toLocalDate()))
+           .collect(Collectors.groupingBy(TrackCountDTO::getPlayedDate, Collectors.counting()));
+
+        List<TrackCountDTO> list = new ArrayList<>();
+
+        map.forEach(((localDate, count) -> list.add(new TrackCountDTO(localDate, count))));
+
+        list.sort((o1, o2) -> o1.getPlayedDate().compareTo(o2.getPlayedDate()));
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/statsPlay/{id}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Track_count>> getStats(@PathVariable Long id) throws URISyntaxException {
+    public ResponseEntity<List<TrackCountDTO>> getStats(@PathVariable Long id) throws URISyntaxException {
 
         List<Track_count> statsPlay = track_countRepository.findAllPlays(id);
 
-        return new ResponseEntity<>(statsPlay, HttpStatus.OK);
+        Map<LocalDate, Long> map = statsPlay
+            .stream()
+            .map(track_count -> new TrackCountDTO(track_count, track_count.getDate_played().toLocalDate()))
+            .collect(Collectors.groupingBy(TrackCountDTO::getPlayedDate, Collectors.counting()));
+
+        List<TrackCountDTO> list = new ArrayList<>();
+
+        map.forEach(((localDate, count) -> list.add(new TrackCountDTO(localDate, count))));
+
+        list.sort((o1, o2) -> o1.getPlayedDate().compareTo(o2.getPlayedDate()));
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    public GeoIP getLocation(String ip) throws IOException, GeoIp2Exception {
+
+        File database = new File(DATABASE_CITY_PATH);
+        dbReader = new DatabaseReader.Builder(database).build();
+
+        InetAddress ipAddress = InetAddress.getByName(ip);
+        CityResponse response = dbReader.city(ipAddress);
+
+        String cityName = response.getCity().getName();
+        String countryName = response.getCountry().getName();
+        String latitude =
+            response.getLocation().getLatitude().toString();
+        String longitude =
+            response.getLocation().getLongitude().toString();
+        return new GeoIP(ip, countryName, cityName, latitude, longitude);
+    }
+
+    @RequestMapping(value = "/stats/song/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Track_count>> getTrackStats2(@PathVariable Long id){
+        Song song = songRepository.findOne(id);
+        List<Track_count> res = track_countRepository.findAllPlays(song.getId());
+
+        return new ResponseEntity<List<Track_count>>(res, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/stats/song/country/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Object>> getTrackStats(@PathVariable Long id){
+        Song song = songRepository.findOne(id);
+        List<Object> res = track_countRepository.groupStatsGeogByCountry(song.getId());
+
+        return new ResponseEntity<List<Object>>(res, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/stats/song/city/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Object>> getTrackStatsCity(@PathVariable Long id){
+        Song song = songRepository.findOne(id);
+        List<Object> res = track_countRepository.groupStatsGeogByCity(song.getId());
+
+        return new ResponseEntity<List<Object>>(res, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/playCount/{id}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Track_count> countPlay(@PathVariable Long id, HttpServletRequest request) throws URISyntaxException {
+    public ResponseEntity<Track_count> countPlay(@PathVariable Long id, HttpServletRequest request) throws URISyntaxException, IOException, GeoIp2Exception {
+
+        GeoIP geo = getLocation("80.32.100.190");
 
         String ip = request.getRemoteAddr();
 
@@ -220,6 +319,11 @@ public class Track_countResource {
                 return ResponseEntity.accepted().headers(HeaderUtil.createAlert("Played track with user and ip", null)).body(null);
             }
         }
+
+        track_count.setCountry(geo.getCountry());
+        track_count.setCity(geo.getCity());
+        track_count.setLatitude(Float.parseFloat(geo.getLatitude()));
+        track_count.setLongitude(Float.parseFloat(geo.getLongitude()));
 
         Track_count result = track_countRepository.save(track_count);
         track_countSearchRepository.save(result);

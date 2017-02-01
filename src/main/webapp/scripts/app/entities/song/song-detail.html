@@ -200,7 +200,7 @@
                     <p class="badge badge-black">{{songDTO.song.duration | toMinSec}}</p>
                     <p class="badge badge-black">{{songDTO.song.bpm}} BPM</p>
                 </div>
-                <div><span><a ui-sref="song.stats({id:songDTO.song.id})">View track stats</a></span></div>
+                <div ng-if="sameUser"><span><a ui-sref="song.stats({id:songDTO.song.id})">View track stats</a></span></div>
                 <div ng-if="songDTO.song.banner_song != null">
                     <div class="track-user-noimg">
                         <div class="user-image">

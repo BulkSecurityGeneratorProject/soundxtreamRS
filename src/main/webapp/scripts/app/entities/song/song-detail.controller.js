@@ -14,7 +14,7 @@ angular.module('soundxtreamappApp')
             });
         };
     })
-    .controller('SongDetailController', function (toaster,Seguimiento,$modal,$scope, $rootScope,$stateParams, entity, Song, User,Song_user,ParseLinks,Comments,Principal,$timeout) {
+    .controller('SongDetailController', function (toaster,Seguimiento,$window,$modal,$scope, $rootScope,$stateParams, entity, Song, User,Song_user,ParseLinks,Comments,Principal,$timeout) {
         $scope.songDTO = entity;
         $scope.load = function (id) {
             Song.get({id: id}, function(result) {
@@ -22,13 +22,23 @@ angular.module('soundxtreamappApp')
             });
         };
 
+        $scope.sameUser = false;
+
         entity.$promise.then(function(){
+
+            $window.document.title = $scope.songDTO.song.name;
+
             User.get({login:$scope.songDTO.song.user.login},function(res){
-                console.log(res);
                 $scope.songDTO.song.user.totalFollowers = res.totalFollowers;
                 $scope.songDTO.song.user.totalFollowings = res.totalFollowings;
                 $scope.songDTO.song.user.followedByUser = res.followedByUser;
             });
+
+            Principal.identity().then(function (account) {
+                if(account.login == $scope.songDTO.song.user.login) $scope.sameUser = true;
+                else $scope.sameUser = false;
+            });
+
         });
 
         $scope.follow = function(user){

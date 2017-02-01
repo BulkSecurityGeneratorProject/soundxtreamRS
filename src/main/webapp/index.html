@@ -14,18 +14,21 @@
         <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.css" />
+        <link rel="stylesheet" href="bower_components/ng-img-crop/compile/minified/ng-img-crop.css" />
         <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.css" />
         <link rel="stylesheet" href="bower_components/ui-select/dist/select.css" />
         <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
         <link rel="stylesheet" href="bower_components/trix/dist/trix.css" />
-        <link rel="stylesheet" href="bower_components/ui-cropper/compile/minified/ui-cropper.css" />
+        <link rel="stylesheet" href="bower_components/ng-img-crop-full-extended/compile/minified/ng-img-crop.css" />
         <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
+        <link rel="stylesheet" href="bower_components/ui-cropper/compile/minified/ui-cropper.css" />
+        <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
         <!-- endbower -->
+        <script src='http://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization'></script>
         <!-- endbuild -->
         <link rel="stylesheet" href="assets/font-awesome-4.5.0/css/font-awesome.css">
         <link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css">
         <link rel="stylesheet" href="bower_components/mdi/css/materialdesignicons.min.css">
-        <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
         <link rel="stylesheet" href="assets/styles/main.css">
         <link rel="stylesheet" href="assets/styles/style-sx.css">
         <!-- endbuild -->
@@ -130,9 +133,7 @@
         <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
         <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
         <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-        <!--<script src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>-->
-        <!--<script src="bower_components/angular-media-player/dist/angular-media-player.min.js"></script>-->
-        <script src="scripts/components/player/sx-player-angular.js"></script>
+        <script src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
         <script src="bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/AngularJS-Toaster/toaster.js"></script>
@@ -142,13 +143,19 @@
         <script src="bower_components/angular-timeago/src/timeAgo.js"></script>
         <script src="bower_components/trix/dist/trix.js"></script>
         <script src="bower_components/angular-trix/dist/angular-trix.js"></script>
-        <!--<script src="bower_components/ng-img-crop-full-extended/compile/minified/ng-img-crop.js"></script>-->
+        <script src="bower_components/ng-img-crop-full-extended/compile/minified/ng-img-crop.js"></script>
         <script src="bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
         <script src="bower_components/angular-read-more/dist/readmore.min.js"></script>
         <script src="bower_components/angular-ui-mention/dist/mention.js"></script>
         <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
-        <!--<script src="https://cdn.jsdelivr.net/jquery.ui.touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>-->
         <script src="bower_components/ui-cropper/compile/minified/ui-cropper.js"></script>
+        <script src="bower_components/d3/d3.js"></script>
+        <script src="bower_components/nvd3/build/nv.d3.min.js"></script>
+        <script src="bower_components/angular-nvd3/dist/angular-nvd3.min.js"></script>
+        <script src="bower_components/lodash/dist/lodash.min.js"></script>
+        <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
+        <script src="https://googlemaps.github.io/js-marker-clusterer/src/markerclusterer.js"></script>
+        <script src="/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -318,7 +325,10 @@
     <script src="scripts/app/entities/track_count/track_count-detail.controller.js"></script>
     <script src="scripts/components/entities/track_count/track_count.service.js"></script>
     <script src="scripts/components/entities/track_count/track_count.search.service.js"></script>
+    <script src="scripts/app/entities/song/chart.service.js"></script>
     <script src="scripts/app/entities/song/song-stats.controller.js"></script>
+    <script src="bower_components/messageformat/locale/ca.js"></script>
     <!-- endbuild -->
+        <script src="scripts/components/player/sx-player-angular.js"></script>
 </body>
 </html>

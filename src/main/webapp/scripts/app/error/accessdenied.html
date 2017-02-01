@@ -1,5 +1,5 @@
 <div ng-cloak>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-md-4">
             <span class="hipster img-responsive img-rounded"></span>
         </div>
@@ -9,5 +9,59 @@
             <div class="alert alert-danger" translate="error.403">You are not authorized to access the page.
             </div>
         </div>
+    </div>-->
+
+
+    <div class="access-denied-page">
+        <div class="access-denied">
+            <div>
+                <h1 style="font-size: 136px;">401</h1>
+
+                <div class="alert alert-danger" translate="error.403">
+                    Ups!! You are not allowed to view this page.
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
+
+<style>
+    .access-denied{
+        right: 0;
+        bottom: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        z-index: 1;
+    }
+    .access-denied h1{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        text-align: center;
+        padding: 30px;
+    }
+
+    .access-denied .alert{
+        padding: 30px;
+        border-radius: 0;
+        background: 0 0;
+        background: rgba(170, 0, 13, 0.75);
+        min-width: 340px;
+        width: auto;
+        color: white;
+    }
+</style>

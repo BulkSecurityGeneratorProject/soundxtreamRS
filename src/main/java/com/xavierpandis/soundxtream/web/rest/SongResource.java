@@ -1,10 +1,7 @@
 package com.xavierpandis.soundxtream.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.xavierpandis.soundxtream.domain.Playlist;
-import com.xavierpandis.soundxtream.domain.Song;
-import com.xavierpandis.soundxtream.domain.Song_user;
-import com.xavierpandis.soundxtream.domain.User;
+import com.xavierpandis.soundxtream.domain.*;
 import com.xavierpandis.soundxtream.repository.*;
 import com.xavierpandis.soundxtream.repository.search.SongSearchRepository;
 import com.xavierpandis.soundxtream.security.SecurityUtils;
@@ -52,9 +49,6 @@ public class SongResource {
     private SongRepository songRepository;
 
     @Inject
-    private SeguimientoRepository seguimientoRepository;
-
-    @Inject
     private SongSearchRepository songSearchRepository;
 
     @Inject
@@ -62,9 +56,6 @@ public class SongResource {
 
     @Inject
     private Song_userRepository song_userRepository;
-
-    @Inject
-    private StyleRepository styleRepository;
 
     @Inject
     private DateDiffService dateDiffService;
@@ -511,11 +502,12 @@ public class SongResource {
         return new ResponseEntity<>(listSongDTO, headers, HttpStatus.OK);
     }
 
+
     @RequestMapping(value = "/trackUrl/{accessUrl}/by/{user}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<SongDTO> getTrackByAccessUrl(@PathVariable String accessUrl, @PathVariable String user) {
+    public ResponseEntity<SongDTO> getTrackByAccessUrl(@PathVariable String accessUrl, @PathVariable String user) throws Exception {
         log.debug("REST request to get Track : {}", accessUrl);
         Song song = songRepository.findOneByAccessUrl(accessUrl,user);
 
@@ -526,6 +518,7 @@ public class SongResource {
         int plays = track_countRepository.findNumberPlaysSong(song.getId());
 
         User userIn = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
         SongDTO songDTO = new SongDTO();
         songDTO.setSong(song);
         songDTO.setPlays(plays);

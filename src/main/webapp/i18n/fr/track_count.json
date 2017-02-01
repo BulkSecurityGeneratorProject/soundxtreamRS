@@ -19,6 +19,10 @@
             "ip_client": "Ip_client",
             "date_played": "Date_played",
             "date_expire": "Date_expire",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "country": "Country",
+            "city": "City",
             "user": "User",
             "song": "Song"
         }

@@ -25,4 +25,12 @@ public interface Track_countRepository extends JpaRepository<Track_count,Long> {
     @Query("select track_count from Track_count track_count where track_count.song.id = :id")
     List<Track_count> findAllPlays(@Param("id") Long id);
 
+    @Query("select track_count from Track_count track_count where track_count.user.login = ?#{principal.username} AND track_count.song.id != :id")
+    List<Track_count> findPlaysWOTrack(@Param("id") Long id);
+
+    @Query("select count(track_count), track_count.country from Track_count track_count where track_count.song.id = :id GROUP BY track_count.country")
+    List<Object> groupStatsGeogByCountry(@Param("id") Long id);
+
+    @Query("select count(track_count), track_count.city from Track_count track_count where track_count.song.id = :id GROUP BY track_count.city")
+    List<Object> groupStatsGeogByCity(@Param("id") Long id);
 }

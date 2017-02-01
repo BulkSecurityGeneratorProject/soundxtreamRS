@@ -29,6 +29,14 @@
             
             <column name="date_expire" type="timestamp"/>
             
+            <column name="latitude" type="${floatType}"/>
+            
+            <column name="longitude" type="${floatType}"/>
+            
+            <column name="country" type="varchar(255)"/>
+            
+            <column name="city" type="varchar(255)"/>
+            
             <column name="user_id" type="bigint"/>
             <column name="song_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->

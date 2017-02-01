@@ -23,6 +23,11 @@ angular.module('soundxtreamappApp')
                 method: 'GET',
                 isArray: true,
                 url: 'api/statsPlay/:id'
+            },
+            'getPlayStatsTracks': {
+                method: 'GET',
+                isArray: true,
+                url: 'api/ps-all-tracks/:id'
             }
         });
     });

@@ -210,7 +210,7 @@ angular.module('soundxtreamappApp')
                 parent: 'song.detail',
                 url: '/stats',
                 data: {
-                    authorities: []
+                    authorities: ['ROLE_USER_PRO'],
                 },
                 params: {
                     id: 2

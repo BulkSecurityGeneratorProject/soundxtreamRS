@@ -22,6 +22,7 @@ angular.module('soundxtreamappApp')
                 var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
                 var socket = new SockJS(url);
                 stompClient = Stomp.over(socket);
+                stompClient.debug = null;
                 var headers = {};
                 headers['X-CSRF-TOKEN'] = $cookies[$http.defaults.xsrfCookieName];
                 stompClient.connect(headers, function(frame) {

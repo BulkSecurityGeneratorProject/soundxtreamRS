@@ -28,6 +28,7 @@ angular.module('soundxtreamappApp')
  */
     .constant('LANGUAGES', [
         'en', 'fr'
+        ,'ca'
         // jhipster-needle-006 - JHipster will add new languages here
     ]
 );

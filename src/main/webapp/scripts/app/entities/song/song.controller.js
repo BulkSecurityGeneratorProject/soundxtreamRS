@@ -21,7 +21,6 @@ angular.module('soundxtreamappApp')
 
             Song.queryForPlayer({}, function(result, headers){
                 $scope.allTracks = result;
-                console.log(result)
             });
         };
 
