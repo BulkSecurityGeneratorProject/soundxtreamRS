@@ -11,7 +11,7 @@ angular.module('soundxtreamappApp')
                     pageTitle: 'login.title'
                 },
                 views: {
-                    'login@': {
+                    'content@': {
                         templateUrl: 'scripts/app/account/login/login.html',
                         controller: 'LoginController'
                     }

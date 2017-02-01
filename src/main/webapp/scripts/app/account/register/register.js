@@ -11,7 +11,7 @@ angular.module('soundxtreamappApp')
                     pageTitle: 'register.title'
                 },
                 views: {
-                    'login@': {
+                    'content@': {
                         templateUrl: 'scripts/app/account/register/register.html',
                         controller: 'RegisterController'
                     }
