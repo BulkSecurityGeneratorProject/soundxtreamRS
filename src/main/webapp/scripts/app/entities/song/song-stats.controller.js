@@ -39,7 +39,7 @@ angular.module('soundxtreamappApp')
         NgMap.getMap().then(function(map) {
             $scope.map = map;
             heatmap = $scope.map.heatmapLayers.foo;
-            heatmap.set('radius', heatmap.get('radius') ? null : 20);
+            heatmap.set('radius', heatmap.get('radius') ? null : 10);
         });
 
         var today = new Date();

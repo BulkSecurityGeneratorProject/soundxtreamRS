@@ -24,7 +24,6 @@
         <link rel="stylesheet" href="bower_components/ui-cropper/compile/minified/ui-cropper.css" />
         <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
         <!-- endbower -->
-        <script src='http://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization'></script>
         <!-- endbuild -->
         <link rel="stylesheet" href="assets/font-awesome-4.5.0/css/font-awesome.css">
         <link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css">
@@ -95,7 +94,8 @@
                 <div style="background-image: url({{playerPlaylist.getSongImage(mediaPlayer.currentTrack)}});" class="artist__blur image_bg_player"></div>
             </div>
         </div>
-        <div ui-view="login"></div>
+
+        <!--<div ui-view="login"></div>-->
 
         <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
         <script>
@@ -153,6 +153,7 @@
         <script src="bower_components/nvd3/build/nv.d3.min.js"></script>
         <script src="bower_components/angular-nvd3/dist/angular-nvd3.min.js"></script>
         <script src="bower_components/lodash/dist/lodash.min.js"></script>
+        <script src='http://maps.googleapis.com/maps/api/js?key=AIzaSyBAlmHyf2lnLOGDo7tTxNwT1abpfKSwFmI&v=3.exp&libraries=visualization'></script>
         <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
         <script src="https://googlemaps.github.io/js-marker-clusterer/src/markerclusterer.js"></script>
         <script src="/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
