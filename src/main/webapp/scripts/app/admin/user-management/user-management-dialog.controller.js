@@ -23,19 +23,19 @@ angular.module('soundxtreamappApp').controller('UserManagementDialogController',
             $scope.isSaving = true;
             if ($scope.user.id != null) {
                 if($scope.picFile != undefined){
-                    var imageBase64 = $scope.croppedArtwork;
+                    /*var imageBase64 = $scope.croppedArtwork;
                     var blob = dataURItoBlob(imageBase64);
                     var file = new File([blob],"ds.jpg");
-                    $scope.uploadArt(file);
+                    $scope.uploadArt(file);*/
                 }
                 User.update($scope.user, onSaveSuccess, onSaveError);
             } else {
-                var imageBase64 = $scope.croppedArtwork;
+                /*var imageBase64 = $scope.croppedArtwork;
                 var blob = dataURItoBlob(imageBase64);
                 var file = new File([blob],"ds.jpg");
                 //$scope.uploadArt($scope.artworkFile);
                 $scope.uploadArt(file);
-                console.log($scope.user);
+                console.log($scope.user);*/
                 User.save($scope.user, onSaveSuccess, onSaveError);
             }
         };

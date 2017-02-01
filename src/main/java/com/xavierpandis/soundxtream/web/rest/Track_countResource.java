@@ -274,9 +274,9 @@ public class Track_countResource {
     @Timed
     public ResponseEntity<Track_count> countPlay(@PathVariable Long id, HttpServletRequest request) throws URISyntaxException, IOException, GeoIp2Exception {
 
-        GeoIP geo = getLocation("80.32.100.190");
-
         String ip = request.getRemoteAddr();
+
+        GeoIP geo = getLocation(ip);
 
         Track_count track_count = new Track_count();
 

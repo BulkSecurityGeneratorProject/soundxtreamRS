@@ -118,7 +118,7 @@ public class UserService {
 
     public User createUser(ManagedUserDTO managedUserDTO) {
         User user = new User();
-        user.setLogin(managedUserDTO.getLogin());
+        user.setLogin(managedUserDTO.getLogin().toLowerCase());
         user.setFirstName(managedUserDTO.getFirstName());
         user.setLastName(managedUserDTO.getLastName());
         user.setEmail(managedUserDTO.getEmail());
