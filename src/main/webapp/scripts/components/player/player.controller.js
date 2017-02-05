@@ -65,6 +65,11 @@ angular.module('soundxtreamappApp')
             });
 
             this.audioPlaylist = [];
+
+            var playlistCollection = [];
+
+            this.numberPlaylist = 0;
+
             this.playlistCurrent = null;
             Principal.identity().then(function(account) {
                 $rootScope.account = account;
@@ -81,40 +86,7 @@ angular.module('soundxtreamappApp')
                 $state.go('login');
             }
 
-
             this.showPlaylist = false;
-
-            this.playAllExplore = function(audioElements,mediaPlayer,indexSong){
-                $rootScope.$broadcast('playerBroadcast',mediaPlayer);
-                this.playlistCurrent = "from explore";
-                this.audioPlaylist = [];
-                for(var k = 0; k < audioElements.length;k++){
-                    var audioElement = audioElements[k].song;
-
-                    var song = {
-                        artist: audioElement.user.login,
-                        displayName: audioElement.name,
-                        image: audioElement.artwork,
-                        src: audioElement.url,
-                        title: audioElement.name,
-                        type: 'audio/mpeg',
-                        url: audioElement.url,
-                        id: audioElement.id,
-                        access_url: audioElement.access_url
-                    };
-
-                    this.audioPlaylist.push(angular.copy(song));
-                }
-
-
-
-
-                setTimeout(function () {
-                    mediaPlayer.currentTrack = indexSong+1;
-                    mediaPlayer.play(indexSong);
-                    var song = {};
-                }, 200);
-            }
 
             this.addSongAll = function (audioElements,mediaPlayer,indexSong,playingFrom) {
                 var audioPlaylist = [];
@@ -297,6 +269,89 @@ angular.module('soundxtreamappApp')
                 }, 200);
             };
 
+            /*this.playSetOfPlaylists = function(playlists, mediaPlayer, selectedPlaylist, playingFrom){
+                console.log("PLAYLISTS : " + playlists);
+                console.log("selectedPlaylist : " + selectedPlaylist);
+                console.log("playingFrom : " + playingFrom);
+
+                var playlistsCollection = [];
+                this.playlistCurrent = playingFrom;
+                this.numberPlaylist = selectedPlaylist;
+
+                playlists.forEach(function(playlistDTO){
+                    playlistsCollection.push(playlistDTO.playlist)
+                });
+
+                playlistCollection = playlistsCollection;
+
+                console.log(playlistCollection);
+
+                var songs = [];
+
+                var playlistSelected = playlistsCollection[selectedPlaylist];
+
+                playlistSelected.songs.forEach(function(track){
+                    var song = {
+                        artist: track.user.login,
+                        displayName: track.name,
+                        image: track.artwork,
+                        src: track.url,
+                        title: track.name,
+                        type: 'audio/mpeg',
+                        url: track.url,
+                        id: track.id,
+                        access_url: track.access_url
+                    };
+                    songs.push(angular.copy(song));
+                });
+
+                this.audioPlaylist = songs;
+
+                setTimeout(function () {
+                    mediaPlayer.play();
+                    var song = {};
+                }, 200);
+
+            }*/
+
+            /*$scope.$watch("mediaPlayer.currentTrack", function(value){
+                if($scope.mediaPlayer.currentTrack == $scope.mediaPlayer.tracks || $scope.mediaPlayer.currentTrack > $scope.mediaPlayer.tracks){
+                    if(playlistCollection.length > 1){
+                        if(playlistCollection.length > this.numberPlaylist){
+                            var playlistSelected = playlistCollection[this.numberPlaylist+1];
+
+                            playlistSelected.songs.forEach(function(track){
+                                var song = {
+                                    artist: track.user.login,
+                                    displayName: track.name,
+                                    image: track.artwork,
+                                    src: track.url,
+                                    title: track.name,
+                                    type: 'audio/mpeg',
+                                    url: track.url,
+                                    id: track.id,
+                                    access_url: track.access_url
+                                };
+                                songs.push(angular.copy(song));
+                            });
+
+                            this.audioPlaylist = songs;
+
+                            setTimeout(function () {
+                                mediaPlayer.play();
+                                var song = {};
+                            }, 200);
+                        }
+                    }
+                }
+                if($scope.mediaPlayer.currentTrack < $scope.mediaPlayer.tracks){
+                    console.log("HAS NEXT");
+                }
+                else{
+
+                }
+            });*/
+
             this.removeSong = function (index) {
                 this.audioPlaylist.splice(index, 1);
             };
@@ -329,6 +384,13 @@ angular.module('soundxtreamappApp')
                 }
             };
 
+            /*this.getPlaylist = function(currentPlaylist){
+                if (typeof playlistCollection[currentPlaylist - 1] != "undefined") {
+                    console.log(playlistCollection[currentPlaylist - 1]);
+                    return playlistCollection[currentPlaylist - 1].id;
+                }
+            }*/
+
             this.getSongId = function(currentTrack){
                 if (typeof this.audioPlaylist[currentTrack - 1] != "undefined") {
                     return this.audioPlaylist[currentTrack - 1].id;
@@ -357,10 +419,6 @@ angular.module('soundxtreamappApp')
             $('.timeline').mousedown(function (e) {
                 timeDrag = true;
             });
-
-           /* $('.timeline').mouseleave(function(){
-                timeDrag = false;
-            })*/
 
             $('.timeline').click(function(e){
                 seekDrag(e);
