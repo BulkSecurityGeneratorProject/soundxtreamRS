@@ -157,7 +157,7 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
             });
         };
     })
-    /*.directive('img', function () {
+    .directive('img', function () {
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
@@ -165,45 +165,9 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
                 element.error(function () {
                     var url = '/assets/images/default_image.jpg';
                     element.prop('src', url);
-                    element.css('border', 'double 3px #cccccc');
                 });
             }
         }
-    })*/
-    .directive('img', function ($q) {
-        return {
-            restrict: 'E',
-            link: function (scope, element, attrs) {
-                attrs.$observe('ngSrc', function (ngSrc) {
-                    var deferred = $q.defer();
-                    var image = new Image();
-                    image.onerror = function () {
-                        deferred.resolve(false);
-                        element.attr('src', '/assets/images/default_image.jpg');
-                        element.css('border', 'double 3px #cccccc');
-                    };
-                    image.onload = function () {
-                        deferred.resolve(true);
-                    };
-                    image.src = ngSrc;
-                    return deferred.promise;
-                });
-                attrs.$observe('src', function (src) {
-                    var deferred = $q.defer();
-                    var image = new Image();
-                    image.onerror = function () {
-                        deferred.resolve(false);
-                        element.attr('src', '/assets/images/default_image.jpg');
-                        element.css('border', 'double 3px #cccccc');
-                    };
-                    image.onload = function () {
-                        deferred.resolve(true);
-                    };
-                    image.src = src;
-                    return deferred.promise;
-                });
-            }
-        };
     })
     .config(function (cfpLoadingBarProvider,$stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, AlertServiceProvider) {
         // uncomment below to make alerts look like toast
