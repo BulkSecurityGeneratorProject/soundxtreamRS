@@ -25,7 +25,7 @@ angular.module('soundxtreamappApp')
             })
             .state('user-management-detail', {
                 parent: 'admin',
-                url: '/user/:login',
+                url: '/user-management/:login',
                 data: {
                     authorities: ['ROLE_ADMIN'],
                     pageTitle: 'user-management.detail.title'

@@ -114,10 +114,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET,"/api/account").permitAll()
             .antMatchers(HttpMethod.GET, "/api/_search/**").permitAll()
 
-            .antMatchers("/api/users/**").permitAll()
-            .antMatchers("/api/totalLikesUser/**").permitAll()
-            .antMatchers("/api/playlistUser/**").permitAll()
-            .antMatchers("/api/likesUser/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/users/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/totalLikesUser/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/playlistUser/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/likesUser/**").permitAll()
 
             .antMatchers(HttpMethod.GET,"/api/songs/**").permitAll()
             .antMatchers(HttpMethod.GET,"/api/song/**").permitAll()
@@ -137,6 +137,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/audits/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/**").authenticated()
             .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/websocket/chat").authenticated()
             .antMatchers("/websocket/**").permitAll()
             .antMatchers("/metrics/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/health/**").hasAuthority(AuthoritiesConstants.ADMIN)

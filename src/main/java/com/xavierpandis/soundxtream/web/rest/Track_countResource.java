@@ -274,7 +274,11 @@ public class Track_countResource {
     @Timed
     public ResponseEntity<Track_count> countPlay(@PathVariable Long id, HttpServletRequest request) throws URISyntaxException, IOException, GeoIp2Exception {
 
+        //ONLY WORKS WITH PUBLIC IP
         String ip = request.getRemoteAddr();
+
+        //IP TWITTER (EXAMPLE)
+        //String ip = "104.244.42.129";
 
         GeoIP geo = getLocation(ip);
 

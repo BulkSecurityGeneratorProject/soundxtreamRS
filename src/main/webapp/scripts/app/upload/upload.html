@@ -23,6 +23,8 @@
                 <span ng-show="stepOne && stepTwo">Select images</span>
             </div>
             <div class="form_upload">
+                <div class="header-background-mask" ng-show="!stepOne"></div>
+                <div class="header-background" ng-show="!stepOne"></div>
                 <div class="progress-wrapper" ng-show="percentage > 0 && !stepOne">
                     <div class="progress" >
                         <div style="position: absolute;top: -29px;font-size: 23px;"><span>{{percentage}}%</span></div>
@@ -33,6 +35,59 @@
                     </div>
                 </div>
                 <style>
+
+
+                    .form_upload::before{
+                        display: block;
+                        content: "";
+                        width: 85%;
+                        height: 65px;
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        border-top: 1px solid #ff8952;
+                        border-left: 1px solid #ff8952;
+                        z-index: 30;
+                    }
+
+                    .form_upload::after{
+                        display: block;
+                        content: "";
+                        width: 85%;
+                        height: 65px;
+                        position: absolute;
+                        right: 0px;
+                        bottom: 0px;
+                        border-bottom: 1px solid #ff8952;
+                        border-right: 1px solid #ff8952;
+                        z-index: 30;
+                    }
+
+                    .header-background-mask{
+                        position: absolute!important;
+                        z-index: 2;
+                        top: 132px;
+                        left: 0;
+                        bottom: 0;
+                        border-top: 98px solid transparent;
+                        border-right: 100vw rgba(59, 59, 59, 0.83) solid;
+                    }
+                    .header-background{
+                        //background: url(assets/images/soundxtream_logo.png), #595959;
+                        position: absolute;
+                        height: 104%;
+                        width: 102%;
+                        top: -5px;
+                        left: -5px;
+                        background-size: 100%!important;
+                    // background-attachment: fixed!important;
+                        background-position: center center!important;
+                        filter: blur(2px);
+                        z-index: 1;
+                        bottom: 0px;
+                        right: 0px;
+                    }
+
                     .progress-wrapper{
                         display: block;
                         width: 100%;
@@ -55,7 +110,7 @@
                     }
                 </style>
 
-                <div class="row select_track" ng-show="!stepOne" ngf-drop ng-model="files"
+                <div class="row select_track" style="position: relative; z-index: 222;" ng-show="!stepOne" ngf-drop ng-model="files"
                      ngf-drag-over-class="'active'"
                      ngf-multiple="true" ngf-allow-dir="true"
                      accept="audio/*" ngf-validate="{size: {min: 10, max: '2000MB'}" ng-hide="percentage > 0">
