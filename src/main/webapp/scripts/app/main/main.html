@@ -4,10 +4,10 @@
         height: auto;
         overflow-y: auto;
         max-height: 350px;
-        background: #333;
         color: #fff;
         max-width: 500px;
         border-radius: 0px 0px 5px 5px;
+        background: rgb(255, 120, 77);
     }
 
     #resultSearch::-webkit-scrollbar {
@@ -55,6 +55,14 @@
         display: inline-block;
         max-width: 100%;
         overflow: hidden;
+
+        height: 100%;
+        line-height: 19px;
+        background: none;
+    }
+
+    .search-row:hover{
+        background: rgb(255, 105, 57);
     }
 
     #search-wrapper{
@@ -90,23 +98,28 @@
 </style>
 <div class="hero-nav">
     <div class="hero-nav__inner" style="width: 100%;padding-top: 100px;">
-        <h1 class="title_app">SOUNDXTREAM</h1>
+        <div style=" position: absolute;top: -236px; left: 0; padding: 130px;">
+            <img src="assets/images/soundxtream_logo.png" width="100%" height="auto" alt="logo_header">
+        </div>
         <div id="search-wrapper">
             <input id="inputor" my-enter="go()" placeholder="Search" type="text" ng-model="searchQuery" ng-change="search(searchQuery)" class="form-control"/>
             <div id="resultSearch" ng-if="searchQuery.length > 0">
                 <div ng-repeat="result in resultsSearch" class="search-row" style="cursor: pointer;">
                     <div ng-if="result.name == undefined">
                         <span ng-if="result.access_url == undefined" ui-sref="user-profile({login: result.login})">
-                            {{result.login}}
+                            <span style="width: auto!important;margin-right: 5px;font-size: 20px;font-size: 20px;" class="mdi mdi-account"></span>
+                            <span style="vertical-align: top;">{{result.login}}</span>
                         </span>
                     </div>
                     <div ng-if="result.name != undefined">
                         <span ng-if="result.access_url == undefined" ui-sref="playlist.detail({id: result.id})">
-                            {{result.name}} by {{result.user.login}}
+                            <span style="width: auto!important;margin-right: 5px;font-size: 20px;vertical-align: top;" class="mdi mdi-playlist-play"></span>
+                            <span style="vertical-align: top;">{{result.name}} by {{result.user.login}}</span>
                         </span>
                         <span ng-if="result.access_url != undefined"
                               ui-sref="song.detail({accessUrl: result.access_url,user: result.user.login, id: result.id})">
-                            {{result.name}} by {{result.user.login}}
+                            <span style="width: auto!important;margin-right: 5px;font-size: 20px;font-size: 20px;" class="mdi mdi-music-box-outline"></span>
+                            <span style="vertical-align: top;">{{result.name}} by {{result.user.login}}</span>
                         </span>
                     </div>
                 </div>
@@ -218,15 +231,20 @@
         -webkit-align-items: center;
         -ms-flex-align: center;
         /* align-items: center; */
-        height: 450px;
-        min-height: 105px;
-        background-image: url(/assets/images/wallmountains.jpg);
+        //height: 450px;
+        height: 100vh;
+        min-height: 100vh;
+        background: url('/assets/images/background_main.jpg');
+        background-attachment: fixed;
         background-size: cover;
-        background-position: center;
+        background-position: bottom center;
         //overflow: hidden;
     }
     .hero-nav .hero-nav__inner {
         z-index: 1;
+    }
+    .hero-nav__inner{
+        background: rgba(0,0,0,.5);
     }
     .hero-nav h1 {
         color: #efefef;
