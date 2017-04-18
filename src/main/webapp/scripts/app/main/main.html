@@ -130,48 +130,63 @@
 <div class="page-content">
     <div class="row">
         <div class="col-md-12">
-            <p>
-                <h4>Some tracks</h4>
-            </p>
-            <div ng-repeat="songDTO in tracks" class="track-box" style="margin-left: 13px;">
-                <div class="track-image">
-                    <img ng-if="songDTO.song.artwork != null" src="{{songDTO.song.artwork}}" style="background: -webkit-linear-gradient(-45deg, rgb(85, 147, 255) 0%, rgb(150, 27, 255) 100%);"/>
-                    <img ng-if="songDTO.song.artwork == null" src="/assets/images/gradient.jpg"/>
-                    <div class="controls">
-                        <md-button ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromMain'"
-                                   ng-click="playerPlaylist.addSongAll(tracks,mediaPlayer,$index,'fromMain')" class="md-play" aria-label="play">
-                            <md-icon>
-                                <i class="material-icons">play_arrow</i>
-                            </md-icon>
-                        </md-button>
-                        <md-button ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromMain'"
-                                   ng-click="mediaPlayer.playPause()" class="md-play" aria-label="play">
-                            <md-icon>
-                                <i ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
-                                <i ng-if="mediaPlayer.playing" class="material-icons">pause</i>
-                            </md-icon>
-                        </md-button>
-                    </div>
-                    <div class="stats">
-                        <button class="sx__button like__button"
+            <div style="position: relative;">
+                <h4 style="display: inline-block;" class="titles">15 most listened tracks</h4>
+                <button class="sx__button sx__button__primary sx_button_floated" style="margin-top: 8px;">View all</button>
+            </div>
+            <div ng-repeat="songDTO in tracks track by songDTO.song.id" class="track-wrapper" style="background-image: url({{songDTO.song.artwork}});">
+                <div class="track-container">
+                    <h5 style="cursor: pointer;text-align: center;"
+                        ui-sref="song.detail({accessUrl: songDTO.song.access_url,user: songDTO.song.user.login, id: songDTO.song.id})">
+                        <div class="blur">
+                            <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                        </div>
+                        <span>{{songDTO.song.name}}</span>
+                    </h5>
+                    <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromMain'"
+                            ng-click="mediaPlayer.playPause()">
+                        <i ng-if="!mediaPlayer.playing" class="mdi mdi-play mdi-24px"></i>
+                        <i ng-if="mediaPlayer.playing" class="mdi mdi-pause mdi-24px"></i>
+                    </button>
+                    <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromMain'"
+                            ng-click="playerPlaylist.addSongAll(tracks,mediaPlayer,$index,'fromMain')">
+                        <i class="mdi mdi-play mdi-24px"></i>
+                    </button>
+                    <div class="options">
+                       <!-- <button class="sx__button like__button"
+                                ng-class="{true:'sx__button active',false:'sx__button sx_button_normal'}[songDTO.liked]"
                                 ng-click="like(songDTO.song.id)">
-                            <i class="fa fa-heart-o fa-lg"></i>{{songDTO.totalLikes}}
+                            <i class="fa fa-heart-o fa-lg"></i>
                         </button>
                         <button class="sx__button like__button"
+                                ng-class="{true:'sx__button active',false:'sx__button sx_button_normal'}[songDTO.shared]"
                                 ng-click="share(songDTO.song.id)">
-                            <i class="fa fa-retweet fa-lg" aria-hidden="true"></i>{{songDTO.totalShares}}
-                        </button>
+                            <i class="fa fa-retweet fa-lg" aria-hidden="true"></i>
+                        </button>-->
+                        <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                            <div class="blur" style="z-index: 1;">
+                                <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                            </div>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;" >
+                                <i class="mdi mdi-play"></i>&nbsp; {{songDTO.plays}}</span>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((songDTO.liked) && '#ff6533') || '#fff'}"
+                                  ng-click="like(songDTO.song.id)">
+                                <i class="fa fa-heart-o"></i>&nbsp; {{songDTO.totalLikes}}
+                            </span>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((songDTO.shared) && '#ff6533') || '#fff'}"
+                                  ng-click="share(songDTO.song.id)">
+                                <i class="fa fa-retweet"></i>&nbsp; {{songDTO.totalShares}}
+                            </span>
+                        </h5>
                     </div>
-                </div>
-                <div class="info">
-                    <h5 style="cursor: pointer;text-align: center;" ui-sref="song.detail({accessUrl: songDTO.song.access_url,user: songDTO.song.user.login, id: songDTO.song.id})">{{songDTO.song.name}}</h5>
-                    <h6 style="cursor: pointer;text-align: center;" ui-sref="user-profile({login:songDTO.song.user.login})">{{songDTO.song.user.login}}</h6>
                 </div>
             </div>
         </div>
         <div class="col-md-12">
             <p>
-            <h4>Some playlists</h4>
+            <h4 class="titles">15 most liked tracks</h4>
             </p>
             <div ng-repeat="playlist in playlists" class="playlist-box" style="margin-left: 13px;">
                 <div class="playlist-image">
@@ -254,4 +269,92 @@
         background: rgba(0, 0, 0, 0.8);
     }
 
+    .track-wrapper{
+        position: relative;
+    }
+
+    @media (max-width: 1368px){
+        .track-wrapper {
+        //width: 350px;
+            /*width: 175px;
+            height: 175px;*/
+            width: 220px!important;
+            height: 220px;
+        }
+    }
+
+    .track-wrapper:before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: 0;
+    }
+
+    @media (max-width: 768px){
+        .track-wrapper{
+            width: 100%;
+            height: auto;
+        }
+        .track-wrapper:before{
+            display: block;
+            content: "";
+            width: 100%;
+            padding-top: 56.25%!important;
+        }
+    }
+
+    .track-wrapper:not(:first-child){
+        height: 220px;
+        width: 220px;
+    }
+
+    button.sx__button.sx_button_player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-45%, -45%);
+        background: #ff5d29;
+        color: white;
+        border-color: #ff5d29;
+        border-radius: 100%;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px;
+        padding-left: 8.5px;
+    }
+
+    button.sx__button.sx_button_player:hover{
+        border-radius: 100%!important;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px!important;
+        padding-left: 8.5px!important;
+    }
+
+    .sx__button.sx_button_floated.to-left{
+        left: 1053px;
+    }
+
+    button.sx__button.sx_button_player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-45%, -45%);
+        background: #ff5d29;
+        color: white;
+        border-color: #ff5d29;
+        border-radius: 100%;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px;
+        padding-left: 8.5px;
+    }
+
+    button.sx__button.sx_button_player:hover{
+        border-radius: 100%!important;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px!important;
+        padding-left: 8.5px!important;
+    }
 </style>

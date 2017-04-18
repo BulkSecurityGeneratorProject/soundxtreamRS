@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('soundxtreamappApp')
-    .controller('SongController', function ($scope,$state, Song, SongSearch, ParseLinks,toaster,Song_user,$log,$filter) {
+    .controller('SongController', function ($scope,$state, $http, Song, SongSearch, ParseLinks,toaster,Song_user,$log,$filter) {
 
 
         $scope.songs = [];
@@ -22,6 +22,15 @@ angular.module('soundxtreamappApp')
             Song.queryForPlayer({}, function(result, headers){
                 $scope.allTracks = result;
             });
+        };
+
+        $scope.filterTrack = {};
+
+        $scope.filterTrackFn = function () {
+            /*Song.filterTracks({},$scope.filterTrack, function(res){
+                console.log(res);
+            });*/
+
         };
 
         $scope.reset = function() {

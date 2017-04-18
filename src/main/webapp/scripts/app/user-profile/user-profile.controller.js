@@ -85,11 +85,11 @@ angular.module('soundxtreamappApp')
             Song_user.addLike({id: id},{},successLike);
         };
 
-        $scope.unlike = function(id){
-            Playlist_user.addLike({id: id},{},successUnlike);
+        $scope.likePlaylist = function(id){
+            Playlist_user.addLike({id: id},{},successLikePlaylist);
         };
 
-        function successUnlike(result) {
+        function successLikePlaylist(result) {
             for(var k = 0; k < $scope.playlistsUser.length; k++){
                 if($scope.playlistsUser[k].playlist.id == result.playlist.id){
                     if($scope.playlistsUser[k].liked = result.liked){

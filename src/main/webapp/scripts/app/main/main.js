@@ -7,7 +7,8 @@ angular.module('soundxtreamappApp')
                 parent: 'site',
                 url: '/',
                 data: {
-                    authorities: []
+                    authorities: [],
+                    pageTitle: 'global.pageTitles.home'
                 },
                 views: {
                     'content@': {
@@ -18,10 +19,11 @@ angular.module('soundxtreamappApp')
                 resolve: {
                     mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
                         $translatePartialLoader.addPart('main');
+                        $translatePartialLoader.addPart('global');
                         return $translate.refresh();
                     }],
                     tracksApp: ['Song',function(Song){
-                        return Song.allTracks({});
+                        return Song.fifthMostPlayedTracks({});
                     }]
                 }
             })
@@ -29,7 +31,8 @@ angular.module('soundxtreamappApp')
                 parent: 'site',
                 url: '/stream',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_USER'],
+                    pageTitle: 'global.pageTitles.stream-following'
                 },
                 views: {
                     'content@': {
@@ -40,6 +43,7 @@ angular.module('soundxtreamappApp')
                 resolve: {
                     mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
                         $translatePartialLoader.addPart('main');
+                        $translatePartialLoader.addPart('global');
                         return $translate.refresh();
                     }]
                 }

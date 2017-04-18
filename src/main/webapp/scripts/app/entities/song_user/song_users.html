@@ -1,9 +1,9 @@
 <div class="row">
-    <div class="col-md-12" infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page"
+    <div class="col-md-10" infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page"
          infinite-scroll-distance='2'
          infinite-scroll-container="'#content'">
         <h3 class="h3_title">
-            <i class="mdi mdi-bookmark-music mdi-36px mdi-sx-orange" aria-hidden="true"></i>
+            <i class="mdi mdi-heart mdi-36px mdi-sx-orange" aria-hidden="true"></i>
             <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">YOUR TRACKS LIKES</span>
         </h3>
         <div ng-repeat="song_user in song_users" class="track-box" style="margin-left: 13px;">
@@ -56,6 +56,40 @@
         <i class="material-icons">warning</i>
         <h3>No likes</h3>
     </div>
+    <div class="col-md-2">
+        <h4 class="titles">FILTERS (beta)</h4>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Filter by name</label>
+            <input type="text" class="form-control" name="name" id="field_name" ng-model="filterName"/>
+        </div>
+        <div>
+            <label>Filter by type</label>
+            <div class="radio">
+                <input type="radio" id="original" name="radio" ng-model="song.typeSong"
+                       value="original"/>
+                <label for="original"><span></span>Original</label>
+                <br>
+                <input type="radio" id="remix" name="radio" ng-model="song.typeSong" value="remix"/>
+                <label for="remix"><span></span>Remix</label>
+                <br>
+                <input type="radio" id="mashup" name="radio" ng-model="song.typeSong" value="mashup"/>
+                <label for="mashup"><span></span>Mashup</label>
+                <br>
+                <input type="radio" id="bootleg" name="radio" ng-model="song.typeSong" value="bootleg"/>
+                <label for="bootleg"><span></span>Bootleg</label>
+                <br>
+                <input type="radio" id="set" name="radio" ng-model="song.typeSong" value="set"/>
+                <label for="set"><span></span>Set (Festivals, Concerts)</label>
+                <br>
+                <input type="radio" id="radio" name="radio" ng-model="song.typeSong" value="radio"/>
+                <label for="radio"><span></span>Radio shows</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Filter by label, discography</label>
+            <input type="text" class="form-control" name="name" id="field_name" ng-model="filterName"/>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -100,5 +134,50 @@
 
     .h3_title{
         margin-top: 2px;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    input[type="radio"] + label {
+    / / color: #292321;
+        color: inherit;
+        font-size: 14px;
+        padding-left: 0px;
+    }
+
+    input[type="radio"] + label span {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin: -2px 4px 0 0;
+        vertical-align: middle;
+        cursor: pointer;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    input[type="radio"] + label span {
+    / / background-color: #292321;
+        background-color: rgba(45, 39, 38, 0.35);
+    }
+
+    input[type="radio"]:checked + label span {
+    / / background-color: #CC3300;
+        background-color: rgb(238, 89, 41);
+    }
+
+    input[type="radio"] + label span,
+    input[type="radio"]:checked + label span {
+        -webkit-transition: background-color 0.4s linear;
+        -o-transition: background-color 0.4s linear;
+        -moz-transition: background-color 0.4s linear;
+        transition: background-color 0.4s linear;
+    }
+
+    input[type="radio"]:checked + label {
+    //color: #6F00F8;
+        color: rgb(238, 89, 41);
     }
 </style>

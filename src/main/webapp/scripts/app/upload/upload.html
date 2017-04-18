@@ -23,7 +23,7 @@
                 <span ng-show="stepOne && stepTwo">Select images</span>
             </div>
             <div class="form_upload">
-                <div class="header-background-mask" ng-show="!stepOne"></div>
+                <!--<div class="header-background-mask" ng-show="!stepOne"></div>-->
                 <div class="header-background" ng-show="!stepOne"></div>
                 <div class="progress-wrapper" ng-show="percentage > 0 && !stepOne">
                     <div class="progress" >
@@ -37,7 +37,7 @@
                 <style>
 
 
-                    .form_upload::before{
+                    /*.form_upload::before{
                         display: block;
                         content: "";
                         width: 85%;
@@ -61,7 +61,7 @@
                         border-bottom: 1px solid #ff8952;
                         border-right: 1px solid #ff8952;
                         z-index: 30;
-                    }
+                    }*/
 
                     .header-background-mask{
                         position: absolute!important;
@@ -166,6 +166,10 @@
                                 <label for="mashup"><span></span>Mashup</label>
                                 <input type="radio" id="bootleg" name="radio" ng-model="song.typeSong" value="bootleg"/>
                                 <label for="bootleg"><span></span>Bootleg</label>
+                                <input type="radio" id="set" name="radio" ng-model="song.typeSong" value="set"/>
+                                <label for="set"><span></span>Set (Festivals, Concerts)(BETA)</label>
+                                <input type="radio" id="radio" name="radio" ng-model="song.typeSong" value="radio"/>
+                                <label for="radio"><span></span>Radio shows (BETA)</label>
                             </div>
 
                             <div>

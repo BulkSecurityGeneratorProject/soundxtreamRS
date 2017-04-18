@@ -67,5 +67,20 @@ angular.module('soundxtreamappApp')
                     return data;
                 }
             },
+            'fifthMostPlayedTracks':{
+                method: 'GET',
+                isArray: true,
+                url: 'api/15-most-played-songs'
+            },
+            'mostPlayedTracks':{
+                method: 'GET',
+                isArray: true,
+                url: 'api/most-played-songs'
+            },
+            'filterTracks':{
+                method: 'GET',
+                isArray: true,
+                url: 'api/filter-tracks'
+            }
         });
     });

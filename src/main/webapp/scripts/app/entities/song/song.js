@@ -8,7 +8,7 @@ angular.module('soundxtreamappApp')
                 url: '/songs',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'soundxtreamappApp.playlist.home.title'
+                    pageTitle: 'soundxtreamappApp.song.home.pageTitle'
                 },
                 views: {
                     'content@': {

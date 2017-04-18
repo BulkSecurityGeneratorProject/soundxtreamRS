@@ -8,7 +8,7 @@ angular.module('soundxtreamappApp')
                 url: '/user/:login',
                 data: {
                     authorities: [],
-                    pageTitle: "Profile"
+                    pageTitle: "global.pageTitles.your-profile"
                 },
                 views: {
                     'content@': {
@@ -17,6 +17,10 @@ angular.module('soundxtreamappApp')
                     }
                 },
                 resolve: {
+                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                        $translatePartialLoader.addPart('global');
+                        return $translate.refresh();
+                    }],
                     userInfo: ['User','$stateParams',function(User,$stateParams){
                         return User.get({login:$stateParams.login});
                     }]
@@ -35,6 +39,10 @@ angular.module('soundxtreamappApp')
                     }
                 },
                 resolve: {
+                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                        $translatePartialLoader.addPart('global');
+                        return $translate.refresh();
+                    }],
                     userInfo: ['User','$stateParams',function(User,$stateParams){
                         return User.get({login:$stateParams.login});
                     }]

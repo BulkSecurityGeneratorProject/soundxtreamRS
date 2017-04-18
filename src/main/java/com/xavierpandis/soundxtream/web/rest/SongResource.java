@@ -6,9 +6,14 @@ import com.xavierpandis.soundxtream.repository.*;
 import com.xavierpandis.soundxtream.repository.search.SongSearchRepository;
 import com.xavierpandis.soundxtream.security.SecurityUtils;
 import com.xavierpandis.soundxtream.service.DateDiffService;
+import com.xavierpandis.soundxtream.service.MultipartFileSender;
+import com.xavierpandis.soundxtream.service.SongService;
 import com.xavierpandis.soundxtream.web.rest.dto.SongDTO;
 import com.xavierpandis.soundxtream.web.rest.util.HeaderUtil;
 import com.xavierpandis.soundxtream.web.rest.util.PaginationUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,15 +27,25 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sound.midi.Track;
 import javax.validation.Valid;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.SeekableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -65,6 +80,9 @@ public class SongResource {
 
     @Inject
     private Track_countRepository track_countRepository;
+
+    @Inject
+    private SongService songService;
 
     /**
      * POST  /songs -> Create a new song.
@@ -177,35 +195,7 @@ public class SongResource {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         ZonedDateTime now = ZonedDateTime.now();
 
-        for(Song song:page.getContent()){
-            Song_user song_user = song_userRepository.findExistUserLiked(song.getId(),user.getLogin());
-            SongDTO songDTO = new SongDTO();
-
-            songDTO.setTimeAfterUpload(dateDiffService.diffDatesMap(now, song.getDate_posted()));
-
-            songDTO.setSong(song);
-
-            if(song_user == null || song_user.getLiked() == null || !song_user.getLiked()){
-                songDTO.setLiked(false);
-            }
-            else{
-                songDTO.setLiked(true);
-            }
-
-            if(song_user == null || song_user.getShared() == null || !song_user.getShared()){
-                songDTO.setShared(false);
-            }
-            else{
-                songDTO.setShared(true);
-            }
-
-            listSongDTO.add(songDTO);
-
-            int countLikes = song_userRepository.findTotalLikes(song.getId());
-            int countShares = song_userRepository.findTotalShares(song.getId());
-            songDTO.setTotalLikes(countLikes);
-            songDTO.setTotalShares(countShares);
-        }
+        listSongDTO = songService.getInfoSong(page.getContent());
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/songs");
         return new ResponseEntity<>(listSongDTO, headers, HttpStatus.OK);
@@ -423,33 +413,7 @@ public class SongResource {
         List<SongDTO> listSongDTO = new ArrayList<>();
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
-        for(Song song:page.getContent()){
-            Song_user song_user = song_userRepository.findExistUserLiked(song.getId(),user.getLogin());
-            SongDTO songDTO = new SongDTO();
-
-            songDTO.setSong(song);
-
-            if(song_user == null || song_user.getLiked() == null || !song_user.getLiked()){
-                songDTO.setLiked(false);
-            }
-            else{
-                songDTO.setLiked(true);
-            }
-
-            if(song_user == null || song_user.getShared() == null || !song_user.getShared()){
-                songDTO.setShared(false);
-            }
-            else{
-                songDTO.setShared(true);
-            }
-
-            listSongDTO.add(songDTO);
-
-            int countLikes = song_userRepository.findTotalLikes(song.getId());
-            int countShares = song_userRepository.findTotalShares(song.getId());
-            songDTO.setTotalLikes(countLikes);
-            songDTO.setTotalShares(countShares);
-        }
+        listSongDTO = songService.getInfoSong(page.getContent());
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/songs");
         return new ResponseEntity<>(listSongDTO, headers, HttpStatus.OK);
@@ -470,37 +434,88 @@ public class SongResource {
         List<SongDTO> listSongDTO = new ArrayList<>();
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
-        for(Song song:page.getContent()){
-            Song_user song_user = song_userRepository.findExistUserLiked(song.getId(),user.getLogin());
-            SongDTO songDTO = new SongDTO();
-
-            songDTO.setSong(song);
-
-            if(song_user == null || song_user.getLiked() == null || !song_user.getLiked()){
-                songDTO.setLiked(false);
-            }
-            else{
-                songDTO.setLiked(true);
-            }
-
-            if(song_user == null || song_user.getShared() == null || !song_user.getShared()){
-                songDTO.setShared(false);
-            }
-            else{
-                songDTO.setShared(true);
-            }
-
-            listSongDTO.add(songDTO);
-
-            int countLikes = song_userRepository.findTotalLikes(song.getId());
-            int countShares = song_userRepository.findTotalShares(song.getId());
-            songDTO.setTotalLikes(countLikes);
-            songDTO.setTotalShares(countShares);
-        }
+        listSongDTO = songService.getInfoSong(page.getContent());
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/songs");
         return new ResponseEntity<>(listSongDTO, headers, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/filter-tracks",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<SongDTO>> getSongsFiltered(@RequestBody List<String> filters){
+
+        List<SongDTO> listSongDTO = new ArrayList<>();
+        return new ResponseEntity<>(listSongDTO, null, HttpStatus.OK);
+    }
+
+    /*private static final int BUFFER_LENGTH = 1024 * 1024 * 10;
+    private static final long EXPIRE_TIME = 1000 * 60 * 60 * 24;
+    private static final Pattern RANGE_PATTERN = Pattern.compile("bytes=(?<start>\\d*)-(?<end>\\d*)");
+
+    @RequestMapping(value = "/player/track/{id}",
+        method = RequestMethod.GET)
+    @Timed
+    public void getDownload2(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id) throws IOException{
+
+        Song song = songRepository.findOne(id);
+
+        String songName = song.getName()+".mp3";
+
+        Path video = Paths.get("./src/main/webapp/"+song.getUrl());
+
+        int length = (int) Files.size(video);
+        int start = 0;
+        int end = length - 1;
+
+        String range = request.getHeader("range");
+
+        if(range == null){
+            range = "bytes="+start+"-"+end/5;
+        }
+
+        Matcher matcher = RANGE_PATTERN.matcher(range);
+
+        if (matcher.matches()) {
+            String startGroup = matcher.group("start");
+            start = startGroup.isEmpty() ? start : Integer.valueOf(startGroup);
+            start = start < 0 ? 0 : start;
+
+            String endGroup = matcher.group("end");
+            end = endGroup.isEmpty() ? end : Integer.valueOf(endGroup);
+            end = end > length - 1 ? length - 1 : end;
+        }
+
+        int contentLength = end - start + 1;
+
+        response.reset();
+        response.setBufferSize(BUFFER_LENGTH);
+        response.setHeader("Content-Disposition", String.format("inline;filename=\"%s\"", songName));
+        response.setHeader("Accept-Ranges", "bytes");
+        response.setDateHeader("Last-Modified", Files.getLastModifiedTime(video).toMillis());
+        response.setDateHeader("Expires", System.currentTimeMillis() + EXPIRE_TIME);
+        response.setContentType(Files.probeContentType(video));
+        response.setHeader("Content-Range", String.format("bytes %s-%s/%s", start, end, length));
+        response.setHeader("Content-Length", String.format("%s", contentLength));
+        response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+
+        int bytesRead;
+        int bytesLeft = contentLength;
+        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_LENGTH);
+
+        try (SeekableByteChannel input = Files.newByteChannel(video);
+             OutputStream output = response.getOutputStream()) {
+
+            input.position(start);
+
+            while ((bytesRead = input.read(buffer)) != -1 && bytesLeft > 0) {
+                buffer.clear();
+                output.write(buffer.array(), 0, bytesLeft < bytesRead ? bytesLeft : bytesRead);
+                bytesLeft -= bytesRead;
+            }
+        }
+    }*/
 
 
     @RequestMapping(value = "/trackUrl/{accessUrl}/by/{user}",
@@ -602,5 +617,51 @@ public class SongResource {
         return new ResponseEntity<>(listSongDTO, HttpStatus.OK);
     }
 
+
+    /*@RequestMapping(value = "/player/track/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Timed
+    public void getDownload2(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id) throws Exception {
+        Song song = songRepository.findOne(id);
+
+        String songName = song.getName()+".mp3";
+
+        Path video = Paths.get("./src/main/webapp/"+song.getUrl());
+
+        MultipartFileSender.fromPath(video)
+            .with(request)
+            .with(response)
+            .serveResource();
+
+    }*/
+
+    @RequestMapping(value = "/15-most-played-songs",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<SongDTO>> get15MostPlayedSongs(){
+
+        List<Song> songs = songRepository.find15FirstMostPlayedSongs();
+
+        List<SongDTO> listSongDTO = songService.getInfoSong(songs);
+
+        listSongDTO.stream().limit(15);
+
+        return new ResponseEntity<>(listSongDTO, null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/most-played-songs",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<SongDTO>> getMostPlayedSongs(){
+
+        List<Song> songs = songRepository.find15FirstMostPlayedSongs();
+
+        List<SongDTO> listSongDTO = songService.getInfoSong(songs);
+
+        return new ResponseEntity<>(listSongDTO, null, HttpStatus.OK);
+    }
 
 }

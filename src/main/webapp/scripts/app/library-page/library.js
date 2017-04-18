@@ -12,7 +12,7 @@ angular.module('soundxtreamappApp')
                 url: '/your/collections',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'dsa'
+                    pageTitle: 'global.pageTitles.your-collection'
                 },
                 views: {
                     'content@': {
@@ -32,7 +32,7 @@ angular.module('soundxtreamappApp')
                 url: '/tracks',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'soundxtreamappApp.playlist.home.title'
+                    pageTitle: 'global.pageTitles.your-tracks'
                 },
                 views: {
                     'lib@library': {
@@ -52,7 +52,7 @@ angular.module('soundxtreamappApp')
                 parent: 'library.lists',
                 url: '/new',
                 data: {
-                    authorities: ['ROLE_USER'],
+                    authorities: ['ROLE_USER']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                     $uibModal.open({
@@ -84,7 +84,7 @@ angular.module('soundxtreamappApp')
                 url: '/playlists',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'soundxtreamappApp.playlist.home.title'
+                    pageTitle: 'global.pageTitles.your-playlists'
                 },
                 views: {
                     'lib@library': {
@@ -105,7 +105,7 @@ angular.module('soundxtreamappApp')
                 url: '/tracks/likes',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'soundxtreamappApp.song_user.home.title'
+                    pageTitle: 'global.pageTitles.your-fav-tracks'
                 },
                 views: {
                     'lib@library': {
@@ -126,7 +126,7 @@ angular.module('soundxtreamappApp')
                 url: '/playlist/likes',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'soundxtreamappApp.song_user.home.title'
+                    pageTitle: 'global.pageTitles.your-fav-playlists'
                 },
                 views: {
                     'lib@library': {

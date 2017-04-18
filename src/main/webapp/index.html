@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>SoundXtream</title>
+        <title>SoundXtream Audio Platform</title>
 
         <meta name="description" content="">
         <meta name="google" value="notranslate">
@@ -86,7 +86,7 @@
                         <a href="/#/{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}/track/{{playerPlaylist.getSongAccess(mediaPlayer.currentTrack)}}">{{playerPlaylist.getSongName(mediaPlayer.currentTrack)}}</a>
                     </span>
                     <span class="player-info-artist">
-                        <a href="/#/u/{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}">{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}</a>
+                        <a href="/#/user/{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}">{{playerPlaylist.getSongArtist(mediaPlayer.currentTrack)}}</a>
                     </span>
                 </div>
             </div>
@@ -246,6 +246,7 @@
     <script src="scripts/components/auth/provider/auth.session.service.js"></script>
     <script src="scripts/app/account/sessions/sessions.js"></script>
     <script src="scripts/app/account/sessions/sessions.controller.js"></script>
+    <script src="scripts/components/entities/chat/chat-websocket-service.js"></script>
     <script src="scripts/app/admin/tracker/tracker.js"></script>
     <script src="scripts/app/admin/tracker/tracker.controller.js"></script>
     <script src="scripts/components/tracker/tracker.service.js"></script>
@@ -329,7 +330,22 @@
     <script src="scripts/app/entities/song/chart.service.js"></script>
     <script src="scripts/app/entities/song/song-stats.controller.js"></script>
     <script src="bower_components/messageformat/locale/ca.js"></script>
+    <!--<script src="scripts/app/entities/chat/chat.js"></script>
+    <script src="scripts/app/entities/chat/chat.controller.js"></script>
+    <script src="scripts/app/entities/chat/chat-dialog.controller.js"></script>
+    <script src="scripts/app/entities/chat/chat-delete-dialog.controller.js"></script>
+    <script src="scripts/app/entities/chat/chat-detail.controller.js"></script>
+    <script src="scripts/components/entities/chat/chat.service.js"></script>
+    <script src="scripts/components/entities/chat/chat.search.service.js"></script>
+    <script src="scripts/app/entities/message/message.js"></script>
+    <script src="scripts/app/entities/message/message.controller.js"></script>
+    <script src="scripts/app/entities/message/message-dialog.controller.js"></script>
+    <script src="scripts/app/entities/message/message-delete-dialog.controller.js"></script>
+    <script src="scripts/app/entities/message/message-detail.controller.js"></script>
+    <script src="scripts/components/entities/message/message.service.js"></script>
+    <script src="scripts/components/entities/message/message.search.service.js"></script>-->
     <!-- endbuild -->
         <script src="scripts/components/player/sx-player-angular.js"></script>
+
 </body>
 </html>

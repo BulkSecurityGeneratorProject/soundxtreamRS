@@ -110,7 +110,7 @@
                             ui-sref="song.delete">
                         <i class="fa fa-trash fa-lg"></i>&nbsp;<span>Delete</span>
                     </button>
-                    <button class="sx__button"
+                    <!--<button class="sx__button"
                             socialshare
                             socialshare-provider="facebook"
                             socialshare-text="{{songDTO.song.name}} - Soundxtream"
@@ -128,11 +128,12 @@
                             socialshare-hashtags="soundxtream"
                             socialshare-url="http://soundxtream.com/#/song/{{songDTO.song.id}}">
                         <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>&nbsp;<span>Twitter</span>
-                    </button>
-
-                    <span class="badge-detail-shares">{{songDTO.totalShares | counter}} shares</span>
-                    <span class="badge-detail-likes">{{songDTO.totalLikes | counter}} likes</span>
-                    <span class="badge-detail-likes">{{songDTO.plays | counter}} plays</span>
+                    </button>-->
+                    <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                        <span style="color: #ff6533;padding-right: 5px;"><i class="mdi mdi-play"></i>&nbsp; {{songDTO.plays}}</span>
+                        <span style="color: #ff6533;padding-right: 5px;"><i class="fa fa-heart-o"></i>&nbsp; {{songDTO.totalLikes}}</span>
+                        <span style="color: #ff6533;padding-right: 5px;"><i class="fa fa-retweet"></i>&nbsp; {{songDTO.totalShares}}</span>
+                    </h5>
                 </div>
             </div>
             <hr style="margin-bottom: 5px; margin-top: 5px;"/>
@@ -200,7 +201,14 @@
                     <p class="badge badge-black">{{songDTO.song.duration | toMinSec}}</p>
                     <p class="badge badge-black">{{songDTO.song.bpm}} BPM</p>
                 </div>
-                <div ng-if="sameUser"><span><a ui-sref="song.stats({id:songDTO.song.id})">View track stats</a></span></div>
+                <div ng-if="sameUser" style="font-size: 15px;margin-top: 5px;margin-bottom: 5px;">
+                    <span>
+                        <a style="color: rgba(255, 93, 41, 1);" ui-sref="song.stats({id:songDTO.song.id})">
+                            <i class="mdi mdi-chart-line"></i>
+                            <span>View track stats</span>
+                        </a>
+                    </span>
+                </div>
                 <div ng-if="songDTO.song.banner_song != null">
                     <div class="track-user-noimg">
                         <div class="user-image">

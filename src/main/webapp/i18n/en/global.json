@@ -1,6 +1,17 @@
 {
     "global": {
-        "title": "soundxtreamapp",
+        "pageTitles":{
+            "your-collection": "Your collection",
+            "your-tracks": "Your tracks",
+            "your-playlists": "Your playlists",
+            "your-fav-tracks": "Your favorite tracks",
+            "home": "Home",
+            "your-fav-playlists": "Your favorite playlists",
+            "track-stats": "Stats track",
+            "stream-following": "Activity",
+            "your-profile": "Your profile"
+        },
+        "title": "SoundXtream Audio Platform",
         "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "menu": {
             "home": "Home",
@@ -16,6 +27,8 @@
                 "samples": "Samples",
                 "playlist_user": "Playlist_user",
                 "track_count": "Track_count",
+                "chat": "Chat",
+                "message": "Message",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -9,31 +9,39 @@
         <div ng-repeat="songDTO in songs track by songDTO.song.id" class="track-wrapper"
              style="background-image: url({{songDTO.song.artwork}});">
             <div class="track-container">
-                <h5 style="cursor: pointer;text-align: center;"
+                <h5 style="margin-bottom: 0px!important; cursor: pointer;text-align: center;"
                     ui-sref="song.detail({accessUrl: songDTO.song.access_url,user: songDTO.song.user.login, id: songDTO.song.id})">
                     <div class="blur">
                         <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
                     </div>
                     <span>{{songDTO.song.name}}</span>
                 </h5>
-                <h6 style="cursor: pointer;text-align: center;" ui-sref="user-profile({login:songDTO.song.user.login})">
-                    {{songDTO.song.user.login}}</h6>
                 <div class="options">
-
-                    <button class="button-options sx__button" ng-class="{true:'sx__button active',false:'sx__button sx_button_normal'}[songDTO.liked]" ng-click="like(songDTO.song.id)">
-                        <span>{{songDTO.totalLikes}} Like</span>
-                    </button>
-                    <button class="button-options sx__button" ng-class="{true:'sx__button active',false:'sx__button sx_button_normal '}[songDTO.shared]" ng-click="share(songDTO.song.id)">
-                        <span>{{songDTO.totalShares}} Share</span>
-                    </button>
+                    <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                        <div class="blur" style="z-index: 1;">
+                            <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                        </div>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;" >
+                                <i class="mdi mdi-play"></i>&nbsp; {{songDTO.plays}}</span>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((songDTO.liked) && '#ff6533') || '#fff'}"
+                                  ng-click="like(songDTO.song.id)">
+                                <i class="fa fa-heart-o"></i>&nbsp; {{songDTO.totalLikes}}
+                            </span>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((songDTO.shared) && '#ff6533') || '#fff'}"
+                                  ng-click="share(songDTO.song.id)">
+                                <i class="fa fa-retweet"></i>&nbsp; {{songDTO.totalShares}}
+                            </span>
+                    </h5>
                 </div>
-                <button class="button-options button-play">
-                        <span ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromYourSongs'"
+                <button class="button-options button-play" style="height: 55px; width: 55px;">
+                        <span style="padding-top: 5px;padding-left: 0px;" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromYourSongs'"
                               ng-click="mediaPlayer.playPause()">
                             <i style="font-size: 44px!important;" ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
                             <i style="font-size: 44px!important;" ng-if="mediaPlayer.playing" class="material-icons">pause</i>
                         </span>
-                        <span ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromYourSongs'"
+                        <span style="padding-top: 5px;padding-left: 0px;" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromYourSongs'"
                               ng-click="playerPlaylist.addSongAll(allTracks,mediaPlayer,$index,'fromYourSongs')">
                             <i style="font-size: 44px!important;" class="material-icons">play_arrow</i>
                         </span>
@@ -42,8 +50,87 @@
         </div>
     </div>
     <div class="col-md-2">
-        <h4>FILTERS</h4>
-        <hr>
-        <p>dasdasdasdasdasdas</p>
+        <h4 class="titles">FILTERS (beta)</h4>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Filter by name</label>
+            <input type="text" class="form-control" name="name" id="field_name" ng-model="filterTrack.name"/>
+        </div>
+        <div>
+            <label>Filter by type</label>
+            <div class="radio">
+                <input type="radio" id="original" name="radio" ng-model="filterTrack.typeSong"
+                       value="original"/>
+                <label for="original"><span></span>Original</label>
+                <br>
+                <input type="radio" id="remix" name="radio" ng-model="filterTrack.typeSong" value="remix"/>
+                <label for="remix"><span></span>Remix</label>
+                <br>
+                <input type="radio" id="mashup" name="radio" ng-model="filterTrack.typeSong" value="mashup"/>
+                <label for="mashup"><span></span>Mashup</label>
+                <br>
+                <input type="radio" id="bootleg" name="radio" ng-model="filterTrack.typeSong" value="bootleg"/>
+                <label for="bootleg"><span></span>Bootleg</label>
+                <br>
+                <input type="radio" id="set" name="radio" ng-model="filterTrack.typeSong" value="set"/>
+                <label for="set"><span></span>Set (Festivals, Concerts)</label>
+                <br>
+                <input type="radio" id="radio" name="radio" ng-model="filterTrack.typeSong" value="radio"/>
+                <label for="radio"><span></span>Radio shows</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_label">Filter by label, discography</label>
+            <input type="text" class="form-control" name="name" id="field_label" ng-model="filterTrack.label"/>
+        </div>
+        <div class="form-group">
+            <button ng-click="filterTrackFn()">FILTER</button>
+        </div>
     </div>
 </div>
+
+<style>
+    input[type="radio"] {
+        display: none;
+    }
+
+    input[type="radio"] + label {
+    / / color: #292321;
+        color: inherit;
+        font-size: 14px;
+        padding-left: 0px;
+    }
+
+    input[type="radio"] + label span {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin: -2px 4px 0 0;
+        vertical-align: middle;
+        cursor: pointer;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    input[type="radio"] + label span {
+    / / background-color: #292321;
+        background-color: rgba(45, 39, 38, 0.35);
+    }
+
+    input[type="radio"]:checked + label span {
+    / / background-color: #CC3300;
+        background-color: rgb(238, 89, 41);
+    }
+
+    input[type="radio"] + label span,
+    input[type="radio"]:checked + label span {
+        -webkit-transition: background-color 0.4s linear;
+        -o-transition: background-color 0.4s linear;
+        -moz-transition: background-color 0.4s linear;
+        transition: background-color 0.4s linear;
+    }
+
+    input[type="radio"]:checked + label {
+        //color: #6F00F8;
+        color: rgb(238, 89, 41);
+    }
+</style>

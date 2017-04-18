@@ -1,6 +1,7 @@
 package com.xavierpandis.soundxtream.repository;
 
 import com.xavierpandis.soundxtream.domain.Song;
+import com.xavierpandis.soundxtream.domain.Track_count;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,4 +35,7 @@ public interface SongRepository extends JpaRepository<Song,Long> {
 
     @Query("select song from Song song where song.user.login = :login")
     List<Song> findUserTrack(@Param("login") String login);
+
+    @Query("select track_count.song from Track_count track_count GROUP BY track_count.song ORDER BY count(track_count) desc")
+    List<Song> find15FirstMostPlayedSongs();
 }
