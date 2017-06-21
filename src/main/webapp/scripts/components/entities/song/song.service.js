@@ -80,7 +80,7 @@ angular.module('soundxtreamappApp')
             'filterTracks':{
                 method: 'GET',
                 isArray: true,
-                url: 'api/filter-tracks'
+                url: 'api/your/songs/filtered/by'
             }
         });
     });

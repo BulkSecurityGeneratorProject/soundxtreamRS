@@ -5,7 +5,7 @@ angular.module('soundxtreamappApp').controller('UserManagementDialogController',
         function($scope, $stateParams, $uibModalInstance, entity, User, Language,Upload) {
 
         $scope.user = entity;
-        $scope.authorities = ["ROLE_USER", "ROLE_ADMIN"];
+        $scope.authorities = ["ROLE_USER", "ROLE_ADMIN", "ROLE_USER_PRO"];
         Language.getAll().then(function (languages) {
             $scope.languages = languages;
         });

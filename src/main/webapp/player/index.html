@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Soundxtream Player Embeddable</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="../bower_components/mdi/css/materialdesignicons.min.css">
+</head>
+<body ng-app="soundxtreamPlayer" ng-controller="PlayerEmbedded">
+<div id="player_content" ng-include="template"></div>
+<script type="text/ng-template" id="templateTrack.html">
+    <div id="player_image">
+        <img src="{{track.song.artwork}}" height="100%" width="auto" alt="">
+        <div id="player_controls">
+            <div class="player_controls_button" >
+                <i style="font-size: 44px!important;" class="icon-player mdi mdi-play" ng-show="!playerPlaying" ng-click="playAudio()"></i>
+                <i style="font-size: 44px!important;" class="icon-player mdi mdi-pause" ng-show="playerPlaying" ng-click="pauseAudio()"></i>
+            </div>
+        </div>
+    </div>
+    <div id="player_data">
+
+        <span class="player_title">{{track.song.name}}</span>
+        <span class="player_artist">{{track.song.user.login}}</span>
+        <!-- <audio src="{{track.song.url}}" controls></audio>-->
+    </div>
+</script>
+<script type="text/ng-template" id="templatePlaylist.html">
+    <div>
+        <span>{{playlist.playlist.name}}</span>
+        <span>{{playlist.playlist.user.login}}</span>
+    </div>
+</script>
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
+<script src="player-embedded.controller.js"></script>
+</body>
+</html>

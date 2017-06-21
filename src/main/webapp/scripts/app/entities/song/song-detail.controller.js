@@ -3,7 +3,7 @@
 angular.module('soundxtreamappApp')
     .directive('myEnter', function () {
         return function (scope, element, attrs) {
-            element.bind("keydown keypress", function (event) {
+            element.bind("keypress", function (event) {
                 if(event.which === 13) {
                     scope.$apply(function (){
                         scope.$eval(attrs.myEnter);
@@ -22,11 +22,20 @@ angular.module('soundxtreamappApp')
             });
         };
 
+        $scope.getIframeCode = function(){
+            
+        }
+
         $scope.sameUser = false;
 
         entity.$promise.then(function(){
 
+            // http://172.16.1.124:8080/player/index.html?type=track&theme=light&url=http://172.16.1.124:8080/api/songs/1
+
             $window.document.title = $scope.songDTO.song.name;
+
+            $scope.songDTO.iframeSrc = "http://"+window.location.hostname+":"+window.location.port+"/player/index.html?type=track"+
+            "&theme=light&size=small&url=http://"+window.location.hostname+":"+window.location.port+"/api/songs/"+$scope.songDTO.song.id;
 
             User.get({login:$scope.songDTO.song.user.login},function(res){
                 $scope.songDTO.song.user.totalFollowers = res.totalFollowers;

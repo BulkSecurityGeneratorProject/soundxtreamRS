@@ -46,12 +46,16 @@
     "angular-read-more": "^1.0.5",
     "angular-ui-mention": "^0.0.7",
     "angular-xeditable": "^0.3.0",
-    "mdi": "^1.7.22",
+    "mdi": "^1.9.33",
     "ui-cropper": "^1.0.3",
     "angular-nvd3": "^1.0.9",
     "ngmap": "^1.17.8",
     "angular-google-maps": "^2.4.1",
-    "angular-simple-logger": "^0.1.7"
+    "angular-simple-logger": "^0.1.7",
+    "angular-chart.js": "^1.1.1",
+    "velocity": "^1.5.0",
+    "ngColorThief": "angular-colorthief#^0.2.0",
+    "screenfull": "^3.2.0"
   },
   "devDependencies": {
     "angular-mocks": "1.4.8",

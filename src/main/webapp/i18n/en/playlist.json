@@ -23,7 +23,9 @@
             "banner_playlist": "Banner_playlist",
             "access_url": "Access_url",
             "song": "Song",
-            "user": "User"
+            "user": "User",
+            "number_tracks": "Tracks",
+            "owner": "By"
         }
     }
 }

@@ -133,7 +133,7 @@
                             <p>
                                 <span>localhost:8080/#/{{account.login}}/</span>
                                 <input style="display: inline-block; width: 60%; height: 30px;" type="text" class="form-control" id="access_url" name="access_url"
-                                       ng-model="song.access_url" />
+                                       ng-model="song.access_url" required />
                             </p>
 
                             <label class="control-label">Description</label>
@@ -141,8 +141,7 @@
                             <trix-editor angular-trix ng-model="song.description" class="trix-content"></trix-editor>
 
                             <label class="control-label" for="label">Label</label>
-                            <input type="text" class="form-control " name="label" id="label" ng-model="song.label"
-                                   required/>
+                            <input type="text" class="form-control " name="label" id="label" ng-model="song.label"/>
 
                             <label class="control-label">Styles</label>
                             <ui-select class="form-control " multiple ng-model="song.styles" ng-disabled="disabled">
@@ -173,7 +172,7 @@
                             </div>
 
                             <div>
-                                <button class="sx__button" ng-click="toThreeStep()" type="button">
+                                <button class="sx__button" ng-disabled="form.$invalid" ng-click="toThreeStep()" type="button">
                                     Next step
                                 </button>
                             </div>

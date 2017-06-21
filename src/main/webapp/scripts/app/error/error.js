@@ -22,6 +22,25 @@ angular.module('soundxtreamappApp')
                     }]
                 }
             })
+            .state('error404', {
+                parent: 'site',
+                url: '/error404',
+                data: {
+                    authorities: [],
+                    pageTitle: 'error.title'
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/error/error404.html'
+                    }
+                },
+                resolve: {
+                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                        $translatePartialLoader.addPart('error');
+                        return $translate.refresh();
+                    }]
+                }
+            })
             .state('accessdenied', {
                 parent: 'site',
                 url: '/accessdenied',

@@ -1,5 +1,6 @@
+<!--
 <div ng-cloak>
-    <!--<div class="row">
+    &lt;!&ndash;<div class="row">
         <div class="col-md-4">
             <span class="hipster img-responsive img-rounded"></span>
         </div>
@@ -9,7 +10,7 @@
             <div class="alert alert-danger" translate="error.403">You are not authorized to access the page.
             </div>
         </div>
-    </div>-->
+    </div>&ndash;&gt;
 
 
     <div class="access-denied-page">
@@ -60,6 +61,113 @@
         border-radius: 0;
         background: 0 0;
         background: rgba(170, 0, 13, 0.75);
+        min-width: 340px;
+        width: auto;
+        color: white;
+    }
+</style>
+-->
+<div class="access-denied-page">
+    <div class="access-denied">
+        <div>
+            <h1 class="title" style="font-size: 136px;">401</h1>
+
+            <div class="error_message" translate="error.403">
+                You are not authorized to access the page.
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .error_message{
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        font-size: 20px;
+        color: #fff;
+    }
+    .title{
+        background-image: url('assets/images/404_background.jpg')!important;
+        background-size: cover!important;
+        background-repeat: no-repeat;
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: "Bebas Neue";
+        font-size: 330px!important;
+        background-position: -240px 69px;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        cursor: default;
+        position: relative;
+        -webkit-text-stroke-width: 5px;
+        -webkit-text-stroke-color: #fff;
+    }
+    #content{
+        overflow: hidden;
+    }
+    #content::before{
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: 0px;
+        background: url(assets/images/404_background.jpg), rgb(10, 10, 10)!important;
+        background-size: cover!important;
+        background-repeat: no-repeat;
+        filter: blur(7px);
+        z-index: 1;
+    }
+    #content::after{
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: 0px;
+        background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(16, 19, 38, 0.52) 57%);
+        z-index: 1;
+    }
+    .access-denied-page{
+        position: relative;
+        z-index: 222;
+    }
+    .access-denied{
+        right: 0;
+        bottom: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+
+    }
+    .access-denied h1{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        text-align: center;
+        padding: 30px;
+    }
+
+    .access-denied .alert{
+        padding: 30px;
+        border-radius: 0;
+        background: rgba(0, 0, 0, 0);
         min-width: 340px;
         width: auto;
         color: white;

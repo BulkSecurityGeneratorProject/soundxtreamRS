@@ -1,6 +1,6 @@
 body {
     //font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
-    font-family: 'Roboto', sans-serif;
+
     line-height: 1.42857;
 
     overflow-x: hidden;
@@ -13,6 +13,11 @@ body {
 *{
     //font-weight: lighter!important;
     font-weight: normal;
+    font-family: 'Roboto', sans-serif;
+}
+
+*.mdi{
+    line-height: 1;
 }
 
 /* ==========================================================================
