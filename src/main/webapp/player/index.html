@@ -24,6 +24,17 @@
         <!-- <audio src="{{track.song.url}}" controls></audio>-->
     </div>
 </script>
+<script type="text/ng-template" id="templateTrackArtwork.html">
+    <div id="player_image">
+        <img src="{{track.song.artwork}}" height="100%" width="auto" alt="">
+        <div id="player_controls">
+            <div class="player_controls_button" >
+                <i style="font-size: 44px!important;" class="icon-player mdi mdi-play" ng-show="!playerPlaying" ng-click="playAudio()"></i>
+                <i style="font-size: 44px!important;" class="icon-player mdi mdi-pause" ng-show="playerPlaying" ng-click="pauseAudio()"></i>
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="templatePlaylist.html">
     <div>
         <span>{{playlist.playlist.name}}</span>

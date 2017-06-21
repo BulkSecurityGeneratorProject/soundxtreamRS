@@ -38,10 +38,13 @@ angular.module("soundxtreamPlayer", ['ngAnimate', 'ngResource']).controller('Pla
         var id = getUrlParameter("id");
         var theme = getUrlParameter("theme");
         var size = getUrlParameter("size");
+        var mode = getUrlParameter("mode");
 
         if (theme != "dark" && theme != "light") {
             theme = "dark";
         }
+
+
 
         var cssLink = document.createElement("link");
         cssLink.href = "theme-" + theme + "-"+ size +".css";
@@ -85,7 +88,11 @@ angular.module("soundxtreamPlayer", ['ngAnimate', 'ngResource']).controller('Pla
                 $scope.track = response.data;
                 audio.src = $scope.track.song.url;
                 bindAudioPlayer();
-                $scope.template = "templateTrack.html";
+                if(mode == "artwork"){
+                    $scope.template = "templateTrackArtwork.html";
+                } else{
+                    $scope.template = "templateTrack.html";
+                }
             }
             console.log(response.data);
         }, function errorCallback(response) {
