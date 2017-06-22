@@ -10,6 +10,10 @@
         background: rgb(255, 120, 77);
     }
 
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
     #resultSearch::-webkit-scrollbar {
         width: 12px;
     }
@@ -125,8 +129,48 @@
                 </div>
             </div>
         </div>
+        <div class="nav_down_btn"><i class="mdi mdi-arrow-down nav_down_btn_i"></i></div>
     </div>
 </div>
+<style>
+    .nav_down_btn{
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        display: block;
+        //transform: translate(-50%,0%);
+        animation: smallBigAnimation infinite 1.5s;
+        -webkit-animation: smallBigAnimation infinite 1.5s;
+        -moz-animation: smallBigAnimation infinite 1.5s;
+        transition: opacity, transform .4s ease;
+        cursor: pointer;
+    }
+
+    @keyframes smallBigAnimation {
+        0%{
+            opacity: 0.7;
+            transform: translateY(0%);
+        }
+        50%{
+            opacity: 1;
+            transform: translateY(-20%);
+        }
+        100%{
+            opacity: 0.7;
+            transform: translateY(0%);
+        }
+    }
+
+    .nav_down_btn i.nav_down_btn_i {
+        color: white;
+        line-height: 0px;
+        height: 40px;
+        width: 40px;
+        font-size: 40px;
+        display: inline-block;
+        position: relative;
+    }
+</style>
 <div class="page-content">
     <div class="row">
         <div class="col-md-12">
@@ -181,20 +225,6 @@
                             </span>
                         </h5>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <p>
-            <h4 class="titles">15 most liked tracks</h4>
-            </p>
-            <div ng-repeat="playlist in playlists" class="playlist-box" style="margin-left: 13px;">
-                <div class="playlist-image">
-                    <img src="{{playlist.artwork}}" style="background: -webkit-linear-gradient(-45deg, rgb(85, 147, 255) 0%, rgb(150, 27, 255) 100%);"/>
-                </div>
-                <div class="info">
-                    <h5 ui-sref="playlist.detail({id:playlist.id})">{{playlist.name}}</h5>
-                    <h6>{{playlist.user.login}}</h6>
                 </div>
             </div>
         </div>

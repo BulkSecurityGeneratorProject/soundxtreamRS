@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Spring Data JPA repository for the Song entity.
  */
-public interface SongRepository extends JpaRepository<Song,Long> {
+public interface SongRepository extends JpaRepository<Song, Long> {
 
     @Query("select song from Song song where song.user.login = ?#{principal.username}")
     Page<Song> findByUserIsCurrentUser(Pageable pageable);
@@ -28,9 +28,9 @@ public interface SongRepository extends JpaRepository<Song,Long> {
     Song findOneWithEagerRelationships(@Param("id") Long id);
 
     @Query("select song from Song song left join fetch song.styles where song.access_url =:url and song.user.login =:user")
-    Song findOneByAccessUrl(@Param("url") String url,@Param("user") String user);
+    Song findOneByAccessUrl(@Param("url") String url, @Param("user") String user);
 
-    @Query("select song from Song song where song.user.login = ?#{principal.username} ORDER BY song.id DESC")
+    @Query("select song from Song song where song.user.login = ?#{principal.username} ORDER BY song.date_posted DESC")
     List<Song> findByUserIsCurrentUser();
 
     @Query("select song from Song song where song.user.login = :login")

@@ -1,5 +1,6 @@
 package com.xavierpandis.soundxtream.security;
 
+import com.xavierpandis.soundxtream.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,12 +9,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.inject.Inject;
 import java.util.Collection;
 
 /**
  * Utility class for Spring Security.
  */
 public final class SecurityUtils {
+
+    @Inject
+    private static UserRepository userRepository;
 
     private SecurityUtils() {
     }

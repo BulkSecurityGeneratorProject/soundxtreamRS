@@ -20,6 +20,7 @@ angular.module('soundxtreamappApp')
                     var $http = $injector.get('$http');
                     return $http.get('/').finally(function() { return afterCSRFRenewed(response); });
                 }
+                
                 return $q.reject(response);
             }
         };

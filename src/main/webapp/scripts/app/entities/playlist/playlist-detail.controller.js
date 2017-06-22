@@ -11,6 +11,23 @@ angular.module('soundxtreamappApp')
         var unshuffledTracks = [];
         $scope.playlistsUser = [];
 
+        var playPauseBtn = $('.icon-player > i.playing');
+
+        var playPauseAll = $('.icon-player > i');
+
+        var changingTrack = false;
+
+        /*$scope.$watch("mediaPlayer.currentTrack", function(){
+            if($scope.mediaPlayer.playing){
+                playPauseBtn.removeClass("mdi-pause");
+                playPauseBtn.addClass("mdi-play");
+            }
+            else{
+                playPauseBtn.addClass("mdi-pause");
+                playPauseBtn.removeClass("mdi-play");
+            }
+        });*/
+
         $scope.predicate = 'id';
         $scope.reverse = true;
         $scope.page = 0;
@@ -19,6 +36,32 @@ angular.module('soundxtreamappApp')
         $scope.readyUserPlaylists = false;
 
         $scope.playlistDTO.$promise.then(function(){
+            playPauseAll.bind("click", function(){
+                //$scope.mediaPlayer.playPause();
+                console.log($scope.playerPlaylist);
+                console.log($scope.mediaPlayer);
+                $(this).addClass("animated");
+            });
+
+            $scope.$watch("mediaPlayer.playing", function(playing){
+                if($scope.playerPlaylist.playlistCurrent == 'playingFromPlaylist'+$scope.playlistDTO.playlist.id){
+                    if(playing){
+                        playPauseBtn.fadeOut(100, function() {
+                            $(this).removeClass("mdi-play");
+                            $(this).addClass("mdi-pause").fadeIn(100);
+                        });
+                    }
+                    else{
+                        if(!playPauseBtn.hasClass("mdi-play")){
+                            playPauseBtn.fadeOut(100, function() {
+                                $(this).removeClass("mdi-pause");
+                                $(this).addClass("mdi-play").fadeIn(100);
+                            });
+                        }
+                    }
+                }
+            });
+
             Playlist.getPlaylistUser({login:$scope.playlistDTO.playlist.user.login, page: $scope.page, size: 4, sort: [$scope.predicate + ',' + ($scope.reverse ? 'asc' : 'desc'), 'id']}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
                 for (var i = 0; i < result.length; i++) {

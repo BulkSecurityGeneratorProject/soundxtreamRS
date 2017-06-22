@@ -6,6 +6,22 @@ angular.module('soundxtreamappApp')
         '$cookies', '$http', '$q', '$cookies', 'Track_count',
         function ($scope,Principal,$rootScope,Song,Auth,$state,$cookies, $http, $q, $cookies, Track_count) {
 
+            $('.mdi').click(function(){
+                console.log($scope.mediaPlayer);
+                if($scope.mediaPlayer.playing){
+
+                    $scope.mediaPlayer.pause();
+                    console.log("playing");
+                    //$('div').addClass('class2', 1000);
+                }
+                else{
+                    $scope.mediaPlayer.play();
+                    console.log("not playing");
+                }
+            });
+
+
+
             var audioElemGlob = {};
 
             var volumeCookie = $cookies.get("volume");
@@ -96,7 +112,8 @@ angular.module('soundxtreamappApp')
                     var audioElement = audioElements[k].song;
 
                     var song = {
-                        artist: audioElement.user.login,
+                        artist: audioElement.user.nickname,
+                        artist_access: audioElement.user.login,
                         displayName: audioElement.name,
                         image: audioElement.artwork,
                         src: audioElement.url,
@@ -121,6 +138,8 @@ angular.module('soundxtreamappApp')
 
             };
 
+
+
             $rootScope.$on("next-track", function(e, res){
                 Track_count.countPlay({id: res});
             });
@@ -141,7 +160,8 @@ angular.module('soundxtreamappApp')
             this.addSong = function (audioElement,mediaPlayer) {
                 this.audioPlaylist = [];
                 var song = {
-                    artist: audioElement.user.login,
+                    artist: audioElement.user.nickname,
+                    artist_access: audioElement.user.login,
                     displayName: audioElement.name,
                     image: audioElement.artwork,
                     src: audioElement.url,
@@ -163,7 +183,8 @@ angular.module('soundxtreamappApp')
             this.addSongAndPlay = function(audioElement,mediaPlayer){
                 var songWave = audioElement;
                 var song = {
-                    artist: audioElement.user.login,
+                    artist: audioElement.user.nickname,
+                    artist_access: audioElement.user.login,
                     displayName: audioElement.name,
                     image: audioElement.artwork,
                     src: audioElement.url,
@@ -195,7 +216,7 @@ angular.module('soundxtreamappApp')
                 for(var k = 0; k < playlist.songs.length; k++){
                     audioElement = playlist.songs[k];
                     var song = {
-                        artist: audioElement.user.login,
+                        artist: audioElement.user.nickname,
                         displayName: audioElement.name,
                         image: audioElement.artwork,
                         src: audioElement.url,
@@ -219,7 +240,8 @@ angular.module('soundxtreamappApp')
                 for(var k = 0; k < playlist.songs.length; k++){
                     audioElement = playlist.songs[k];
                     var song = {
-                        artist: audioElement.user.login,
+                        artist: audioElement.user.nickname,
+                        artist_access: audioElement.user.login,
                         displayName: audioElement.name,
                         image: audioElement.artwork,
                         src: audioElement.url,
@@ -247,7 +269,8 @@ angular.module('soundxtreamappApp')
                 for(var k = 0; k < playlist.songs.length; k++){
                     audioElement = playlist.songs[k];
                     var song = {
-                        artist: audioElement.user.login,
+                        artist: audioElement.user.nickname,
+                        artist_access: audioElement.user.login,
                         displayName: audioElement.name,
                         image: audioElement.artwork,
                         src: audioElement.url,
@@ -268,89 +291,6 @@ angular.module('soundxtreamappApp')
                     var song = {};
                 }, 200);
             };
-
-            /*this.playSetOfPlaylists = function(playlists, mediaPlayer, selectedPlaylist, playingFrom){
-                console.log("PLAYLISTS : " + playlists);
-                console.log("selectedPlaylist : " + selectedPlaylist);
-                console.log("playingFrom : " + playingFrom);
-
-                var playlistsCollection = [];
-                this.playlistCurrent = playingFrom;
-                this.numberPlaylist = selectedPlaylist;
-
-                playlists.forEach(function(playlistDTO){
-                    playlistsCollection.push(playlistDTO.playlist)
-                });
-
-                playlistCollection = playlistsCollection;
-
-                console.log(playlistCollection);
-
-                var songs = [];
-
-                var playlistSelected = playlistsCollection[selectedPlaylist];
-
-                playlistSelected.songs.forEach(function(track){
-                    var song = {
-                        artist: track.user.login,
-                        displayName: track.name,
-                        image: track.artwork,
-                        src: track.url,
-                        title: track.name,
-                        type: 'audio/mpeg',
-                        url: track.url,
-                        id: track.id,
-                        access_url: track.access_url
-                    };
-                    songs.push(angular.copy(song));
-                });
-
-                this.audioPlaylist = songs;
-
-                setTimeout(function () {
-                    mediaPlayer.play();
-                    var song = {};
-                }, 200);
-
-            }*/
-
-            /*$scope.$watch("mediaPlayer.currentTrack", function(value){
-                if($scope.mediaPlayer.currentTrack == $scope.mediaPlayer.tracks || $scope.mediaPlayer.currentTrack > $scope.mediaPlayer.tracks){
-                    if(playlistCollection.length > 1){
-                        if(playlistCollection.length > this.numberPlaylist){
-                            var playlistSelected = playlistCollection[this.numberPlaylist+1];
-
-                            playlistSelected.songs.forEach(function(track){
-                                var song = {
-                                    artist: track.user.login,
-                                    displayName: track.name,
-                                    image: track.artwork,
-                                    src: track.url,
-                                    title: track.name,
-                                    type: 'audio/mpeg',
-                                    url: track.url,
-                                    id: track.id,
-                                    access_url: track.access_url
-                                };
-                                songs.push(angular.copy(song));
-                            });
-
-                            this.audioPlaylist = songs;
-
-                            setTimeout(function () {
-                                mediaPlayer.play();
-                                var song = {};
-                            }, 200);
-                        }
-                    }
-                }
-                if($scope.mediaPlayer.currentTrack < $scope.mediaPlayer.tracks){
-                    console.log("HAS NEXT");
-                }
-                else{
-
-                }
-            });*/
 
             this.removeSong = function (index) {
                 this.audioPlaylist.splice(index, 1);
@@ -378,18 +318,17 @@ angular.module('soundxtreamappApp')
                 }
             };
 
+            this.getArtistAccess = function (currentTrack) {
+                if (typeof this.audioPlaylist[currentTrack - 1] != "undefined") {
+                    return this.audioPlaylist[currentTrack - 1].artist_access;
+                }
+            };
+
             this.getSongName = function (currentTrack) {
                 if (typeof this.audioPlaylist[currentTrack - 1] != "undefined") {
                     return this.audioPlaylist[currentTrack - 1].title;
                 }
             };
-
-            /*this.getPlaylist = function(currentPlaylist){
-                if (typeof playlistCollection[currentPlaylist - 1] != "undefined") {
-                    console.log(playlistCollection[currentPlaylist - 1]);
-                    return playlistCollection[currentPlaylist - 1].id;
-                }
-            }*/
 
             this.getSongId = function(currentTrack){
                 if (typeof this.audioPlaylist[currentTrack - 1] != "undefined") {
@@ -418,6 +357,9 @@ angular.module('soundxtreamappApp')
             var timeDrag = false; /* Drag status */
             $('.timeline').mousedown(function (e) {
                 timeDrag = true;
+                if(timeDrag){
+                    seekDrag(e);
+                }
             });
 
             $('.timeline').click(function(e){
@@ -426,8 +368,9 @@ angular.module('soundxtreamappApp')
 
             $(document).mouseup(function (e) {
                 if (timeDrag) {
+                    $scope.mediaPlayer.seek($scope.mediaPlayer.duration * percentage);
+                    $scope.mediaPlayer.currentTime = timeSeekedSeconds;
                     timeDrag = false;
-                    mediaPlayer.play();
                 }
             });
 
@@ -443,22 +386,21 @@ angular.module('soundxtreamappApp')
                     }
 
                     seekDrag(e);
-                    mediaPlayer.pause();
                 }
             });
             $('.timeline').mousemove(function (e) {
                 if (timeDrag) {
-                    e.preventDefault();
+                    //e.preventDefault();
                     seekDrag(e);
-                    mediaPlayer.pause();
                 }
             });
             $(document).mouseleave(function(){
                 if (timeDrag) {
                     timeDrag = false;
-                    mediaPlayer.play();
                 }
             });
+
+            var percentage = 0;
 
             function seekDrag(e){
                 var offsetTimeline = $('.timeline-current').offset().left;
@@ -478,10 +420,35 @@ angular.module('soundxtreamappApp')
                     $('.timeline-current').css("width","0px");
                 }
 
-                var percentage = ((e.pageX - offsetTimeline) / width);
+                percentage = ((e.pageX - offsetTimeline) / width);
                 if(percentage > 1.0){
                     percentage = 0;
                 }
-                $scope.mediaPlayer.seek($scope.mediaPlayer.duration * percentage);
+                if(percentage < 0){
+                    percentage = 0;
+                }
+
+                var timeSeeked = Math.floor($scope.mediaPlayer.duration * percentage);
+                timeSeekedSeconds = $scope.mediaPlayer.duration * percentage;
+                $('.current-time span').html($scope.mediaPlayer.$formatTime(timeSeeked));
             }
+
+            var timeSeekedSeconds = 0;
+
+            $scope.$watch("mediaPlayer", function(value){
+                var $domEl = $scope.mediaPlayer.$domEl;
+                $($domEl).bind("timeupdate",function(){
+                    var $currentTimeBar = $('.timeline-current');
+                    var $currentPointer = $('.timeline-pointer');
+                    var $percentage = $scope.mediaPlayer.currentTime*100/$scope.mediaPlayer.duration + "%";
+                    if(!timeDrag){
+                        if($percentage <= 0){
+                            $percentage = 0;
+                        }
+                        $currentTimeBar.width($percentage);
+                        $currentPointer.css("left",$percentage);
+                        $('.current-time span').html($scope.mediaPlayer.$formatTime($scope.mediaPlayer.currentTime));
+                    }
+                });
+            });
     }]);

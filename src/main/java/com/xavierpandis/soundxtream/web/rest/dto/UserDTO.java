@@ -25,6 +25,9 @@ public class UserDTO {
     @Size(min = 1, max = 50)
     private String login;
 
+    @Size(min = 1, max = 50)
+    private String nickname;
+
     @NotNull
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
@@ -64,16 +67,17 @@ public class UserDTO {
     }
 
     public UserDTO(User user) {
-        this(user.getLogin(), null, user.getFirstName(), user.getLastName(),
+        this(user.getLogin(), user.getNickname(), null, user.getFirstName(), user.getLastName(),
             user.getEmail(), user.getActivated(), user.getUser_image(), user.getDescription(), user.getLangKey(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
-    public UserDTO(String login, String password, String firstName, String lastName,
+    public UserDTO(String login, String nickname, String password, String firstName, String lastName,
         String email, boolean activated, String user_image,String description, String langKey, Set<String> authorities) {
 
         this.login = login;
+        this.nickname = nickname;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -83,6 +87,14 @@ public class UserDTO {
         this.authorities = authorities;
         this.user_image = user_image;
         this.description = description;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getDescription() {
@@ -209,6 +221,7 @@ public class UserDTO {
     public String toString() {
         return "UserDTO{" +
             "login='" + login + '\'' +
+            ", nickname='" + nickname + '\'' +
             ", password='" + password + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +

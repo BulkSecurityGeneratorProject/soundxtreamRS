@@ -1,792 +1,394 @@
 <div class="background">
-    <img src="{{playlistDTO.playlist.artwork}}" alt="" height="100%" width="100%"  style="object-fit: cover; filter: blur(22px);width: 102%;margin-top: -45px;height: 112%;position: fixed;">
+    <div class="background-playlist-gradient"></div>
+    <img class="background-playlist" src="{{playlistDTO.playlist.artwork}}" alt="">
 </div>
 
-<div class="sx-primary-banner" ng-if="playlistDTO.playlist.banner_playlist != null">
-    <div class="artwork-vs">
-        <div class="artwork-vs-blur" style="background-image: url('{{playlistDTO.playlist.banner_playlist}}')"></div>
-    </div>
-</div>
-<div class="sx-primary-artwork" ng-if="playlistDTO.playlist.banner_playlist == null">
-    <img ng-src="{{playlistDTO.playlist.artwork}}" img-preload alt="{{playlistDTO.playlist.name}}">
-    <div style="width: 280px;height: 280px;position: absolute;top: 2.5%;left: 0;z-index: 222;margin-top: 2.5%;"></div>
-        <button class="button-options button-play">
-            <span ng-if="playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id"
-                  ng-click="mediaPlayer.playPause()">
-                <i style="font-size: 44px!important;" ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
-                <i style="font-size: 44px!important;" ng-if="mediaPlayer.playing" class="material-icons">pause</i>
-            </span>
-            <span ng-if="playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlistDTO.playlist.id" ng-click="playerPlaylist.playTrackFromPlaylist(playlistDTO.playlist,mediaPlayer,0,'playingFromPlaylist'+playlistDTO.playlist.id)">
-                <i style="font-size: 44px!important;" class="material-icons">play_arrow</i>
-            </span>
-        </button>
-        <button class="button-options button-next" ng-if="playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id">
-            <span ng-click="mediaPlayer.next()">
-                <i style="font-size: 44px!important;" class="material-icons">skip_next</i>
-            </span>
-        </button>
-        <button class="button-options button-prev" ng-if="playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id">
-            <span ng-click="mediaPlayer.prev()">
-                <i style="font-size: 44px!important;" class="material-icons">skip_previous</i>
-            </span>
-        </button>
-
-</div>
-<div class="row-track" ng-class="{true: 'track-no-image', false:''}[playlistDTO.playlist.banner_playlist == null]">
-    <div id="watch-track-content">
-        <div class="sx-row">
-            <div class="col-pad">
-                <div class="track-info-container clearfix">
-                    <div class="image-track" ng-if="playlistDTO.playlist.banner_playlist != null">
-                        <img ng-src="{{playlistDTO.playlist.artwork}}" img-preload alt="{{playlistDTO.playlist.name}}">
-                    </div>
-                    <div class="track-info-data" ng-if="playlistDTO.playlist.banner_playlist != null">
-                        <h1>{{playlistDTO.playlist.name}}</h1>
-                        <div class="more-info">
-                            <span>Duration:</span>
-                            <p><b>{{playlistDTO.playlist.full_duration | toMinSec}}</b></p>
-                        </div>
-                    </div>
-                    <div class="track-info-data" ng-if="playlistDTO.playlist.banner_playlist == null">
-                        <h1>{{playlistDTO.playlist.name}}</h1>
-                        <div class="track-user-noimg">
-                            <div class="user-image">
-                                <img ng-src="{{playlistDTO.playlist.user.user_image}}"  alt="User image">
-                            </div>
-                            <div class="user-info">
-                                <p class="user-login"><a ui-sref="user-profile({login:playlistDTO.playlist.user.login})">{{playlistDTO.playlist.user.login}}</a></p>
-                                <button class="sx__button sx_button_follow" ng-click="follow(playlistDTO.playlist.user)"
-                                        ng-class="{true:'active',false:''}[playlistDTO.playlist.user.followedByUser]">
-                                    <i class="mdi mdi-check" ng-if="playlistDTO.playlist.user.followedByUser"></i>
-                                    <i class="mdi mdi-plus" ng-if="!playlistDTO.playlist.user.followedByUser"></i>
-                                    {{ playlistDTO.playlist.user.followedByUser ? 'Following' : 'Follow' }}
-                                </button>
-                                <span> {{playlistDTO.playlist.user.totalFollowers}} followers</span>
-                            </div>
-                        </div>
-                    </div>
+<div class="playlist-content" ng-cloak>
+    <div class="row">
+        <div class="col-md-3 col-data-list col-sm-12">
+            <div class="artwork-playlist-container">
+                <span class="artwork-playlist" style="background-image: url('{{playlistDTO.playlist.artwork}}')">
+                    <span class="icon-player" ng-show="playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlistDTO.playlist.id">
+                        <i class="mdi mdi-play playing" ng-click="playerPlaylist.playTrackFromPlaylist(playlistDTO.playlist,mediaPlayer,0,'playingFromPlaylist'+playlistDTO.playlist.id)"></i>
+                    </span>
+                    <span class="icon-player" ng-show="playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id">
+                        <i class="mdi mdi-pause playing" ng-click="mediaPlayer.playPause()" ng-class="{true: 'mdi-pause',false: 'mdi-play'}[mediaPlayer.playing]"></i>
+                    </span>
+                </span>
+            </div>
+            <div class="playlist-info">
+                <div>
+                    <h3 class="playlist-name">{{playlistDTO.playlist.name}}</h3>
+                    <span class="playlist-owner">
+                        <span translate="soundxtreamappApp.playlist.owner">De</span>
+                        <a href="">{{playlistDTO.playlist.user.nickname || playlistDTO.playlist.user.login}}</a>
+                    </span>
                 </div>
-                <div class="action-buttons">
-                    <button class="sx__button" ng-class="{true:'active',false:''}[playlistDTO.liked]"
-                            ng-click="like(playlistDTO.playlist.id)">
-                        <i class="fa fa-heart-o fa-lg"></i>&nbsp;<span>{{playlistDTO.liked ? 'Liked':'Like'}}</span>
+                <div>
+                    <button class="sx__button sx_button_follow" ng-click="follow(playlistDTO.playlist.user)"
+                            ng-class="{true:'active',false:''}[playlistDTO.playlist.user.followedByUser]">
+                        <i class="mdi mdi-check" ng-if="playlistDTO.playlist.user.followedByUser"></i>
+                        <i class="mdi mdi-plus" ng-if="!playlistDTO.playlist.user.followedByUser"></i>
+                        {{ playlistDTO.playlist.user.followedByUser ? 'Following' : 'Follow' }}
                     </button>
-                    <button class="sx__button" ng-class="{true:'active',false:''}[playlistDTO.shared]"
-                            ng-click="share(playlistDTO.playlist.id)">
-                        <i class="fa fa-share-square-o fa-lg"></i>&nbsp;<span>{{playlistDTO.shared ? 'Shared':'Share'}}</span>
-                    </button>
-                    <button ng-if="account.login == playlistDTO.playlist.user.login" class="sx__button"
-                            ui-sref="playlist.edit({id: playlistDTO.playlist.id})">
-                        <i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;<span>Edit</span>
-                    </button>
-                    <button ng-if="account.login == playlist.user.login" class="sx__button"
-                            ui-sref="playlist.delete({id: playlistDTO.playlist.id})">
-                        <i class="fa fa-trash fa-lg"></i>&nbsp;<span>Delete</span>
-                    </button>
-
-                    <span class="badge-detail-shares">{{playlistDTO.totalShares | counter}} shares</span>
-                    <span class="badge-detail-likes">{{playlistDTO.totalLikes | counter}} likes</span>
+                    <span style="color: whitesmoke;"> {{playlistDTO.playlist.user.totalFollowers}} followers</span>
+                </div>
+                <div>
+                    <span>{{playlistDTO.playlist.description}}</span>
+                </div>
+                <div style="margin-top: 10px;">
+                    <span>{{playlistDTO.playlist.songs.length}}
+                        <span translate="soundxtreamappApp.playlist.number_tracks">Tracks</span>
+                    </span>
+                    <span> | </span>
+                    <span><i class="mdi mdi-timer"></i> {{playlistDTO.playlist.full_duration | toMinSecNum}}</span>
+                </div>
+                <div class="options options-playlist-detail">
+                    <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                        <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                              ng-style="{color : ((playlistDTO.liked) && '#ff6533') || '#fff'}"
+                              ng-click="like(playlistDTO.playlist.id)">
+                            <i class="fa fa-heart-o"></i>&nbsp; {{playlistDTO.totalLikes}}
+                        </span>
+                        <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                              ng-style="{color : ((playlistDTO.shared) && '#ff6533') || '#fff'}"
+                              ng-click="share(playlistDTO.playlist.id)">
+                            <i class="fa fa-retweet"></i>&nbsp; {{playlistDTO.totalShares}}
+                        </span>
+                    </h5>
                 </div>
             </div>
-            <hr style="margin-bottom: 5px; margin-top: 5px;"/>
         </div>
-        <div class="sx-row">
-            <div class="col-pad">
-                <h5>
-                    Tracks
-                    <p class="badge badge-black" ng-click="playerPlaylist.playTrackFromPlaylist(playlistDTO.playlist,mediaPlayer,0,'playingFromPlaylist'+playlistDTO.playlist.id)">
-                        <i class="fa fa-play fa-lg"></i>&nbsp;<span>PLAY ALL</span>
-                    </p>
-                    <p ng-show="playlistDTO.playlist.songs.length > 1 && shuffleState == 'off'" class="badge badge-unabled" ng-click="shuffleSongsPlaylist()">
-                        <i class="fa fa-play fa-lg"></i>&nbsp;<span>Shuffle</span>
-                    </p>
-                    <p ng-show="playlistDTO.playlist.songs.length > 1 && shuffleState == 'on'" class="badge badge-enabled" ng-click="restoreOriginalSongs()">
-                        <i class="fa fa-play fa-lg"></i>&nbsp;<span>Shuffle</span>
-                    </p>
-                </h5>
-                <div class="tracks-playlist">
-                    <div class="tracks">
-                        <div class="track" ng-repeat="song in playlistDTO.playlist.songs">
-                            <div class="playPause-btn" style="margin-top: -5px;width: auto;display: inline-block;vertical-align: middle;line-height: 37px;">
-                                <md-button style="min-width: 0px;" class="md-play-playlistTrack" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != song.id || playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlistDTO.playlist.id"
-                                           ng-click="playerPlaylist.playTrackFromPlaylist(playlistDTO.playlist,mediaPlayer,$index,'playingFromPlaylist'+playlistDTO.playlist.id)"
-                                           aria-label="play">
-                                    <md-icon>
-                                        <i class="material-icons">play_arrow</i>
-                                    </md-icon>
-                                </md-button>
-                                <md-button style="min-width: 0px;" class="md-play-playlistTrack" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id && playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id"
-                                           ng-click="mediaPlayer.playPause()" aria-label="play">
-                                    <md-icon>
-                                        <i ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
-                                        <i ng-if="mediaPlayer.playing" class="material-icons">pause</i>
-                                    </md-icon>
-                                </md-button>
-                            </div>
-                            <div class="track-cover">
-                                <div class="cover" style="background-image: url({{song.artwork}});"></div>
-                            </div>
-                            <div class="track-name">
-                                <span ui-sref="song.detail({accessUrl: song.access_url,user: song.user.login, id: song.id})">{{song.name}}</span> <small ui-sref="user-profile({login: song.user.login})">{{song.user.login}}</small>
-                            </div>
-                            <div class="track-duration">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i> {{song.duration | toMinSecNum}}
-                                <small style="color: darkgray;" ng-if="playlistDTO.playlist.user.login == account.login" ng-click="removeTrack($index)">Remove</small>
-                            </div>
+        <div class="col-md-8 col-track-list col-sm-12">
+            <div class="playlist-track-container repeated-item" ng-repeat="song in playlistDTO.playlist.songs">
+                <div class="playlist-track-content"
+                     ng-click="((playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id || playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id)
+                     && mediaPlayer.playPause()) || ((playerPlaylist.getSongId(mediaPlayer.currentTrack) != song.id || playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlistDTO.playlist.id) && playerPlaylist.playTrackFromPlaylist(playlistDTO.playlist,mediaPlayer,$index,'playingFromPlaylist'+playlistDTO.playlist.id))">
+                    <div class="playlist-track-index" ng-class="{true:'elements-playing'}[mediaPlayer.playing && playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id]">
+                        <span ng-if="(playerPlaylist.getSongId(mediaPlayer.currentTrack) != song.id || playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlistDTO.playlist.id)">
+                            <i class="mdi mdi-play"></i>
+                        </span>
+                        <span class="icon-player-track" ng-class="{true:'icon-player-track-show'}[playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id && playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id]">
+                            <i ng-class="{true: 'mdi-pause', false: 'mdi-play'}[mediaPlayer.playing]" class="mdi mdi-play"></i>
+                        </span>
+                    </div>
+                    <div class="playlist-track-info">
+                        <div class="playlist-track-info-name">
+                            <span>
+                                <a href="#/{{songDTO.song.user.login}}/track/{{song.access_url}}">{{song.name}}</a>
+                            </span>
                         </div>
+                        <div class="playlist-track-info-artist"><span>{{song.user.nickname || song.user.login}}</span></div>
+                    </div>
+                    <div class="playlist-track-info-duration">
+                        <span><i class="mdi mdi-timer"></i> {{song.duration | toMinSecNum}}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="sx-sidebar">
-        <div class="sx-row">
-            <div class="col-pad">
-                <div class="more-info" ng-if="playlist.banner_playlist == null">
-                    <p class="badge badge-black">{{playlistDTO.playlist.full_duration | toMinSec}}</p>
-                </div>
-                <div ng-if="playlist.banner_playlist != null">
-                    <div class="track-user-noimg">
-                        <div class="user-image">
-                            <img ng-src="{{playlist.user.user_image}}" img-preload alt="User image">
-                        </div>
-                        <div class="user-info">
-                            <p class="user-login"><a ui-sref="user-profile({login:playlistDTO.playlist.user.login})">{{playlistDTO.playlist.user.login}}</a></p>
-                            <button class="sx__button sx_button_follow" ng-click="follow(playlistDTO.playlist.user)"
-                                    ng-class="{true:'active',false:''}[playlistDTO.playlist.user.followedByUser]">
-                                <i class="mdi mdi-check" ng-if="playlistDTO.playlist.user.followedByUser"></i>
-                                <i class="mdi mdi-plus" ng-if="!playlistDTO.playlist.user.followedByUser"></i>
-                                {{ playlistDTO.playlist.user.followedByUser ? 'Following' : 'Follow' }}
-                            </button>
-                            <span> {{playlistDTO.playlist.user.totalFollowers}} followers</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-pad">
-                <h5><i class="fa fa-list" aria-hidden="true"></i> Playlists from {{playlistDTO.playlist.user.login}}</h5>
-                <ul id="user-playlists">
-                    <li class="user-playlist" ng-repeat="userPlaylistDTO in playlistsUser" ui-sref="playlist.detail({id: userPlaylistDTO.playlist.id})">
-                        <div class="user-playlist-cover">
-                            <img ng-src="{{userPlaylistDTO.playlist.artwork}}" img-preload width="100%" height="100%">
-                        </div>
-                        <div class="user-playlist-name">
-                            {{userPlaylistDTO.playlist.name}}
-                        </div>
-                        <div class="user-playlist-numtracks">
-                            <span class="mdi mdi-music-circle" style="font-size: 17px;"></span><span>{{userPlaylistDTO.playlist.songs.length}}</span>
-                        </div>
-                    </li>
-                </ul>
-                <div class="empty-data" ng-if="playlistsUser.length == 0 && readyUserPlaylists">
-                    <span class="mdi mdi-eye-off mdi-48px"></span>
-                    <span>This user doesn't have more playlists</span>
-                </div>
-            </div>
-            <div class="col-pad">
-                <h5><i class="fa fa-heart" aria-hidden="true"></i> Likes {{playlistDTO.totalLikes}}</h5>
-                <ul id="likes-list">
-                    <li class="like-user" ng-repeat="users in playlistDTO.usersLiked">
-                        <div class="user-like-cover">
-                            <div class="cover" style="background-image: url({{users.user_image}});"></div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
 </div>
-
+<!-- ng-show="playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id && playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id"-->
 <style>
-
-    .like-user{
-        display: inline-block;
+    .icon-player-track{
+        display: none;
     }
 
-    .like-user > div:not(.user-like-cover) {
-        padding: 12px 0px 12px 0px;
-    }
-
-    #likes-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .like-user > div {
-        display: inline-block;
-        vertical-align: top;
-    }
-    .like-user > .user-like-cover {
-        height: 40px;
-        width: 40px;
-        border-radius: 5px;
-        overflow: hidden;
-    }
-
-    .user-like-cover > .cover {
-        height: 100%;
-        width: 100%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        border-radius: 5px;
-    }
-
-    .list-playlist{
-        padding-left: 0px;
-        list-style: none;
+    .playlist-track-content{
+        outline: 0;
 
     }
-    .list-playlist-item *{
-        vertical-align: top;
-    }
-    .list-playlist-item img{
-        height: 45px;
-        margin-top: 7px;
-        display: inline-block;
-    }
-    .list-playlist-item div{
-        display: inline-block;
-        width: 160px;
-    }
-
-
-    .sx-primary-banner{
-    //height: 400px;
-        height: 350px;
-        padding: 10px 0;
-        max-width: 100%;
-        margin: 0 auto 5px auto;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .sx-primary-banner .artwork-vs{
-        position: absolute;
-    //top: 0px;
-    //left: 0px;
-        margin: 0 auto;
-        z-index: 2;
-        overflow: hidden;
-    //right: 0px;
-    //bottom: 0px;
-        //max-width: 1080px;
-        max-width:1130px;
-    }
-
-    .sx-primary-banner .artwork-vs-blur{
-        background-size: cover;
-        background-position: center center;
-        -webkit-filter: blur(0px);
-        -ms-filter: blur(0px);
-        height: 100%;
-        width: 100%;
-    }
-
-    .more-info{
-        margin-top: 5px;
-    }
-
-    .sx-primary-artwork{
-        height: 350px;
-        padding: 10px 0;
-        //max-width: 1080px;
-        max-width:1130px;
-        margin: 0 auto 5px auto;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .sx-primary-artwork img{
-        width: 280px;
-        height: auto;
-        z-index: 22;
-        position: relative;
-        margin-top: 2.5%;
-    //margin-left: 15px;
-    }
-
-    .artwork-vs{
-        position: absolute;
-        z-index: 2;
-        overflow: hidden;
-        /*right: -15px;
-        bottom: -15px;
-        top: -15px;
-        left: -15px;*/
-        right: 0;
-        left: 0;
-        bottom: 0;
-        top: 0;
-    }
-
-    .artwork-vs-blur{
-        background-size: cover;
-    //background-position: center center;
-        -webkit-filter: blur(10px);
-        -ms-filter: blur(10px);
-        height: 100%;
-        width: 100%;
-    }
-
-    .badge-track-type{
-        margin-left: 0;
-        margin-bottom: 1px;
-    //background: rgba(255,96,0,0.75);
-    }
-
-    .row-track > * {
-        vertical-align: top;
-    }
-
-    .row-track{
-        height: 100%;
-       // max-width: 1080px;
-        max-width:1130px;
-        margin-right: auto;
-        margin-left: auto;
-        position: relative;
-        z-index: 22;
-    }
-
-    .col-pad{
-        padding: 15px;
-    }
-
-    .sx-row{
-        background: #fff;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        min-height: 150px;
-        height: 100%;
-        width: 100%;
-        border-radius: 3px;
-        -moz-border-radius: 3px;
-        -webkit-border-radius: 3px;
-    }
-
-    #watch-track-content{
-        width: 70%;
-        min-height: 150px;
-        display: inline-block;
-        clear: left;
-        float: left;
-        border-radius: 3px;
-        -moz-border-radius: 3px;
-        -webkit-border-radius: 3px;
-    }
-
-    #sx-sidebar{
-        margin-left: 71%;
-    }
-
-    .image-track{
-        /*height: 150px;
-        width: 150px;*/
-        height: 200px;
-        width: 200px;
-        position: relative;
-        display: inline-block;
-        vertical-align: top;
-        float: left;
-        padding-right: 5px;
-    }
-
-    .image-track img{
-        height: 100%;
-        width: 100%;
-        position: relative;
-    }
-
-    .image-info-container{
-        vertical-align: top;
-        height: auto;
-        width: 100%;
-    }
-
-    .track-info-data{
-        display: inline-block;
-    //width: calc(100% - 153px);
-        width: 72.4%;
-        margin: 0px;
-        padding: 0px;
-        float: left;
-    }
-
-    .clearfix:after{
-        content: '.';
+    .icon-player-track-show{
         display: block;
-        height: 0;
-        visibility: hidden;
-        clear: both;
     }
 
-    .track-info-data > h1{
-        margin: 0px;
-        font-size: 20px;
+    .artwork-playlist-container{
+        margin: 0 auto;
     }
 
-    .action-buttons{
-        padding-top: 5px;
+    .playlist-track-index.elements-playing{
+        //margin-left: -3px;
     }
 
-    .track-user-noimg > *{
-        vertical-align: top;
+    .playlist-track-info-name  a{
+        color: #fff;
+        text-decoration: none;
+        outline: 0;
     }
 
-    .track-user-noimg > .user-image{
-        height: 48px;
-        width: 48px;
+    .artwork-playlist{
+        height: 300px;
+        width: 300px;
+        background-size: contain;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        background-repeat: no-repeat;
+        transition: all .1s ease;
+        margin: 0 auto;
+        display: block;
+        position: relative;
     }
-    .track-user-noimg > .user-image > img{
-        height: 100%;
-        width: 100%;
-
-    }
-
-    .track-user-noimg > .user-image{
-        display: inline-block;
-    }
-
-    .track-user-noimg > .user-info{
-        display: inline-block;
-    }
-
-    .user-login{
-    //margin: 16px 0px 0px 0px;
-        margin: 0px;
-    }
-
-    .track-user-noimg{
-        margin: 5px 0px;
-    }
-
-    /*@media (max-width: 1440px){
-        .sx-primary-artwork {
-            height: 300px;
-            padding: 10px 0;
-            max-width: 1174px;
-            margin: 0 auto 5px auto;
-            position: relative;
-            overflow: hidden;
-        }
-        .row-track {
-            max-width: 1174px;
-            margin-right: auto;
-            margin-left: auto;
-        }
-        .sx-primary-artwork img {
-            width: 280px;
-            height: auto;
-            z-index: 22;
-            position: relative;
-            margin-top: 0;
-            margin-left: 15px;
-        }
-        .track-user-noimg > .user-image {
-            height: 65px;
-            width: 65px;
-        }
-        .user-info{
-            margin: 21px 0px 0px 0px;
-        }
-    }*/
-
-    span.badge-detail-likes{
-        float: right;
-        padding: 2px 0px 2px 8px;
-        color: #878481;
-    }
-    span.badge-detail-shares{
-        float: right;
-        padding: 2px 0px 2px 8px;
-        color: #878481;
-    }
-    .music-listing__number {
-        display: inline-block;
+    .playlist-content{
+        z-index: 222;
+        position: relative;
+        margin-top: 60px;
     }
     .background{
         width: 100%;
-        height: 107%;
+        height: 100vh;
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
         overflow: hidden;
-    }
-</style>
 
-
-
-<!--
-<div style="padding-bottom: 10px;">
-    <div class="row">
-        <div class="visual-holder" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.54) 0%, rgba(120, 121, 121, 0.14) 100%), url('{{playlist.banner_playlist}}');
-        background-position: center 0px;background-size: cover;">
-        </div>
-    </div>
-    <div class="row row-track" style="/*margin-top: -15%;*/ margin-top: -5%;">
-        <div class="sidebar-track">
-            <div class="artwork-track">
-                <img src="{{playlist.artwork}}" alt="{{playlist.name}}">
-            </div>
-            <hr/>
-            <div class="row">
-                <h5>Created by:</h5>
-                <p class="user"><a ui-sref="user-profile({login:playlist.user.login})">{{playlist.user.login}}</a></p>
-
-                <div style="position: relative; display: inline-block; float: left;">
-                    <div class="user-image">
-                        <img class="artist__blur" ng-if="playlist.user.user_image != null"
-                             src="{{playlist.user.user_image}}" height="161px"/>
-                        <img class="artist__blur" ng-if="playlist.user.user_image == null"
-                             src="/assets/images/default_image.jpg" height="161px"/>
-                        <img ng-if="playlist.user.user_image != null" class="user-image-focus"
-                             src="{{playlist.user.user_image}}"/>
-                        <img ng-if="playlist.user.user_image == null" class="user-image-focus"
-                             src="/assets/images/default_image.jpg"/>
-                    </div>
-                </div>
-                <span class="badge-sx" style="display: block; color: white;"><i class="fa fa-user"></i> {{playlist.user.totalFollowers}} followers</span>
-                <button  ng-click="follow(playlist.user)"
-                         ng-class="{true:'sx__button sx__button__primary',false:'sx__button'}[playlist.user.followedByUser]"
-                         class="sx__button">
-                    Follow
-                </button>
-            </div>
-            <div class="row">
-                <h5>Latest playlist of {{playlist.user.login}}</h5>
-                <div class="song-styles-holder">
-                    <div style="margin-bottom: 2px;" ng-repeat="playlists in playlistsUser">
-                        <img height="50px" width="auto" style="float: left;" src="{{playlists.artwork}}" alt="{{playlists.name}}">
-                        <p class="badge">{{playlists.name}}</p>
-                        <div class="clearfix" style="clear: both;"></div>
-                    </div>
-                </div>
-            </div>
-            <hr/>
-        </div>
-        <div class="main-track">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 style="display: inline-block;">{{playlist.name}}</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="song-styles-holder">
-                    <p class="badge badge-sx-orange">{{playlist.full_duration | toMinSec}}</p>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <button class="sx__button like__button">
-                    <i class="fa fa-heart-o fa-lg"></i>&nbsp;<span>Like</span>
-                </button>
-                <button ng-if="account.login == playlist.user.login" class="sx__button"
-                        ui-sref="playlist.edit({id: playlist.id})">&lt;!&ndash; ui-sref="song.edit({id:songDTO.song.id})" &ndash;&gt;
-                    <i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;<span>Edit</span>
-                </button>
-                <button ng-if="account.login == playlist.user.login" class="sx__button"
-                        ui-sref="playlist.delete({id: playlist.id})">
-                    <i class="fa fa-trash fa-lg"></i>&nbsp;<span>Delete</span>
-                </button>
-                <button class="sx__button"
-                        socialshare
-                        socialshare-provider="facebook"
-                        socialshare-text="{{songDTO.song.name}} - Soundxtream"
-                        socialshare-hastags="soundxtream"
-                        socialshare-url="http://soundxtream.com/#/song/{{songDTO.song.id}}"
-                        socialshare-media="http://soundxtream.com/{{songDTO.song.artwork}}"
-                        socialshare-type="feed"
-                        socialshare-via="641579629328110">
-                    <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>&nbsp;<span>Facebook</span>
-                </button>
-                <button class="sx__button"
-                        socialshare
-                        socialshare-provider="twitter"
-                        socialshare-text="{{songDTO.song.name}} - Soundxtream"
-                        socialshare-hashtags="soundxtream"
-                        socialshare-url="http://soundxtream.com/#/song/{{songDTO.song.id}}">
-                    <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>&nbsp;<span>Twitter</span>
-                </button>
-            </div>
-            <hr/>
-            <div class="row">
-                <h5>
-                    Tracks
-                    <p class="badge badge-black" ng-click="playerPlaylist.playTrackFromPlaylist(playlist,mediaPlayer,0,'playingFromPlaylist'+playlist.id)">
-                        <i class="fa fa-play fa-lg"></i>&nbsp;<span>PLAY ALL</span>
-                    </p>
-                    <p ng-show="playlist.songs.length > 1 && shuffleState == 'off'" class="badge badge-unabled" ng-click="shuffleSongsPlaylist()">
-                        <i class="fa fa-play fa-lg"></i>&nbsp;<span>Shuffle</span>
-                    </p>
-                    <p ng-show="playlist.songs.length > 1 && shuffleState == 'on'" class="badge badge-enabled" ng-click="restoreOriginalSongs()">
-                        <i class="fa fa-play fa-lg"></i>&nbsp;<span>Shuffle</span>
-                    </p>
-                </h5>
-                <div class="music-listing">
-                    <div class="music-listing__songs">
-                        <div class="music-listing__row trackPlaylist" style="margin-right: -10px;height: 50px;" ng-repeat="song in playlist.songs" ng-class="{true: 'trackPlaylistPlaying', false: 'trackPlaylist'}[playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id && playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlist.id]">
-                            <div class="music-listing__number">
-                                {{ $index+1 }}
-                            </div>
-                            <div style="margin-top: -5px;width: auto;display: inline-block;vertical-align: middle;line-height: 37px;">
-                                <md-button class="md-play-playlistTrack" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != song.id || playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlist.id"
-                                           ng-click="playerPlaylist.playTrackFromPlaylist(playlist,mediaPlayer,$index,'playingFromPlaylist'+playlist.id)"
-                                           aria-label="play">
-                                    <md-icon>
-                                        <i class="material-icons">play_arrow</i>
-                                    </md-icon>
-                                </md-button>
-                                <md-button class="md-play-playlistTrack" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id && playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlist.id"
-                                           ng-click="mediaPlayer.playPause()" aria-label="play">
-                                    <md-icon>
-                                        <i ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
-                                        <i ng-if="mediaPlayer.playing" class="material-icons">pause</i>
-                                    </md-icon>
-                                </md-button>
-                            </div>
-                            <div style="margin-top: -5px;width: auto;display: inline-block;vertical-align: middle;line-height: 37px;">
-                                <img style="border-radius:100%;" src="{{song.artwork}}" width="35px" height="35px"/>
-                            </div>
-                            <div class="music-listing__name" style="margin-top: 13px;margin-left: 13px;display: inline-block;vertical-align: top;">
-                                <div class="comment_text">
-                                    {{ song.name }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="empty-comments" ng-if="playlist.songs.length == 0">
-                            <div class="empty-icon">
-                                <i class="musicicon-dj4">
-                                </i>
-                            </div>
-                            <div class="empty-message">
-                                This playlist don't have any tracks
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<style>
-    .main-track, .sidebar-track{
-        display: inline-block;
-        margin: 0px 0px 0px 6px;
-        background: white;
-        padding: 15px;
-        border-radius: 3px;
-        -moz-border-radius: 3px;
-        -webkit-border-radius: 3px;
-    //box-shadow: 0px 13px 29px -11px rgba(0,0,0,.3);
-        box-shadow: 0px -10px 14px 0px rgba(0,0,0,.3);
-        vertical-align: top;
-        position: relative;
     }
-
-    .main-track{
-        width: 74%;
-    }
-    .sidebar-track{
-        width: 24%;
-    }
-    .visual-holder{
-        min-height: 390px;
-        max-height: 390px;
-    //max-height: 516px;
-        max-width: 100%;
-        background: rgba(0,0,0,.3);
-    }
-    .track-info{
-    //margin-top: -20%;
-        display: inline-block;
-        background: white;
-    }
-    .artwork-track{
-        width: 230px;
-        height: 230px;
-        margin: -50% auto auto auto;
-        border-radius: 3px;
-        -moz-border-radius: 3px;
-        -webkit-border-radius: 3px;
-        overflow: hidden;
-    }
-    .artwork-track img{
-        width: 100%;
-        height: 100%;
-    }
-    p.user{
-        font-size: 12.5px;
-        text-transform: uppercase;
-        color: black;
-    }
-    p.user a{
-        color: black;
-    }
-    .song-styles-holder .badge{
-        /*padding: 5px;
-        margin: 1px;
-        font-weight: 200;
-        background: rgb(111, 0, 248);*/
-
-        padding: 5px;
-        margin: 1px;
-        text-transform: uppercase;
-        font-weight: 200;
-        border-radius: 0;
-        background: rgba(0,0,0,.75);
-    }
-
-    .badge-sx{
-        /*padding: 5px;
-        margin: 1px;
-        font-weight: 200;
-        background: rgb(111, 0, 248);*/
-
-        padding: 5px;
-        margin: 1px;
-        text-transform: uppercase;
-        font-weight: 200;
-        border-radius: 0;
-        background: rgba(0,0,0,.75);
-    }
-
-    .sidebar-track .user-image {
-        height: 100px;
-        width: 100px;
-        position: relative;
-        overflow: hidden;
-        background: rgba(40, 40, 40, 1);
-    }
-    .sidebar-track .artist__blur {
-        position: absolute;
-        top: 0;
-        left: 0;
-        -webkit-filter: blur(8px);
-        filter: blur(8px);
+    .background-playlist-gradient{
         z-index: 1;
+        //background: linear-gradient(155deg, rgba(255, 100, 51, 0.45) 0%, rgba(21, 21, 21, 0.52) 57%);
+        background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(16, 19, 38, 0.52) 57%);
+        width: 102%;
+        margin-top: -45px;
+        height: 112%;
+        position: fixed;
+    }
+    img.background-playlist{
+        /*object-fit: cover;
+        width: 102%;
+        margin-top: -45px;
+        height: 112%;
+        position: fixed;
+        filter: blur(78px);*/
+
+        object-fit: cover;
         width: 100%;
-        height: 100%;
+        margin-top: -45px;
+        height: 112%;
+        position: fixed;
+        //filter: blur(53px);
+        filter: blur(10px);
+        margin-left: 80px;
     }
 
-    .sidebar-track .user-image-focus {
-        height: 80px;
-        z-index: 2;
+
+
+    .playlist-track-index {
+        display: inline-block;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    .playlist-track-info {
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .playlist-track-info-duration {
+        display: inline-block;
+        color: #fff;
+    }
+
+    .playlist-track-info-name {
+        display: block;
+        width: 50vw;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    .playlist-track-info-artist {
+        display: block;
+        color: #bdbdbd;
+        font-size: 15px;
+    }
+
+    .playlist-track-container div{
+        vertical-align: top;
+    }
+
+    .playlist-info {
+        text-align: center;
+        color: #fff;
+        font-size: 17px;
+    }
+    .options-playlist-detail{
         position: relative;
-        border: 0;
-        outline: 0;
-        border-radius: 100%;
-        overflow: hidden;
-        border: 0px solid white;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin-top: 10px;
+    }
+    .options-playlist-detail *{
+        font-size: 17px;
+    }
+
+    .playlist-owner > a{
+        color: #bdbdbd;
+    }
+
+    .icon-player{
+        position: absolute;
+        display: block;
+        align-self: center;
         top: 50%;
         left: 50%;
-        -webkit-transform: translate(-50%, -50%);
+        width: 70px;
+        height: 70px;
         transform: translate(-50%, -50%);
-        width: 80px;
-        display: block;
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+        -webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
     }
+
+    .icon-player > i{
+        color: #ff5d29;
+        font-size: 70px;
+        height: 70px;
+        position: relative;
+        line-height: 1;
+        display: block;
+        width: 70px;
+        overflow: hidden;
+        -webkit-transition: transform .4s ease;
+        -moz-transition: transform .4s ease;
+        transition: transform .4s ease;
+        outline: 0;
+    }
+
+    .icon-player > i.playing.animated{
+        color: #ff5d29;
+        font-size: 70px;
+        height: 70px;
+        position: relative;
+        line-height: 1;
+        display: block;
+        width: 70px;
+        overflow: hidden;
+        animation: scaleButton .4s;
+        -webkit-transition: transform .4s ease;
+        -moz-transition: transform .4s ease;
+        transition: transform .4s ease;
+    }
+
+    @keyframes scaleButton {
+        0%{
+            transform: scale(1);
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+        }
+        50%{
+            transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+        }
+        100%{
+            transform: scale(1);
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+        }
+    }
+
+    @keyframes scaleButtonAfter {
+        0%{
+            transform: scale(1);
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+        }
+        50%{
+            transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+        }
+        100%{
+            transform: scale(1);
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+        }
+    }
+
+    .icon-player > i.playing{
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -webkit-transition: transform .4s ease;
+        -moz-transition: transform .4s ease;
+        transition: transform .4s ease;
+        position: relative;
+    }
+
+
+    .icon-player > i.playing:after{
+        content: '';
+        position: absolute;
+        width: 70px;
+        height: 70px;
+    //border: 2px solid #ff5d29;
+        top: 0;
+        left: 0;
+        border-radius: 100%;
+        background: rgba(0, 0, 0, 0.61);
+        z-index: -1;
+    }
+
+    .animate-repeat {
+        -webkit-transition: 1s linear all;
+        transition: 1s linear all;
+    }
+
+    .animate-repeat.ng-move,
+    .animate-repeat.ng-enter,
+    .animate-repeat.ng-leave {
+        -webkit-transition:all linear 0.5s;
+        transition:all linear 0.5s;
+    }
+
+    .animate-repeat.ng-leave.ng-leave-active,
+    .animate-repeat.ng-move,
+    .animate-repeat.ng-enter {
+        opacity:0;
+        max-height:0;
+    }
+
+    .animate-repeat.ng-leave,
+    .animate-repeat.ng-move.ng-move-active,
+    .animate-repeat.ng-enter.ng-enter-active {
+        opacity:1;
+        max-height:40px;
+    }
+
+
+    .repeated-item.ng-enter {
+        transition: 0.4s ease all;
+        /* transition: 0.4s cubic-bezier(0, 0.46, 0, 1.07) all; */
+        opacity: 0;
+        top: -30px;
+    }
+
+    .repeated-item.ng-enter-stagger {
+        transition-delay: 0.15s;
+        transition-duration: 0;
+    }
+
+    .repeated-item.ng-enter.ng-enter-active {
+        opacity: 1;
+        top: 0;
+    }
+
+    @media (min-width: 992px){
+        .col-md-8 {
+            width: 66.66666667%;
+        }
+
+        .col-track-list{
+            margin-left: 40px;
+        }
+
+        .col-data-list{
+            margin-left: 20px;
+        }
+    }
+
 </style>
--->
+

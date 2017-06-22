@@ -152,6 +152,10 @@ public class UserResource {
         return userRepository
             .findOneById(managedUserDTO.getId())
             .map(user -> {
+                if(user.getNickname().isEmpty() || user.getNickname() == null){
+                    user.setNickname(user.getLogin());
+                }
+                user.setNickname(managedUserDTO.getNickname());
                 user.setLogin(managedUserDTO.getLogin());
                 user.setFirstName(managedUserDTO.getFirstName());
                 user.setLastName(managedUserDTO.getLastName());
@@ -242,6 +246,7 @@ public class UserResource {
 
 
         managed.setId(user3.getId());
+        managed.setNickname(user3.getNickname());
         managed.setLogin(user3.getLogin());
         managed.setUser_image(user3.getUser_image());
         managed.setFirstName(user3.getFirstName());

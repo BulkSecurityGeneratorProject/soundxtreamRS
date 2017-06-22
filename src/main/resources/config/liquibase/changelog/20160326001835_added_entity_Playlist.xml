@@ -31,6 +31,8 @@
 
             <column name="full_duration" type="double"/>
 
+            <column name="description" type="mediumtext"/>
+
             <column name="banner_playlist" type="varchar(255)"/>
 
             <column name="access_url" type="varchar(255)"/>

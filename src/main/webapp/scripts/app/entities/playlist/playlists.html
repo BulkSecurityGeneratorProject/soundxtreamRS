@@ -36,23 +36,9 @@
                 </div>
                 <div class="infoList">
                     <p style="font-size: 17px;"><b>{{playlistDTO.playlist.name}}</b></p>
-                    <p style="font-size: 11px;">{{playlistDTO.playlist.songs.length}} TRACKS </p>
+                    <p style="font-size: 11px;">{{playlistDTO.playlist.songs.length}} {{playlistDTO.playlist.songs.length < 2 ? 'TRACK' : 'TRACKS'}}</p>
                 </div>
             </div>
-            <!--<button class="button-options button-play">
-                <span
-                    ng-if="playerPlaylist.getPlaylist(mediaPlayer.currentTrack) == playlistDTO.playlist.id && playerPlaylist.playlistCurrent == 'fromYourPlaylists'"
-                    ng-click="mediaPlayer.playPause()">
-                    <i style="font-size: 44px!important;" ng-if="!mediaPlayer.playing"
-                       class="material-icons">play_arrow</i>
-                    <i style="font-size: 44px!important;" ng-if="mediaPlayer.playing" class="material-icons">pause</i>
-                </span>
-                <span
-                    ng-if="playerPlaylist.getPlaylist(mediaPlayer.currentTrack) != playlistDTO.playlist.id || playerPlaylist.playlistCurrent != 'fromYourPlaylists'"
-                    ng-click="playerPlaylist.playSetOfPlaylists(playlists,mediaPlayer,$index,'fromYourPlaylists')">
-                    <i style="font-size: 44px!important;" class="material-icons">play_arrow</i>
-                </span>
-            </button>-->
         </div>
     </div>
 </div>

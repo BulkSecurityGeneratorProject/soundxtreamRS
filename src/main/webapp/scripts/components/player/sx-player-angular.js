@@ -88,7 +88,6 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                     if (this.$playlist.length > index) {
                         this.currentTrack = index + 1;
                         var trackId = [];
-                        console.log(self);
                         if(self.currentTrack >= 1){
                             trackId = self.$playlist[self.currentTrack-1].id;
                         }
@@ -105,7 +104,6 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                     if (this.ended) {
                         this.load(true);
                         var trackId = [];
-                        console.log(self);
                         if(self.currentTrack >= 1){
                             trackId = self.$playlist[self.currentTrack-1].id;
                         }
@@ -116,7 +114,6 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                     } else {
                         this.$domEl.play();
                         var trackId = [];
-                        console.log(self);
                         if(self.currentTrack >= 1){
                             trackId = self.$playlist[self.currentTrack-1].id;
                         }
@@ -157,7 +154,7 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                     var self = this;
                     if (self.currentTrack && self.currentTrack < self.tracks) {
                         var wasPlaying = autoplay || self.playing;
-                        self.pause();
+                        //self.pause();
                         $timeout(function () {
                             self.$clearSourceList();
                             self.$addSourceList(self.$playlist[self.currentTrack]);
@@ -178,7 +175,7 @@ angular.module('mediaPlayer', ['mediaPlayer.helpers'])
                     var self = this;
                     if (self.currentTrack && self.currentTrack - 1) {
                         var wasPlaying = autoplay || self.playing;
-                        self.pause();
+                        //self.pause();
                         $timeout(function () {
                             self.$clearSourceList();
                             self.$addSourceList(self.$playlist[self.currentTrack - 2]);

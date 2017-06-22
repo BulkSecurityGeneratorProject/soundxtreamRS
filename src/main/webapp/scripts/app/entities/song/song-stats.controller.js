@@ -118,13 +118,13 @@ angular.module('soundxtreamappApp')
                     var max = trackStats[trackStats.length - 1].playedDate;
 
                     $scope.psOptions.chart.xDomain = [];
-                    $scope.psOptions.chart.xDomain[1] = new Date(max);
-                    $scope.psOptions.chart.xDomain[0] = new Date(min);
+                    $scope.psOptions.chart.xDomain[1] = max;
+                    $scope.psOptions.chart.xDomain[0] = min;
                     var psStats;
                     psStats = [];
                     dest.forEach(function (item) {
                         psStats.push({
-                            x: new Date(item.playedDate),
+                            x: item.playedDate,
                             y: item.countPlays
                         });
                     });
@@ -174,13 +174,13 @@ angular.module('soundxtreamappApp')
                     stats = [], songStats = [];
                     dest.forEach(function (item) {
                         stats.push({
-                            x: new Date(item.playedDate),
+                            x: item.playedDate,
                             y: item.countPlays
                         });
                     });
                     $scope.playbackStats.forEach(function (item) {
                         songStats.push({
-                            x: new Date(item.playedDate),
+                            x: item.playedDate,
                             y: item.countPlays
                         });
                     });
@@ -196,6 +196,55 @@ angular.module('soundxtreamappApp')
                 }
             });
         }
+
+        $scope.chartUpload = {
+            dates: [],
+            data: []
+        };
+
+        /*function loadCharts() {
+            Track_count.getStatsSong({id: $scope.song.song.id}, function (trackStats) {
+                var dest = [];
+                var datestr = '';
+                if (trackStats.length > 0) {
+                    var first = new Date($scope.song.song.date_posted);
+                    var last = new Date();
+
+                    var index = getIndex(trackStats, 'playedDate');
+
+                    for (var d = first; d.getTime() <= last.getTime(); d.setDate(d.getDate() + 1)) {
+                        datestr = dateToYMD(d);
+                        if (index[datestr]) {
+                            dest.push(index[datestr]);
+                        } else {
+                            dest.push(createDefault(datestr));
+                        }
+                    }
+
+                    dest.forEach(function (item) {
+                        $scope.chartUpload.dates.push(item.playedDate);
+                        $scope.chartUpload.data.push(item.countPlays);
+                    });
+
+                }
+            });
+        }*/
+
+        $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+
+        $scope.options = {
+            scales: {
+                yAxes: [
+                    {
+                        id: 'y-axis-1',
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        scaleLabel: '<%=Math.abs(value).toFixed(1)%>'
+                    }
+                ]
+            }
+        };
 
         entity.$promise.then(function (res) {
             $window.document.title = "Stats " + res.name;

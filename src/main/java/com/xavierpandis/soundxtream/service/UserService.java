@@ -53,6 +53,7 @@ public class UserService {
             .map(user -> {
                 // activate given user for the registration key.
                 user.setActivated(true);
+                user.setUser_image("assets/images/default_image.jpg");
                 user.setActivationKey(null);
                 userRepository.save(user);
                 userSearchRepository.save(user);
@@ -98,6 +99,7 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);
+        newUser.setNickname(login);
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
         newUser.setFirstName(firstName);
@@ -119,6 +121,7 @@ public class UserService {
     public User createUser(ManagedUserDTO managedUserDTO) {
         User user = new User();
         user.setLogin(managedUserDTO.getLogin().toLowerCase());
+        user.setNickname(managedUserDTO.getLogin().toLowerCase());
         user.setFirstName(managedUserDTO.getFirstName());
         user.setLastName(managedUserDTO.getLastName());
         user.setEmail(managedUserDTO.getEmail());
@@ -145,8 +148,9 @@ public class UserService {
         return user;
     }
 
-    public void updateUserInformation(String firstName, String lastName, String email, String langKey,String user_image, String description) {
+    public void updateUserInformation(String nickname, String firstName, String lastName, String email, String langKey,String user_image, String description) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUser().getUsername()).ifPresent(u -> {
+            u.setNickname(nickname);
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);

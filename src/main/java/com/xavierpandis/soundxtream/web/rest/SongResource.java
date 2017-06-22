@@ -6,14 +6,10 @@ import com.xavierpandis.soundxtream.repository.*;
 import com.xavierpandis.soundxtream.repository.search.SongSearchRepository;
 import com.xavierpandis.soundxtream.security.SecurityUtils;
 import com.xavierpandis.soundxtream.service.DateDiffService;
-import com.xavierpandis.soundxtream.service.MultipartFileSender;
 import com.xavierpandis.soundxtream.service.SongService;
 import com.xavierpandis.soundxtream.web.rest.dto.SongDTO;
 import com.xavierpandis.soundxtream.web.rest.util.HeaderUtil;
 import com.xavierpandis.soundxtream.web.rest.util.PaginationUtil;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -27,25 +23,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.sound.midi.Track;
 import javax.validation.Valid;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.SeekableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -84,6 +67,17 @@ public class SongResource {
     @Inject
     private SongService songService;
 
+    public boolean checkExistAccess(String name, String login){
+
+        Song exist = songRepository.findOneByAccessUrl(name, login);
+
+        if(exist == null) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * POST  /songs -> Create a new song.
      */
@@ -98,6 +92,12 @@ public class SongResource {
         }
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
+        int i = 0;
+
+        /*do{
+            song.setAccess_url(song.getAccess_url().concat("-"+i));
+        }
+        while(checkExistAccess(song.getName(), user.getLogin()));*/
 
         String nameFinal = checkAccessURL(song.getAccess_url(), song);
 
@@ -636,6 +636,48 @@ public class SongResource {
 
     }*/
 
+
+    @RequestMapping(value = "your/songs/filtered/by",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<SongDTO>> getOwnSongsFilteredBy(
+        @RequestParam(name = "name",required = false) String name,
+        @RequestParam(name = "type", required = false) String type,
+        @RequestParam(name = "label", required = false) String label,
+        @RequestParam(name = "style", required = false) String style) throws Exception{
+
+        List<Song> songs = songRepository.findByUserIsCurrentUser();
+
+        if(name != null){
+            songs = songs.stream().filter(song -> song.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
+        }
+        if(type != null){
+            songs = songs.stream().filter(song -> song.getTypeSong().toLowerCase().contains(type.toLowerCase())).collect(Collectors.toList());;
+        }
+        if(label != null){
+            songs = songs.stream().filter(song -> song.getLabel().toLowerCase().contains(label.toLowerCase())).collect(Collectors.toList());
+        }
+
+        List<SongDTO> listSongDTO = new ArrayList<>();
+        ZonedDateTime now = ZonedDateTime.now();
+
+        listSongDTO = songService.getInfoSong(songs);
+
+        return new ResponseEntity<>(listSongDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{login}/songs/filtered/by",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getOwnSongsFilteredBy(@PathVariable("login") String login, @RequestParam Map<String,String> requestParams) throws Exception{
+
+        log.debug("filters", requestParams);
+
+        //perform DB operations
+
+        return "profile";
+    }
+
     @RequestMapping(value = "/15-most-played-songs",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -663,5 +705,7 @@ public class SongResource {
 
         return new ResponseEntity<>(listSongDTO, null, HttpStatus.OK);
     }
+
+
 
 }

@@ -10,6 +10,25 @@ angular.module('soundxtreamappApp')
         });
 
         $scope.save = function () {
+            Auth.updateAccount($scope.settingsAccount).then(function() {
+                $scope.error = null;
+                $scope.success = 'OK';
+                Principal.identity(true).then(function(account) {
+                    $scope.settingsAccount = copyAccount(account);
+                    $scope.account = account;
+                    $rootScope.account = account;
+                    toaster.pop('success', "Success", "Account updated");
+                });
+                Language.getCurrent().then(function(current) {
+                    if ($scope.settingsAccount.langKey !== current) {
+                        $translate.use($scope.settingsAccount.langKey);
+                    }
+                });
+                $state.go("settings",null,{reload:true});
+            }).catch(function() {
+                $scope.success = null;
+                $scope.error = 'ERROR';
+            });
             if($scope.picFile != undefined && $scope.cropped == true){
                 var imageBase64 = $scope.croppedArtwork;
                 var blob = dataURItoBlob(imageBase64);
@@ -21,30 +40,14 @@ angular.module('soundxtreamappApp')
                 uploadUsingUploadArtwork($scope.picFile);
             }
             else if($scope.picFile == undefined && $scope.cropped == false){
-                Auth.updateAccount($scope.settingsAccount).then(function() {
-                    $scope.error = null;
-                    $scope.success = 'OK';
-                    Principal.identity(true).then(function(account) {
-                        $scope.settingsAccount = copyAccount(account);
-                        $scope.account = account;
-                        $rootScope.account = account;
-                        toaster.pop('success', "Success", "Account updated");
-                    });
-                    Language.getCurrent().then(function(current) {
-                        if ($scope.settingsAccount.langKey !== current) {
-                            $translate.use($scope.settingsAccount.langKey);
-                        }
-                    });
-                    $state.go("settings",null,{reload:true});
-                }).catch(function() {
-                    $scope.success = null;
-                    $scope.error = 'ERROR';
-                });
+
             }
         }
 
         $scope.$watch('picFile', function(){
-            $scope.artworkShow($scope.picFile);
+            if($scope.picFile!=null){
+                $scope.artworkShow($scope.picFile);
+            }
         });
 
         $scope.artworkShow = function (e) {
@@ -62,7 +65,7 @@ angular.module('soundxtreamappApp')
         }
 
         function uploadUsingUploadArtwork(file) {
-            var pictureName = "profilepic-"+$scope.settingsAccount.login.toLowerCase()+"-"+$scope.settingsAccount.firstName;
+            var pictureName = "profilepic-"+$scope.settingsAccount.login.toLowerCase();
             var ext = file.name.split('.').pop();
 
             pictureName = pictureName.concat("."+ext);
@@ -129,6 +132,7 @@ angular.module('soundxtreamappApp')
         var copyAccount = function (account) {
             return {
                 activated: account.activated,
+                nickname: account.nickname,
                 email: account.email,
                 firstName: account.firstName,
                 langKey: account.langKey,

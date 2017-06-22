@@ -220,9 +220,9 @@
             </div>
         </form>
     </div>
-    <div class="login-wrapper blur-login">
+    <!--<div class="login-wrapper blur-login">
         <div class="blur-background"></div>
-    </div>
+    </div>-->
 </div>
 
 <style>
@@ -308,6 +308,8 @@
         justify-content: center;
     }
 
+
+
     aside#nav-container {
         background: rgba(41, 41, 41, 0.44);
         z-index: 222;
@@ -316,13 +318,54 @@
     aside#nav-container a {
         color: #fff !important;
     }
-
+/*
     .login-wrapper {
         width: 550px;
         z-index: 3;
     //background: rgba(3, 4, 6, 0.55);
         background: rgba(8, 10, 14, 0.75);
         min-height: 495px;
+    }*/
+
+    .login-wrapper {
+        width: 550px;
+        min-height: 495px;
+        height: 328px;
+        position: relative;
+        overflow: hidden;
+        z-index: 3;
+        background: rgba(40,43,48,.75);
+    }
+
+    .login-wrapper:after{
+        content: '';
+        position: absolute;
+        top: -30px;
+        left: -130px;
+        right: -30px;
+        bottom: -30px;
+        background-image: url(/assets/images/background-register.jpg);
+        background-size: 100vw;
+        background-position: center;
+        -ms-filter: blur(10px);
+        -webkit-filter: blur(10px);
+        filter: blur(10px);
+        z-index: -2;
+    }
+
+    #strength{
+        color: #fff;
+    }
+
+    .login-wrapper:before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.48);
+        z-index: -1;
     }
 
     form.login-form {

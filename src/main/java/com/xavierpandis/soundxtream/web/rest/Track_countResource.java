@@ -288,6 +288,10 @@ public class Track_countResource {
 
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
+        if(user==null){
+
+        }
+
         Song song = songRepository.findOne(id);
 
         List<Track_count> res = track_countRepository.findPlayTrack(user.getLogin(), ip, song.getId());

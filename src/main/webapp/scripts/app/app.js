@@ -1,8 +1,21 @@
 'use strict';
 
 angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
-    'ngResource', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload','mediaPlayer','ngMaterial','ngAnimate','nvd3',
-    'toaster', 'ui.select','ngSanitize','angularTrix','ngMessages','720kb.socialshare', 'nemLogging', 'ngMap', 'hm.readmore','ui.mention', 'uiCropper',
+    'ngResource',
+    'ngCookies',
+    'ngAria',
+    'ngCacheBuster',
+    'ngFileUpload',
+    'mediaPlayer',
+    'ngMaterial',
+    'ngAnimate','nvd3',
+    'toaster', 'ui.select',
+    'ngSanitize','angularTrix',
+    'ngMessages','720kb.socialshare',
+    'nemLogging', 'ngMap', 'hm.readmore','ui.mention',
+    'uiCropper',
+    'chart.js',
+    'ngColorThief',
     // jhipster-needle-angularjs-add-module JHipster will add new module here
     'ui.bootstrap', 'ui.router',  'infinite-scroll', 'angular-loading-bar'])
     .run(function ($log, $rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
@@ -163,17 +176,15 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
             link: function (scope, element, attrs) {
                 // show an image-missing image
                 element.error(function () {
-                    var url = '/assets/images/default_image.jpg';
-                    element.prop('src', url);
+                   // var url = '/assets/images/default_image.jpg';
+                    //element.prop('src', url);
                 });
             }
         }
     })
-    .config(function (cfpLoadingBarProvider,$stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, AlertServiceProvider) {
+    .config(function ($colorThiefProvider,cfpLoadingBarProvider,$stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, AlertServiceProvider) {
         // uncomment below to make alerts look like toast
         //AlertServiceProvider.showAsToast(true);
-
-
 
         //cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-spinner">Loading...</div>';
         cfpLoadingBarProvider.includeBar = false;

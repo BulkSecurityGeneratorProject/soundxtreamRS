@@ -53,10 +53,9 @@
         </div>
     </div>
     <div ng-cloak class="col-md-12 likes_empty_warning" ng-if="song_users.length == 0">
-        <i class="material-icons">warning</i>
-        <h3>No likes</h3>
+        <span><i class="mdi mdi-heart-off"></i><span>No likes</span></span>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2" ng-if="song_users.length > 0">
         <h4 class="titles">FILTERS (beta)</h4>
         <div class="form-group">
             <label class="control-label" for="field_name">Filter by name</label>
@@ -93,44 +92,6 @@
 </div>
 
 <style>
-    @keyframes pulseWarning {
-        0% {
-            padding-top: 0px;
-            font-size: 155px;
-        }
-        50% {
-            padding-top: 35px;
-            font-size: 80px;
-        }
-        100% {
-            padding-top: 0px;
-            font-size: 155px;
-        }
-    }
-
-    .likes_empty_warning {
-        text-align: center;
-    }
-
-    .likes_empty_warning h3 {
-        background: -webkit-linear-gradient(-45deg, rgba(125, 151, 255, 1) 0%, rgba(116, 134, 207, 1) 41%, rgba(73, 79, 189, 1) 100%) !important;
-        background: linear-gradient(-45deg, rgba(125, 151, 255, 1) 0%, rgba(116, 134, 207, 1) 41%, rgba(73, 79, 189, 1) 100%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-    }
-
-    .likes_empty_warning i.material-icons {
-        margin-bottom: -2px;
-        font-size: 160px;
-        background: -webkit-linear-gradient(-45deg, rgba(125, 151, 255, 1) 0%, rgba(116, 134, 207, 1) 41%, rgba(73, 79, 189, 1) 100%) !important;
-        background: linear-gradient(-45deg, rgba(125, 151, 255, 1) 0%, rgba(116, 134, 207, 1) 41%, rgba(73, 79, 189, 1) 100%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-    / / text-shadow: 0 px 1 px 4 px rgba(0, 0, 0, .4);
-        animation-name: pulseWarning;
-        animation-duration: 3s;
-        animation-iteration-count: infinite;
-    }
 
     .h3_title{
         margin-top: 2px;

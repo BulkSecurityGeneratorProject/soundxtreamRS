@@ -262,6 +262,10 @@ public class PlaylistResource {
         log.debug("REST request to get Playlist : {}", id);
         Playlist playlist = playlistRepository.findOneWithEagerRelationships(id);
 
+        if (playlist == null) {
+            return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
+        }
+
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
         Playlist_user playlist_user = playlist_userRepository.findExistUserLiked(playlist.getId(),user.getLogin());

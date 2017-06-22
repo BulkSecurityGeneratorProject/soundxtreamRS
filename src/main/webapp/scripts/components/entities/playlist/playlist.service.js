@@ -5,12 +5,12 @@ angular.module('soundxtreamappApp')
         return $resource('api/playlists/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
-                method: 'GET',
-                transformResponse: function (data) {
+                method: 'GET'
+                /*transformResponse: function (data) {
                     data = angular.fromJson(data);
                     data.dateCreated = DateUtils.convertDateTimeFromServer(data.dateCreated);
                     return data;
-                }
+                }*/
             },
             'update': { method:'PUT' },
             'getPlaylistUser':{

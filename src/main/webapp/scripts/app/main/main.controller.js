@@ -8,6 +8,15 @@ angular.module('soundxtreamappApp')
         $scope.playlists = [];
         $scope.resultsSearch = [];
 
+        $('.nav_down_btn').click(function (e) {
+            var offsetTop = $('#content-main-section').offset().top;
+            $('html, body').animate({
+                scrollTop: offsetTop
+            }, {
+                duration: 1000
+            });
+        });
+
         $http({
             method: 'GET',
             url: 'api/playlistsApp'

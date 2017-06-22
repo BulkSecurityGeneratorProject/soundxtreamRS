@@ -23,7 +23,7 @@ angular.module('soundxtreamappApp')
         };
 
         $scope.getIframeCode = function(){
-            
+
         }
 
         $scope.sameUser = false;
@@ -35,7 +35,7 @@ angular.module('soundxtreamappApp')
             $window.document.title = $scope.songDTO.song.name;
 
             $scope.songDTO.iframeSrc = "http://"+window.location.hostname+":"+window.location.port+"/player/index.html?type=track"+
-            "&theme=light&size=small&url=http://"+window.location.hostname+":"+window.location.port+"/api/songs/"+$scope.songDTO.song.id;
+            "&theme=light&mode=full&size=small&url=http://"+window.location.hostname+":"+window.location.port+"/api/songs/"+$scope.songDTO.song.id;
 
             User.get({login:$scope.songDTO.song.user.login},function(res){
                 $scope.songDTO.song.user.totalFollowers = res.totalFollowers;

@@ -130,11 +130,15 @@ public class AccountResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
         }
 
+        if(userDTO.getNickname().isEmpty() || userDTO.getNickname() == null){
+            userDTO.setNickname(userDTO.getLogin());
+        }
+
         //PARA CAMBIAR LA IMAGEN DEL USUARIO
         return userRepository
             .findOneByLogin(SecurityUtils.getCurrentUser().getUsername())
             .map(u -> {
-                userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
+                userService.updateUserInformation(userDTO.getNickname(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
                     userDTO.getLangKey(),userDTO.getUser_image(),userDTO.getDescription());
                 return new ResponseEntity<String>(HttpStatus.OK);
             })

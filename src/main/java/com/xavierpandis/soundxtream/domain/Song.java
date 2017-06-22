@@ -28,45 +28,46 @@ public class Song implements Serializable {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-    
+
     @NotNull
     @Column(name = "url", nullable = false)
     private String url;
-    
-    @NotNull
+
     @Column(name = "label", nullable = false)
     private String label;
-    
+
     @Column(name = "date_posted")
     private ZonedDateTime date_posted;
-    
+
     @Column(name = "artwork")
     private String artwork;
-    
+
     @Column(name = "banner_song")
     private String banner_song;
-    
+
     @Column(name = "tags")
     private String tags;
-    
+
+    @NotNull
     @Column(name = "duration")
     private Float duration;
-    
+
     @Column(name = "description")
     private String description;
-    
+
     @Column(name = "plays_count")
     private Integer playsCount;
-    
+
+    @NotNull
     @Column(name = "type_song")
     private String typeSong;
-    
+
     @Column(name = "bpm")
     private Integer bpm;
-    
+
     @Column(name = "access_url")
     private String access_url;
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -89,7 +90,7 @@ public class Song implements Serializable {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -97,7 +98,7 @@ public class Song implements Serializable {
     public String getUrl() {
         return url;
     }
-    
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -105,7 +106,7 @@ public class Song implements Serializable {
     public String getLabel() {
         return label;
     }
-    
+
     public void setLabel(String label) {
         this.label = label;
     }
@@ -113,7 +114,7 @@ public class Song implements Serializable {
     public ZonedDateTime getDate_posted() {
         return date_posted;
     }
-    
+
     public void setDate_posted(ZonedDateTime date_posted) {
         this.date_posted = date_posted;
     }
@@ -121,7 +122,7 @@ public class Song implements Serializable {
     public String getArtwork() {
         return artwork;
     }
-    
+
     public void setArtwork(String artwork) {
         this.artwork = artwork;
     }
@@ -129,7 +130,7 @@ public class Song implements Serializable {
     public String getBanner_song() {
         return banner_song;
     }
-    
+
     public void setBanner_song(String banner_song) {
         this.banner_song = banner_song;
     }
@@ -137,7 +138,7 @@ public class Song implements Serializable {
     public String getTags() {
         return tags;
     }
-    
+
     public void setTags(String tags) {
         this.tags = tags;
     }
@@ -145,7 +146,7 @@ public class Song implements Serializable {
     public Float getDuration() {
         return duration;
     }
-    
+
     public void setDuration(Float duration) {
         this.duration = duration;
     }
@@ -153,7 +154,7 @@ public class Song implements Serializable {
     public String getDescription() {
         return description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -161,7 +162,7 @@ public class Song implements Serializable {
     public Integer getPlaysCount() {
         return playsCount;
     }
-    
+
     public void setPlaysCount(Integer playsCount) {
         this.playsCount = playsCount;
     }
@@ -169,7 +170,7 @@ public class Song implements Serializable {
     public String getTypeSong() {
         return typeSong;
     }
-    
+
     public void setTypeSong(String typeSong) {
         this.typeSong = typeSong;
     }
@@ -177,7 +178,7 @@ public class Song implements Serializable {
     public Integer getBpm() {
         return bpm;
     }
-    
+
     public void setBpm(Integer bpm) {
         this.bpm = bpm;
     }
@@ -185,7 +186,7 @@ public class Song implements Serializable {
     public String getAccess_url() {
         return access_url;
     }
-    
+
     public void setAccess_url(String access_url) {
         this.access_url = access_url;
     }

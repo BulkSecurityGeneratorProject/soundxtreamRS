@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import java.time.ZonedDateTime;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -41,6 +42,10 @@ public class Playlist implements Serializable {
 
     @Column(name = "access_url")
     private String access_url;
+
+    @Size(min = 0, max = 1000)
+    @Column(name = "description")
+    private String description;
 
     @ManyToMany(fetch=FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

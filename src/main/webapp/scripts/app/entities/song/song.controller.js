@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('soundxtreamappApp')
-    .controller('SongController', function ($scope,$state, $http, Song, SongSearch, ParseLinks,toaster,Song_user,$log,$filter) {
-
+    .controller('SongController', function ($window, $scope, $state, $http, Song, SongSearch, ParseLinks, toaster, Song_user, $log, $filter) {
 
         $scope.songs = [];
         $scope.predicate = 'id';
@@ -11,15 +10,19 @@ angular.module('soundxtreamappApp')
         $scope.allTracks = [];
 
         $scope.searchQuery;
-        $scope.loadAll = function() {
-            Song.query({page: $scope.page, size:6, sort: [$scope.predicate + ',' + ($scope.reverse ? 'asc' : 'desc')]}, function (result, headers) {
+        $scope.loadAll = function () {
+            Song.query({
+                page: $scope.page,
+                size: 6,
+                sort: [$scope.predicate + ',' + ($scope.reverse ? 'asc' : 'desc')]
+            }, function (result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
                 for (var i = 0; i < result.length; i++) {
                     $scope.songs.push(result[i]);
                 }
             });
 
-            Song.queryForPlayer({}, function(result, headers){
+            Song.queryForPlayer({}, function (result, headers) {
                 $scope.allTracks = result;
             });
         };
@@ -27,18 +30,24 @@ angular.module('soundxtreamappApp')
         $scope.filterTrack = {};
 
         $scope.filterTrackFn = function () {
-            /*Song.filterTracks({},$scope.filterTrack, function(res){
-                console.log(res);
-            });*/
-
+            Song.filterTracks({
+                    name: $scope.filterTrack.name,
+                    type: $scope.filterTrack.typeSong,
+                    label: $scope.filterTrack.label
+                },
+                function (result) {
+                    console.log(result);
+                    $scope.songs = result;
+                    $scope.allTracks = result;
+                });
         };
 
-        $scope.reset = function() {
+        $scope.reset = function () {
             $scope.page = 0;
             $scope.songs = [];
             $scope.loadAll();
         };
-        $scope.loadPage = function(page) {
+        $scope.loadPage = function (page) {
             $scope.page = page;
             $scope.loadAll();
         };
@@ -46,10 +55,10 @@ angular.module('soundxtreamappApp')
 
 
         $scope.search = function () {
-            SongSearch.query({query: $scope.searchQuery}, function(result) {
+            SongSearch.query({query: $scope.searchQuery}, function (result) {
                 $scope.songs = result;
-            }, function(response) {
-                if(response.status === 404) {
+            }, function (response) {
+                if (response.status === 404) {
                     $scope.loadAll();
                 }
             });
@@ -74,49 +83,49 @@ angular.module('soundxtreamappApp')
             };
         };
 
-        $scope.like = function(id){
-            Song_user.addLike({id: id},{},successLike);
+        $scope.like = function (id) {
+            Song_user.addLike({id: id}, {}, successLike);
         };
 
-        $scope.share = function(id){
-            Song_user.share({id: id},{},successShare);
+        $scope.share = function (id) {
+            Song_user.share({id: id}, {}, successShare);
         };
 
         function successShare(result) {
             console.log(result);
 
-            for(var k = 0; k < $scope.songs.length; k++){
-                if($scope.songs[k].song.id == result.song.id){
+            for (var k = 0; k < $scope.songs.length; k++) {
+                if ($scope.songs[k].song.id == result.song.id) {
                     $scope.songs[k].shared = result.shared;
-                    if($scope.songs[k].shared){
+                    if ($scope.songs[k].shared) {
                         $scope.songs[k].totalShares += 1;
                     }
-                    else{
+                    else {
                         $scope.songs[k].totalShares -= 1;
                     }
                 }
             }
-            if(result.shared == true){
-                toaster.pop('success',"Success","Song shared to your followers");
+            if (result.shared == true) {
+                toaster.pop('success', "Success", "Song shared to your followers");
             }
         }
 
-        var successLike = function(result){
+        var successLike = function (result) {
             console.log(result);
             //$scope.songDTO.liked = result.liked;
-            for(var k = 0; k < $scope.songs.length; k++){
-                if($scope.songs[k].song.id == result.song.id){
+            for (var k = 0; k < $scope.songs.length; k++) {
+                if ($scope.songs[k].song.id == result.song.id) {
                     $scope.songs[k].liked = result.liked;
-                    if($scope.songs[k].liked){
+                    if ($scope.songs[k].liked) {
                         $scope.songs[k].totalLikes += 1;
                     }
-                    else{
+                    else {
                         $scope.songs[k].totalLikes -= 1;
                     }
                 }
             }
-            if(result.liked == true){
-                toaster.pop('success',"Success","Song added to your favorites");
+            if (result.liked == true) {
+                toaster.pop('success', "Success", "Song added to your favorites");
             }
 
         };
