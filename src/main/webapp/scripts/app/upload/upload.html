@@ -22,10 +22,8 @@
                 <span ng-show="stepOne && !stepTwo">Edit details</span>
                 <span ng-show="stepOne && stepTwo">Select images</span>
             </div>
-            <div class="form_upload">
-                <!--<div class="header-background-mask" ng-show="!stepOne"></div>-->
-                <div class="header-background" ng-show="!stepOne"></div>
-                <div class="progress-wrapper" ng-show="percentage > 0 && !stepOne">
+            <div class="form_upload" >
+                <div class="progress-wrapper" ng-show="percentage > 0 && !stepOne" style="width: 70%; background: #fff;margin: 0 auto;">
                     <div class="progress" >
                         <div style="position: absolute;top: -29px;font-size: 23px;"><span>{{percentage}}%</span></div>
                         <div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}"
@@ -108,21 +106,23 @@
                     .progress-bar{
                         background-color: #ff5d29;
                     }
+
                 </style>
 
-                <div class="row select_track" style="position: relative; z-index: 222;" ng-show="!stepOne" ngf-drop ng-model="files"
-                     ngf-drag-over-class="'active'"
+                <div class="select_track " style="margin: 0 auto; width:70%; position: relative; z-index: 222;" ng-show="!stepOne" ngf-drop ng-model="files"
+                     ngf-drag-over-class="'drag-upload-track'"
                      ngf-multiple="true" ngf-allow-dir="true"
                      accept="audio/*" ngf-validate="{size: {min: 10, max: '2000MB'}" ng-hide="percentage > 0">
                     <div style="height: 100%; position: relative;">
-                        <button class="sx__button sx__upload__track" ng-model="files" ngf-multiple="true" ngf-allow-dir="true"
+                        <button style="user-select: none;" class="sx__button sx__upload__track" ng-model="files" ngf-multiple="true" ngf-allow-dir="true"
                                 accept="audio/*" ngf-validate="{size: {min: 1KB, max: '2000MB'}" ngf-select>
                             <i class="mdi mdi-cloud-upload mdi-24px"></i>
                             Choose a file
                         </button>
+                        <span style="color: #ff6533; top: 59%; left: 50%; position: absolute; display: block;transform: translate(-45%, -45%);">or drag & drop any file</span>
                     </div>
                 </div>
-                <form novalidate role="form" name="form" name="userForm" ng-submit="save()" enctype="multipart/form-data" show-validation>
+                <form style="margin: 0 auto; background: #fff; width: 70%;" novalidate role="form" name="form" name="userForm" ng-submit="save()" enctype="multipart/form-data" show-validation>
                     <div class="row edit_track" ng-hide="stepThree == true || stepOne == false">
                         <div class="form-group">
                             <label class="control-label" for="name">Name</label>
@@ -133,7 +133,7 @@
                             <p>
                                 <span>localhost:8080/#/{{account.login}}/</span>
                                 <input style="display: inline-block; width: 60%; height: 30px;" type="text" class="form-control" id="access_url" name="access_url"
-                                       ng-model="song.access_url" required />
+                                       ng-model="song.access_url" />
                             </p>
 
                             <label class="control-label">Description</label>
@@ -141,7 +141,8 @@
                             <trix-editor angular-trix ng-model="song.description" class="trix-content"></trix-editor>
 
                             <label class="control-label" for="label">Label</label>
-                            <input type="text" class="form-control " name="label" id="label" ng-model="song.label"/>
+                            <input type="text" class="form-control " name="label" id="label" ng-model="song.label"
+                                   required/>
 
                             <label class="control-label">Styles</label>
                             <ui-select class="form-control " multiple ng-model="song.styles" ng-disabled="disabled">
@@ -172,7 +173,7 @@
                             </div>
 
                             <div>
-                                <button class="sx__button" ng-disabled="form.$invalid" ng-click="toThreeStep()" type="button">
+                                <button class="sx__button" ng-click="toThreeStep()" type="button">
                                     Next step
                                 </button>
                             </div>
