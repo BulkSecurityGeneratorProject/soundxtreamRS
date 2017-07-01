@@ -19,7 +19,6 @@
         <link rel="stylesheet" href="bower_components/ui-select/dist/select.css" />
         <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
         <link rel="stylesheet" href="bower_components/trix/dist/trix.css" />
-        <link rel="stylesheet" href="bower_components/ng-img-crop-full-extended/compile/minified/ng-img-crop.css" />
         <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
         <link rel="stylesheet" href="bower_components/ui-cropper/compile/minified/ui-cropper.css" />
         <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
@@ -31,13 +30,13 @@
         <link rel="stylesheet" href="assets/styles/main.css">
         <link rel="stylesheet" href="assets/styles/style-sx.css">
         <!-- endbuild -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700" rel="stylesheet">
     </head>
     <body ng-app="soundxtreamappApp" ng-controller="playerPlaylistController as playerPlaylist" >
         <!--[if lt IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <toaster-container class="notification-toaster" toaster-options="{'limit': 1,'close-button':true, 'position-class': 'toast-top-full-width'}"></toaster-container>
+        <toaster-container class="notification-toaster" toaster-options="{'limit': 1,'close-button':true}"></toaster-container>
         <div id="app-container">
             <aside ui-view="navbar" style="/* overflow: hidden; */" id="nav-container" ></aside>
 
@@ -163,7 +162,6 @@
         <script src="bower_components/angular-timeago/src/timeAgo.js"></script>
         <script src="bower_components/trix/dist/trix.js"></script>
         <script src="bower_components/angular-trix/dist/angular-trix.js"></script>
-        <script src="bower_components/ng-img-crop-full-extended/compile/minified/ng-img-crop.js"></script>
         <script src="bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
         <script src="bower_components/angular-read-more/dist/readmore.min.js"></script>
         <script src="bower_components/angular-ui-mention/dist/mention.js"></script>
@@ -183,6 +181,8 @@
         <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
         <script src="https://googlemaps.github.io/js-marker-clusterer/src/markerclusterer.js"></script>
         <script src="/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+        <script src="/bower_components/highcharts/highcharts.js"></script>
+        <script src="bower_components/jsmediatags/dist/jsmediatags.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -268,6 +268,7 @@
     <script src="scripts/app/account/social/social-register.js"></script>
     <script src="scripts/app/account/social/social-register.controller.js"></script>
     <script src="scripts/app/account/social/social.service.js"></script>
+    <script src="scripts/app/account/settings/change-header.controller.js"></script>
     <script src="scripts/components/auth/services/sessions.service.js"></script>
     <script src="scripts/components/auth/provider/auth.session.service.js"></script>
     <script src="scripts/app/account/sessions/sessions.js"></script>
@@ -356,6 +357,8 @@
     <script src="scripts/app/entities/song/chart.service.js"></script>
     <script src="scripts/app/entities/song/song-stats.controller.js"></script>
     <script src="bower_components/messageformat/locale/ca.js"></script>
+        <script src="scripts/app/charts/charts.js"></script>
+        <script src="scripts/app/charts/charts.controller.js"></script>
     <!--<script src="scripts/app/entities/chat/chat.js"></script>
     <script src="scripts/app/entities/chat/chat.controller.js"></script>
     <script src="scripts/app/entities/chat/chat-dialog.controller.js"></script>

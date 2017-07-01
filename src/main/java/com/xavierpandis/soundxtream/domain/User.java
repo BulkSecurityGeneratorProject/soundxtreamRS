@@ -58,31 +58,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private String user_image;
 
     @Column
+    private String profile_header;
+
+    @Column
     private String description;
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUser_image() {
-        return user_image;
-    }
-
-    public void setUser_image(String user_image) {
-        this.user_image = user_image;
-    }
 
     @Column(nullable = false)
     private boolean activated = false;
@@ -221,6 +200,38 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.persistentTokens = persistentTokens;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUser_image() {
+        return user_image;
+    }
+
+    public void setUser_image(String user_image) {
+        this.user_image = user_image;
+    }
+
+    public String getProfile_header() {
+        return profile_header;
+    }
+
+    public void setProfile_header(String profile_header) {
+        this.profile_header = profile_header;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -247,14 +258,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-            "login='" + login + '\'' +
+            "id=" + id +
+            ", login='" + login + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
-            ", nickName='" + nickname + '\'' +
+            ", nickname='" + nickname + '\'' +
             ", email='" + email + '\'' +
-            ", activated='" + activated + '\'' +
+            ", user_image='" + user_image + '\'' +
+            ", profile_header='" + profile_header + '\'' +
+            ", description='" + description + '\'' +
             ", langKey='" + langKey + '\'' +
-            ", activationKey='" + activationKey + '\'' +
-            "}";
+            '}';
     }
 }

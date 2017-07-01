@@ -14,6 +14,8 @@ import com.xavierpandis.soundxtream.repository.Track_countRepository;
 import com.xavierpandis.soundxtream.repository.UserRepository;
 import com.xavierpandis.soundxtream.repository.search.Track_countSearchRepository;
 import com.xavierpandis.soundxtream.security.SecurityUtils;
+import com.xavierpandis.soundxtream.service.SongService;
+import com.xavierpandis.soundxtream.web.rest.dto.SongDTO;
 import com.xavierpandis.soundxtream.web.rest.dto.TrackCountDTO;
 import com.xavierpandis.soundxtream.web.rest.util.HeaderUtil;
 import com.xavierpandis.soundxtream.web.rest.util.PaginationUtil;
@@ -73,6 +75,9 @@ public class Track_countResource {
 
     @Inject
     private Track_countSearchRepository track_countSearchRepository;
+
+    @Inject
+    private SongService songService;
 
     /**
      * POST  /track_counts -> Create a new track_count.
@@ -275,10 +280,10 @@ public class Track_countResource {
     public ResponseEntity<Track_count> countPlay(@PathVariable Long id, HttpServletRequest request) throws URISyntaxException, IOException, GeoIp2Exception {
 
         //ONLY WORKS WITH PUBLIC IP
-        String ip = request.getRemoteAddr();
+        //String ip = request.getRemoteAddr();
 
         //IP TWITTER (EXAMPLE)
-        //String ip = "104.244.42.129";
+        String ip = "104.244.42.129";
 
         GeoIP geo = getLocation(ip);
 
@@ -338,5 +343,20 @@ public class Track_countResource {
         return ResponseEntity.created(new URI("/api/track_counts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("track_count", result.getId().toString()))
             .body(result);
+    }
+
+    @RequestMapping(value = "/top-50-tracks",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<SongDTO>> getTop50tracks(){
+
+        List<Song> songs = track_countRepository.top50tracks();
+
+        List<SongDTO> listSongDTO = songService.getInfoSong(songs);
+
+        listSongDTO = listSongDTO.stream().limit(50).collect(Collectors.toList());
+
+        return new ResponseEntity<>(listSongDTO, null, HttpStatus.OK);
     }
 }

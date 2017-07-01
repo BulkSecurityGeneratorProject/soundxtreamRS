@@ -93,10 +93,6 @@ angular.module('soundxtreamappApp')
             });
 
             $scope.logout = function () {
-                this.audioPlaylist = [];
-                mediaPlayer.currentTrack = null;
-                mediaPlayer.playlistCurrent = null;
-                mediaPlayer.pause();
                 Auth.logout();
                 $rootScope.account = {};
                 $state.go('login');

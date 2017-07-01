@@ -99,7 +99,7 @@
                         <i class="fa fa-share-square-o fa-lg"></i>&nbsp;<span>{{songDTO.shared ? 'Shared':'Share'}}</span>
                     </button>
                     <button tooltip-placement="bottom" uib-tooltip="Add in playlist" tooltip-append-to-body="true"
-                            class="sx__button" ui-sref="song.detail.addPlaylist">
+                            class="sx__button" ng-click="addPlaylist()">
                         <i class="fa fa-plus-square-o fa-lg"></i>&nbsp;<span>Add to playlist</span>
                     </button>
                     <button ng-if="account.login == songDTO.song.user.login" class="sx__button"
@@ -155,29 +155,35 @@
         </div>
         <div class="sx-row">
             <div class="col-pad">
+                <h5 style="border-bottom: 1px solid #eee;padding: 0px 0px 5px 10px;">{{comments.length > 0 ? comments.length:'0'}} {{comments.length > 1 ? 'comments' : 'comment'}}</h5>
                 <div id="createComment">
                     <div class="form-group">
-                        <input type="text" class="form-control" my-enter="createComment()"
-                               placeholder="Write a comment" ng-model="newComment.comment_text" aria-invalid="false">
+                        <div>
+                            <div>
+                                <div>
+                                    <div><textarea ng-model="newComment.comment_text" style="display: none;"></textarea></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div contenteditable ng-click="showButtonSave=true" class="form-control" placeholder="Show some love to {{songDTO.song.user.login}}..." id="create-comment-box" style="min-height: 34px;height: auto;margin-bottom: 10px;resize:none;border: 1px solid!important;color: #ff6533!important;"
+                               placeholder="Write a comment" ng-model="newComment.comment_text"></div>
+                        <button class="sx__button" ng-show="showButtonSave" ng-click="createComment()">Submit</button>
                     </div>
                 </div>
-                <div class="comments-track">
-                    <div class="user-comment__row" style="height: 50px;" ng-repeat="comment in comments">
-                        <div class="user-comment__number">
-                            {{ $index+1 }}
+                <div class="resource-loading" ng-show="!loadedComments">
+                    <i class="mdi mdi-comment-processing loading-comments"></i>
+                </div>
+                <div class="comments-track" ng-show="loadedComments">
+                    <div class="user-comment__row" style="margin: 5px;height: auto;" ng-repeat="comment in comments">
+                        <!--<pre>{{comment|json}}</pre>-->
+                        <div class="commentUser-image">
+                            <div class="commentUser-image-background" ng-style="{'background-image': 'url({{comment.user.user_image}})'}"></div>
                         </div>
-                        <div style="width: auto;display: inline-block;vertical-align: middle;line-height: 37px;">
-                            <img style="border-radius:100%;" ng-src="{{comment.user.user_image}}" img-preload width="35px"
-                                 height="35px"/>
+                        <div class="commentUser-message">
+                            <span><a href="/#/user/{{comment.user.login}}">{{comment.user.nickname?comment.user.nickname:comment.user.login}}</a></span>
+                            <span ng-bind-html="comment.comment_text"></span>
                         </div>
-                        <div class="user-comment__name" style="display: inline-block;vertical-align: top;">
-                            <div class="comment_user">
-                                <a ui-sref="user-profile({login:comment.user.login})">{{ comment.user.login }}</a>
-                            </div>
-                            <div class="comment_text">
-                                {{ comment.comment_text }}
-                            </div>
-                        </div>
+                        <div class="commentUser-createdAt">{{comment.date_comment | millSecondsToTimeString }}</div>
                     </div>
                     <div class="empty-comments" ng-if="comments.length == 0">
                         <div class="empty-icon">
@@ -188,6 +194,9 @@
                             No comments on this track
                         </div>
                     </div>
+                </div>
+                <div style="justify-content: center;display: flex;">
+                    <button class="sx__button" ng-if="linksComments['last'] > pageComments" ng-click="loadMoreComments(pageComments + 1)">View more</button>
                 </div>
             </div>
         </div>
@@ -204,7 +213,7 @@
 -->
                 </div>
                 <div class="more-info" ng-if="songDTO.song.banner_song == null">
-                    <p class="badge badge-black"> {{songDTO.song.label}}</p>
+                    <p class="badge badge-black" ng-if="songDTO.song.label!=null"> {{songDTO.song.label}}</p>
                     <p class="badge badge-black">{{songDTO.song.duration | toMinSec}}</p>
                     <p class="badge badge-black">{{songDTO.song.bpm}} BPM</p>
                 </div>
@@ -242,16 +251,16 @@
                 <hr/>
                 <div>
                     <h5><i class="fa fa-user"></i> In playlists</h5>
-                    <ul ng-if="playlistWithSong.length > 0" class="list-playlist">
+                    <div class="resource-loading" ng-show="!loadedPlaylists">
+                        <i class="mdi mdi-comment-processing loading-comments"></i>
+                    </div>
+                    <ul ng-if="playlistWithSong.length > 0" class="list-playlist" ng-show="loadedPlaylists">
                         <li class="list-playlist-item" ng-repeat="playlistSong in playlistWithSong | limitTo:10">
                             <img ng-src="{{playlistSong.artwork}}" alt="{{playlistSong.artwork}}" img-preload class="img-circle">
                             <!--<img ng-src="{{playlistSong.artwork}}" class="md-avatar image-responsive"/>-->
                             <div>
-                                <h4 ui-sref="playlist.detail({id:playlistSong.id})"
-                                    style="width: 190px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                                    {{playlistSong.name}}
-                                </h4>
-                                <p>{{playlistSong.user.login}}</p>
+                                <span ui-sref="playlist.detail({id:playlistSong.id})"><a href="/#/playlist/{{playlistSong.id}}">{{playlistSong.name}}</a></span>
+                                <span><a href="/#/user/{{playlistSong.user.login}}">{{playlistSong.user.login}}</a></span>
                             </div>
                         </li>
                     </ul>
@@ -272,25 +281,54 @@
 </div>
 
 <style>
+    .sx-row:nth-child(3){
+        margin-top: 10px;
+    }
 
     .list-playlist{
         padding-left: 0px;
         list-style: none;
+    }
 
+    .list-playlist-item{
+        display: flex;
+        margin-bottom: 5px;
     }
-    .list-playlist-item *{
-        vertical-align: top;
-    }
+
     .list-playlist-item img{
         height: 45px;
-        margin-top: 7px;
-        display: inline-block;
+        width: 45px;
+        align-self: center;
+        margin-right: 10px;
     }
     .list-playlist-item div{
-        display: inline-block;
-        width: 160px;
+        align-self: center;
+        flex: 1;
     }
 
+    .list-playlist-item div > span{
+        display: block;
+    }
+
+    .list-playlist-item div > span:nth-child(1){
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .list-playlist-item div > span:nth-child(1) > a{
+        color: inherit;
+    }
+
+    .list-playlist-item div > span:nth-child(2){
+        color: rgba(41, 41, 41, 0.61);
+        font-weight: 400;
+    }
+
+    .list-playlist-item div > span:nth-child(2) > a{
+        color: inherit;
+    }
 
     .sx-primary-banner{
         //height: 400px;
@@ -564,5 +602,63 @@
         .sx-primary-artwork{
             max-width: 1280px;
         }
+    }
+
+    .user-comment__row{
+        display: flex;
+    }
+
+    .commentUser-image {
+        height: 50px;
+        width: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        display: inline-block;
+        padding: 5px;
+        margin-right: 5px;
+    }
+
+    .commentUser-image-background {
+        height: 100%;
+        width: 100%;
+        background-size: contain;
+        border-radius: 100%;
+    }
+
+    .commentUser-message {
+        flex: 1;
+        align-self: center;
+        overflow: hidden;
+        padding-right: 5px;
+    }
+
+    .commentUser-message a{
+        color: inherit;
+    }
+
+    .commentUser-message a:hover{
+        color: #4e4e4e;
+        text-decoration: none;
+    }
+
+    .commentUser-message > span{
+        display: block;
+    }
+
+    .commentUser-message > span:first-child{
+        font-weight: 400;
+        color: rgba(41, 41, 41, 0.61);
+    }
+
+    .commentUser-message > span:last-child{
+        width: 100%;
+        word-wrap: break-word;
+        font-weight: 400;
+    }
+
+    .commentUser-createdAt {
+        //align-self: center;
+        min-width: 15%;
+        text-align: right;
     }
 </style>

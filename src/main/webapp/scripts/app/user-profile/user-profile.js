@@ -23,6 +23,9 @@ angular.module('soundxtreamappApp')
                     }],
                     userInfo: ['User','$stateParams',function(User,$stateParams){
                         return User.get({login:$stateParams.login});
+                    }],
+                    topTracks: ['Song','$stateParams','$http', function(Song, $stateParams, $http){
+                        return Song.mostPlayedTracksByArtist({artist: $stateParams.login});
                     }]
                 }
             })

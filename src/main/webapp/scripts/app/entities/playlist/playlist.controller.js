@@ -22,8 +22,11 @@ angular.module('soundxtreamappApp')
                             result[i].playlist.songs[k].artwork = "/uploads/no_image.jpg";
                         }
                     }
-
                     $scope.playlists.push(result[i]);
+                }
+
+                if($scope.playlists.length<1){
+                    $('.no-playlists').css({"opacity":"1", "display":"flex"});
                 }
                 console.log($scope.playlists);
             });

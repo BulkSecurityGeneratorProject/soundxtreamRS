@@ -46,6 +46,8 @@ public class UserDTO {
 
     private String user_image;
 
+    private String profile_header;
+
     private String description;
 
     private Boolean followedByUser;
@@ -68,13 +70,13 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this(user.getLogin(), user.getNickname(), null, user.getFirstName(), user.getLastName(),
-            user.getEmail(), user.getActivated(), user.getUser_image(), user.getDescription(), user.getLangKey(),
+            user.getEmail(), user.getActivated(), user.getUser_image(),user.getProfile_header(), user.getDescription(), user.getLangKey(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String nickname, String password, String firstName, String lastName,
-        String email, boolean activated, String user_image,String description, String langKey, Set<String> authorities) {
+        String email, boolean activated, String user_image,String profile_header,String description, String langKey, Set<String> authorities) {
 
         this.login = login;
         this.nickname = nickname;
@@ -82,6 +84,7 @@ public class UserDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.profile_header = profile_header;
         this.activated = activated;
         this.langKey = langKey;
         this.authorities = authorities;
@@ -217,6 +220,14 @@ public class UserDTO {
         this.followingUsers = followingUsers;
     }
 
+    public String getProfile_header() {
+        return profile_header;
+    }
+
+    public void setProfile_header(String profile_header) {
+        this.profile_header = profile_header;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -228,6 +239,7 @@ public class UserDTO {
             ", email='" + email + '\'' +
             ", activated=" + activated +
             ", user_image='" + user_image + '\'' +
+            ", profile_header='" + profile_header + '\'' +
             ", description='" + description + '\'' +
             ", followedByUser=" + followedByUser +
             ", totalFollowers=" + totalFollowers +

@@ -64,6 +64,8 @@
                 <div class="playlist-track-content"
                      ng-click="((playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id || playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id)
                      && mediaPlayer.playPause()) || ((playerPlaylist.getSongId(mediaPlayer.currentTrack) != song.id || playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlistDTO.playlist.id) && playerPlaylist.playTrackFromPlaylist(playlistDTO.playlist,mediaPlayer,$index,'playingFromPlaylist'+playlistDTO.playlist.id))">
+
+                    <div style="width: auto; min-width: 20px;text-align: right;margin-right: 5px; color: #fff;align-self: center;">{{$index+1}}.</div>
                     <div class="playlist-track-index" ng-class="{true:'elements-playing'}[mediaPlayer.playing && playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id]">
                         <span ng-if="(playerPlaylist.getSongId(mediaPlayer.currentTrack) != song.id || playerPlaylist.playlistCurrent != 'playingFromPlaylist'+playlistDTO.playlist.id)">
                             <i class="mdi mdi-play"></i>
@@ -80,6 +82,16 @@
                         </div>
                         <div class="playlist-track-info-artist"><span>{{song.user.nickname || song.user.login}}</span></div>
                     </div>
+                    <div style="width: auto;">
+                        <div class="dropdown">
+                            <i class="mdi mdi-dots-vertical" data-toggle="dropdown" style="font-size: 24px;color: #ff5d29;"></i>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="#">Add to playlist</a></li>
+                                <li><a href="#" disabled>NONE</a></li>
+                                <li><a href="#" disabled>NONE</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="playlist-track-info-duration">
                         <span><i class="mdi mdi-timer"></i> {{song.duration | toMinSecNum}}</span>
                     </div>
@@ -90,6 +102,12 @@
 </div>
 <!-- ng-show="playerPlaylist.getSongId(mediaPlayer.currentTrack) == song.id && playerPlaylist.playlistCurrent == 'playingFromPlaylist'+playlistDTO.playlist.id"-->
 <style>
+    .dropdown-menu{
+        top: 0;
+        //background-color: rgba(0, 0, 0, 0.92) !important;
+        background-color: rgb(255, 255, 255) !important;
+        border-radius: 0px;
+    }
     .icon-player-track{
         display: none;
     }
@@ -191,7 +209,6 @@
 
     .playlist-track-info-name {
         display: block;
-        width: 50vw;
         color: #fff;
         font-size: 16px;
     }
@@ -202,10 +219,29 @@
         font-size: 15px;
     }
 
-    .playlist-track-container div{
-        vertical-align: top;
+
+    .playlist-track-container{
+        margin: 0px 0px 10px 0px;
     }
 
+    .playlist-track-container > div:nth-child(1){
+        vertical-align: top;
+        display: flex;
+        width: 100%;
+    }
+
+    .playlist-track-index{
+        width: 35px;
+        align-self: center;
+        justify-content: center;
+    }
+    .playlist-track-info{
+        flex: 1;
+    }
+    .playlist-track-info-duration{
+        min-width: 80px;
+        text-align: right;
+    }
     .playlist-info {
         text-align: center;
         color: #fff;

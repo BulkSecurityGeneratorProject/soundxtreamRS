@@ -10,7 +10,16 @@
             <i class="fa fa-plus"></i>&nbsp;&nbsp;New playlist
         </button>
         <div class="clear"></div>
-        <div ng-repeat="playlistDTO in playlists track by playlistDTO.playlist.id" class="allList">
+        <div class="no-playlists" style="display: none;opacity:0;height: 50vh;">
+            <div style="flex: 1; align-self: center;text-align: center;">
+                <h3 class="h3_title"><span style="display: inline-flex;vertical-align: text-top;" class="titles">You don't have any playlist created.</span></h3><br>
+                <button class="sx__button" style="font-size: 15px;" ui-sref="library.lists.new">
+                    <i style="font-size: 24px;" class="mdi mdi-playlist-plus"></i>
+                    <span style="vertical-align: top; line-height: 1.8;">Create new playlist</span>
+                </button>
+            </div>
+        </div>
+        <div ng-repeat="playlistDTO in playlists track by playlistDTO.playlist.id" ng-show="playlists.length > 0"  class="allList">
             <div context-menu="menuOptions" class="firstImages" style="background-color: black;"
                  ui-sref="playlist.detail({id: playlistDTO.playlist.id})">
                 <div class="blur">

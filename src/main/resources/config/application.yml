@@ -77,4 +77,4 @@ jhipster:
         license:
         licenseUrl:
     social:
-        redirectAfterSignIn: "/#/explore"
+        redirectAfterSignIn: "/#/"

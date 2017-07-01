@@ -1,40 +1,49 @@
-<div class="row" style="margin-bottom: 15px;">
-    <div class="col-md-12">
-        <h5 class="h5-title-info">{{user.login}}'s tracks</h5>
-        <div class="col-md-10" style="vertical-align: top;" infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" infinite-scroll-distance='2'
-             infinite-scroll-container="'#content'">
-            <div ng-repeat="songDTO in allTracksUser" class="track-box" style="margin-left: 13px;">
-                <div class="track-image">
-                    <img src="{{songDTO.song.artwork}}" style="background: -webkit-linear-gradient(-45deg, rgb(85, 147, 255) 0%, rgb(150, 27, 255) 100%);"/>
-                    <div class="controls">
-                        <md-button ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromTracks'+user.login" ng-click="playerPlaylist.addSongAll(tracksUser,mediaPlayer,$index,'fromTracks'+user.login)" class="md-play" aria-label="play">
-                            <md-icon>
-                                <i class="material-icons">play_arrow</i>
-                            </md-icon>
-                        </md-button>
-                        <md-button ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromTracks'+user.login" ng-click="mediaPlayer.playPause()" class="md-play" aria-label="play">
-                            <md-icon>
-                                <i ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
-                                <i ng-if="mediaPlayer.playing" class="material-icons">pause</i>
-                            </md-icon>
-                        </md-button>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button class="sx__button sx_button_floated to-left" ui-sref="user-profile.tracks">View all</button>
+        <h3 class="h3_title">
+            <i class="mdi mdi-bookmark-music mdi-36px mdi-sx-orange" aria-hidden="true"></i>
+            <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">{{user.login}}'S TRACKS</span>
+        </h3>
+        <div ng-repeat="songDTO in tracksUser track by songDTO.song.id" class="track-wrapper" style="background-image: url({{songDTO.song.artwork}});">
+            <div class="track-container">
+                <h5 style="cursor: pointer;text-align: center;"
+                    ui-sref="song.detail({accessUrl: songDTO.song.access_url,user: songDTO.song.user.login, id: songDTO.song.id})">
+                    <div class="blur">
+                        <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
                     </div>
-                    <div class="stats">
-                        <button class="sx__button like__button"
-                                ng-class="{true:'like__button active',false:'like__button'}[songDTO.liked]"
-                                ng-click="like(songDTO.song.id)">
-                            <i class="fa fa-heart-o fa-lg"></i>{{songDTO.totalLikes}}
-                        </button>
-                        <button class="sx__button like__button"
-                                ng-class="{true:'like__button active',false:'like__button'}[songDTO.shared]"
-                                ng-click="share(songDTO.song.id)">
-                            <i class="fa fa-retweet fa-lg" aria-hidden="true"></i>{{songDTO.totalShares}}
-                        </button>
-                    </div>
-                </div>
-                <div class="info">
-                    <h5>{{songDTO.song.name}}</h5>
-                    <h6>{{songDTO.song.user.login}}</h6>
+                    <span>{{songDTO.song.name}}</span>
+                </h5>
+                <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromTracks'+user.login"
+                        ng-click="mediaPlayer.playPause()">
+                    <i ng-if="!mediaPlayer.playing" class="mdi mdi-play mdi-24px"></i>
+                    <i ng-if="mediaPlayer.playing" class="mdi mdi-pause mdi-24px"></i>
+                </button>
+                <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromTracks'+user.login"
+                        ng-click="playerPlaylist.addSongAll(tracksUser,mediaPlayer,$index,'fromTracks'+user.login)">
+                    <i class="mdi mdi-play mdi-24px"></i>
+                </button>
+                <div class="stats">
+                    <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                        <div class="blur" style="z-index: 1;">
+                            <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                        </div>
+                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;" ng-if="$index == 0">
+                                    Newest
+                                </span>
+                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;" >
+                                    <i class="mdi mdi-play"></i>&nbsp; {{songDTO.plays}}</span>
+                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                      ng-style="{color : ((songDTO.liked) && '#ff6533') || '#fff'}"
+                                      ng-click="like(songDTO.song.id)">
+                                    <i class="fa fa-heart-o"></i>&nbsp; {{songDTO.totalLikes}}
+                                </span>
+                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                      ng-style="{color : ((songDTO.shared) && '#ff6533') || '#fff'}"
+                                      ng-click="share(songDTO.song.id)">
+                                    <i class="fa fa-retweet"></i>&nbsp; {{songDTO.totalShares}}
+                                </span>
+                    </h5>
                 </div>
             </div>
         </div>

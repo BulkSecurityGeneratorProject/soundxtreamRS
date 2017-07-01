@@ -27,9 +27,9 @@ angular.module('soundxtreamappApp')
                     }]
                 }
             })
-            .state('stream', {
+            .state('feed', {
                 parent: 'site',
-                url: '/stream',
+                url: '/feed',
                 data: {
                     authorities: ['ROLE_USER'],
                     pageTitle: 'global.pageTitles.stream-following'

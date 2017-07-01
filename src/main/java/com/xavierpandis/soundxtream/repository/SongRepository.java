@@ -38,4 +38,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     @Query("select track_count.song from Track_count track_count GROUP BY track_count.song ORDER BY count(track_count) desc")
     List<Song> find15FirstMostPlayedSongs();
+
+    @Query("select track_count.song from Track_count track_count WHERE track_count.song.user.login =:login GROUP BY track_count.song ORDER BY count(track_count) desc")
+    List<Song> findMostPlayedTracksUser(@Param("login") String login);
 }

@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('soundxtreamappApp')
-    .controller('UserProfileController', function (Playlist_user,ParseLinks, Playlist, Song_user, $scope, $rootScope, $http, $location, $state, Auth, Principal, $modal,Upload, Seguimiento,userInfo,toaster) {
+    .controller('UserProfileController', function ($timeout, topTracks,Playlist_user,ParseLinks, Playlist, Song_user, $scope, $rootScope, $http, $location, $state, Auth, Principal, $modal,Upload, Seguimiento,userInfo,toaster) {
 
         Principal.identity().then(function(account) {
             $scope.account = account;
@@ -21,6 +21,7 @@ angular.module('soundxtreamappApp')
         $scope.totalLikes = 0;
         $scope.tracksUser = [];
         $scope.allTracksUser = [];
+        $scope.topTracks = topTracks;
 
         $scope.user.$promise.then(function(){
             $http({
@@ -100,6 +101,17 @@ angular.module('soundxtreamappApp')
                 }
             }
         }
+
+        $timeout(function(){
+            $(document).scroll(function() {
+                var y = $(this).scrollTop();
+                if (y > 100) {
+                    $('.scroll-header').addClass("scroll-header-visible");
+                } else {
+                    $('.scroll-header').removeClass("scroll-header-visible");
+                }
+            });
+        });
 
         var successLike = function(result){
             for(var k = 0; k < $scope.tracksUser.length; k++){

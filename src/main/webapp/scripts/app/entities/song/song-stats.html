@@ -2,19 +2,20 @@
     <img src="{{song.song.artwork}}" alt="" height="100%" width="100%"
          style="object-fit: cover; filter: blur(22px);width: 102%;margin-top: -45px;height: 112%;position: fixed;">
 </div>
+<div class="row">
+
+</div>
 <div class="row" ng-if="song.$promise">
     <h2 style="z-index: 222;position: relative; margin-left: 15px;">Stats</h2>
     <div class="col-md-12">
         <h4>Graphical stats</h4>
         <div class="col-md-6" style="background: rgba(29, 29, 29, 0.41);color: #fff;">
-            <nvd3 options="psOptions" data="psData" class="with-3d-shadow with-transitions"></nvd3>
-            <!--<canvas id="line" class="chart chart-line" chart-data="chartUpload.data"
-                    chart-labels="chartUpload.dates" chart-series="series" chart-options="options"
-                    chart-dataset-override="datasetOverride" chart-click="onClick">
-            </canvas>-->
+            <!--<nvd3 options="psOptions" data="psData" class="with-3d-shadow with-transitions"></nvd3>-->
+            <soundxtream-single-chart options="chartOptions" style="display: block;padding: 20px;width: 100%;position: relative;"></soundxtream-single-chart>
         </div>
         <div class="col-md-6" style="background: rgba(29, 29, 29, 0.41);color: #fff;">
             <!--<nvd3 options="likesOptions" data="playTracksData" class="with-3d-shadow with-transitions"></nvd3>-->
+            <soundxtream-multiple-chart options="chartOptions2" style="display: block;padding: 20px;width: 100%;position: relative;"></soundxtream-multiple-chart>
         </div>
     </div>
 </div>

@@ -1,0 +1,242 @@
+<div class="row">
+    <div class="chartTracks col-md-8">
+        <div style="border: 1px solid rgb(255, 103, 55);color: rgb(255, 103, 55);border-width: 0px 0px 1px 0px;">
+            <span style="padding: 12px;display: inline-block;width: 40px;">#</span>
+            <span style="padding: 12px;display: inline-block;max-width: 72%;width: 72%;min-width: 72%;">Track</span>
+            <span style="padding: 12px;min-width: 15%;text-align:right;display: inline-block;width: auto;">Plays</span>
+        </div>
+        <ul class="chartTracks-list-nostyle">
+            <li ng-repeat="track in tracks">
+                <div class="chartTrack" ng-click="playerPlaylist.addSongAll(tracks,mediaPlayer,$index,'fromCharts')">
+                    <div class="chartTrack-number">{{$index+1}}</div>
+                    <div class="chartTrack-artwork">
+                        <image-soundxtream class="chartTrack-artwork-image" image="{{track.song.artwork}}"></image-soundxtream>
+                    </div>
+                    <div class="chartTrack-name">
+                        <div ui-sref="song.detail({accessUrl: track.song.access_url,user: track.song.user.login, id: track.song.id})">
+                            <a href="#/{{track.song.user.login}}/track/{{track.song.access_url}}">{{track.song.name}}</a></div>
+                        <div>{{track.song.user.nickname?track.song.user.nickname:track.song.user.login}}</div>
+                    </div>
+                    <div class="chartTrack-plays"> <i class="mdi mdi-play"></i> {{track.plays}}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-2 chartTracks">
+        <div style="border: 1px solid rgb(255, 103, 55);color: rgb(255, 103, 55);border-width: 0px 0px 1px 0px;">
+            <span style="padding: 12px;display: inline-block;width: 100%;">Filter</span>
+        </div>
+        <div style="margin-top: 20px;">
+            <select class="selectStyles" style="display: none;visibility: hidden;">
+                <option ng-repeat="style in styles" value="{{style.id}}">{{style.name}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<style>
+    .chartTrack:hover{
+        background-color: rgb(219, 219, 219);
+        transition: 0.4s cubic-bezier(0.46, 0.46, 0.46, 0.46) background-color;
+
+    }
+    .chartTracks{
+        margin: 50px;
+    }
+    ul.chartTracks-list-nostyle{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .chartTrack-name a{
+        color: inherit;
+        text-decoration: none;
+    }
+    .chartTrack-name div:first-child{
+        color: rgb(255, 103, 55);
+    }
+    .chartTrack{
+        outline: 0;
+        cursor: pointer;
+        background: transparent;
+        width: 100%;
+        //display: table;
+        display: flex;
+        transition: 0.4s cubic-bezier(0.46, 0.46, 0.46, 0.46) background-color;
+        padding: 10px;
+    }
+    .chartTrack-artwork-image{
+        height: 100%;
+        width: 100%;
+        position: relative;
+        background-size: contain;
+        display: block;
+        background-repeat: no-repeat;
+    }
+    .chartTrack > div{
+        vertical-align: middle;
+        display: inline-block;
+    }
+    .chartTrack > .chartTrack-artwork{
+        margin-right: 10px;
+        max-width: 50px;
+        max-height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+    }
+    .chartTrack > .chartTrack-number{
+        width: 40px;
+        align-self: center;
+    }
+    .chartTrack > .chartTrack-name{
+        width: auto;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+       /* max-width: 500px;
+        min-width: 500px;*/
+        max-width: 72%;
+        min-width: 72%;
+    }
+    .chartTrack > .chartTrack-name > div{
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .chartTrack > .chartTrack-plays{
+        /*width: auto;
+        min-width: 10%;
+        text-align: right;*/
+        min-width: 15%;
+        align-self: center;
+        text-align: right;
+    }
+
+    .select-hidden {
+        display: none;
+        visibility: hidden;
+        padding-right: 10px;
+    }
+
+    .select {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        font-size: 16px;
+        color: #fff;
+        width: 220px;
+        height: 40px;
+    }
+
+    .select-styled {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        //background-color: #c0392b;
+        padding: 8px 15px;
+        -moz-transition: all 0.2s ease-in;
+        -o-transition: all 0.2s ease-in;
+        -webkit-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+
+        background: transparent;
+        border: 1px solid;
+        color: #ff6533;
+        border-radius: 3px;
+        outline: 0;
+    }
+    .select-styled:after {
+        content: "";
+        width: 0;
+        height: 0;
+        border: 7px solid transparent;
+        border-color: #ff6533 transparent transparent transparent;
+        position: absolute;
+        top: 16px;
+        right: 10px;
+    }
+
+    .select-styled:hover:after{
+        border-color: #fff transparent transparent transparent;
+    }
+
+    .select-styled:hover {
+        background: #ff4a10!important;
+        border: 1px solid #ff3800!important;
+        color: white!important;
+        border-radius: 3px!important;
+    }
+    .select-styled:active, .select-styled.active {
+        background: #ff4a10!important;
+        color: white!important;
+        border: 1px solid transparent;
+    }
+    .select-styled:active:after, .select-styled.active:after {
+        top: 9px;
+        border-color: transparent transparent #fff transparent;
+    }
+
+
+    /* Let's get this party started */
+    .select-options::-webkit-scrollbar {
+        width: 7px;
+        background: transparent!important;
+    }
+
+    /* Track */
+    .select-options::-webkit-scrollbar-track {
+        background: transparent!important;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    .select-options::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        background: #ff3800;
+        //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+    .select-options::-webkit-scrollbar-thumb:window-inactive {
+        opacity: 0;
+    }
+
+    .select-options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        height: 277px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        left: 0;
+        z-index: 999;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: #efefef;
+        //border: 1px solid #ff3800;
+        border: 1px solid #c5c5c5;
+        border-width: 0px 1px 1px 1px;
+        border-radius: 0px 3px 3px 3px;
+    }
+    .select-options li {
+        margin: 0;
+        padding: 12px 0;
+        text-indent: 15px;
+        //border-top: 1px solid #ff3800;
+        -moz-transition: all 0.15s ease-in;
+        -o-transition: all 0.15s ease-in;
+        -webkit-transition: all 0.15s ease-in;
+        transition: all 0.15s ease-in;
+        color: #333;
+    }
+    .select-options li:hover {
+        color: #ff3800;
+    }
+    .select-options li[rel="hide"] {
+        display: none;
+    }
+
+</style>

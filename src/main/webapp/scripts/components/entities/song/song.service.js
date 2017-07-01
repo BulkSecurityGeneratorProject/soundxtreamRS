@@ -77,10 +77,20 @@ angular.module('soundxtreamappApp')
                 isArray: true,
                 url: 'api/most-played-songs'
             },
+            'top50AllTracks':{
+                method: 'GET',
+                isArray: true,
+                url: 'api/top-50-tracks'
+            },
             'filterTracks':{
                 method: 'GET',
                 isArray: true,
                 url: 'api/your/songs/filtered/by'
+            },
+            'mostPlayedTracksByArtist':{
+                method: 'GET',
+                isArray: true,
+                url: 'api/most-played-songs/artist/:artist'
             }
         });
     });

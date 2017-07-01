@@ -1,16 +1,205 @@
-<div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h1 translate="activate.title">Activation</h1>
-
-            <div class="alert alert-success" ng-show="success" translate="activate.messages.success">
-                <strong>Your user has been activated.</strong> Please <a class="alert-link" href="#/login">sign in</a>.
+<style>
+    .alert-success-sx{
+        height:100%;
+        background: transparent;
+        border:0px solid transparent;
+        display: flex;
+    }
+    .alert-success-sx > div{
+        flex: 1;
+        align-self: center;
+        text-align: center;
+    }
+    .alert-success-sx > div > *{
+        color: #fff;
+    }
+    .alert-success-sx h3{
+        font-size: 50px;
+        margin-bottom: 30px;
+        font-family: bebas;
+    }
+    .alert-success-sx a{
+        color: #f50!important;
+    }
+</style>
+<div class="login-background"></div>
+<div class="login-form-wrapper">
+    <div class="login-wrapper">
+        <div class="alert alert-success alert-success-sx" ng-show="success">
+            <div>
+                <h3 translate="activate.title" style="text-align: center;">Activation</h3>
+                <div translate="activate.messages.successNew">
+                    <h4><strong>Your user has been activated.</strong></h4>
+                    <p>Please <a class="alert-link" href="#/login">sign in</a></p>
+                </div>
             </div>
-
-            <div class="alert alert-danger" ng-show="error" translate="activate.messages.error">
+        </div>
+        <div class="alert alert-success alert-success-sx" ng-show="error" >
+            <h1 translate="activate.title" style="text-align: center;">Activation</h1>
+            <div translate="activate.messages.error">
                 <strong>Your user could not be activated.</strong> Please use the registration form to sign up.
             </div>
-
         </div>
     </div>
 </div>
+
+<style>
+    html, body{
+        overflow: hidden;
+    }
+    .title-login{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 233;
+    }
+    .btn-login{
+        color: #fff;
+        background-color: #ff774b;
+        border-color: #ff6736;
+    }
+    .btn-login:hover{
+        color: #fff;
+        background-color: #ff6736;
+        border-color: #ff511f;
+    }
+    .input-sx{
+        background: transparent;
+        border: 1px solid #fff9f2;
+        color: #fff9f2;
+        border-width: 0px 0px 1px;
+        border-radius: 0px;
+        outline: 0;
+        box-shadow: none;
+        transition: 0.4s ease-in;
+    }
+    .input-sx:focus{
+        background: transparent;
+        border: 1px solid #ff3900;
+        border-width: 0px 0px 1.5px;
+        color: #ff3900;
+        border-radius: 0px;
+        outline: 0;
+        box-shadow: none;
+        transition: 0.4s ease-in;
+    }
+    .help-block{
+        color: #ff3900;
+    }
+    .blur-background{
+        background: url(/assets/images/background-register.jpg);
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: block;
+        background-size: 100%;
+        background-position: center;
+    }
+    .login-wrapper.blur-login {
+        position: absolute;
+        overflow: hidden;
+        filter: blur(10px);
+        z-index: 2;
+    }
+    .login-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: block;
+        height: 100vh;
+        min-height: 100vh;
+    / / background-image: linear-gradient(to top right, rgba(13, 13, 13, 0.5), rgba(208, 208, 208, 0.75)), linear-gradient(rgba(221, 126, 28, 0.57) 100 %, transparent), url(/assets/images/background-register.jpg);
+        background: url('/assets/images/background-register.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .login-form-wrapper {
+        display: flex;
+        position: relative;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+
+    aside#nav-container {
+        background: rgba(41, 41, 41, 0.44);
+        z-index: 222;
+    }
+
+    aside#nav-container a {
+        color: #fff !important;
+    }
+    /*
+        .login-wrapper {
+            width: 550px;
+            z-index: 3;
+        //background: rgba(3, 4, 6, 0.55);
+            background: rgba(8, 10, 14, 0.75);
+            min-height: 495px;
+        }*/
+
+    .login-wrapper {
+        width: 550px;
+        min-height: 495px;
+        height: 328px;
+        position: relative;
+        overflow: hidden;
+        z-index: 3;
+        background: rgba(40,43,48,.75);
+    }
+
+    .login-wrapper:after{
+        content: '';
+        position: absolute;
+        top: -30px;
+        left: -130px;
+        right: -30px;
+        bottom: -30px;
+        background-image: url(/assets/images/background-register.jpg);
+        background-size: 100vw;
+        background-position: center;
+        -ms-filter: blur(10px);
+        -webkit-filter: blur(10px);
+        filter: blur(10px);
+        z-index: -2;
+    }
+
+    #strength{
+        color: #fff;
+    }
+
+    .login-wrapper:before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.48);
+        z-index: -1;
+    }
+
+    form.login-form {
+        padding: 24px 83px 24px 83px;
+        box-shadow: 0 5px 22px rgba(0, 0, 0, 0.55);
+    //padding: 28.5px 83px 30px 83px;
+    }
+
+    form.login-form label{
+        color: #fff;
+    }
+
+    form.login-form button{
+        display: block;
+        width: 120px;
+        margin: 0 auto;
+    }
+</style>
+

@@ -163,6 +163,7 @@ public class UserResource {
                 user.setActivated(managedUserDTO.isActivated());
                 user.setLangKey(managedUserDTO.getLangKey());
                 user.setUser_image(managedUserDTO.getUser_image());
+                user.setProfile_header(managedUserDTO.getProfile_header());
                 user.setDescription(managedUserDTO.getDescription());
                 Set<Authority> authorities = user.getAuthorities();
                 authorities.clear();
@@ -238,6 +239,7 @@ public class UserResource {
 
         Optional<User> user2  = userService.getUserWithAuthoritiesByLogin(login);
 
+
         if(user2.get() == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -249,6 +251,7 @@ public class UserResource {
         managed.setNickname(user3.getNickname());
         managed.setLogin(user3.getLogin());
         managed.setUser_image(user3.getUser_image());
+        managed.setProfile_header(user3.getProfile_header());
         managed.setFirstName(user3.getFirstName());
         managed.setLastName(user3.getLastName());
         managed.setTotalFollowers(totalFollowers);
