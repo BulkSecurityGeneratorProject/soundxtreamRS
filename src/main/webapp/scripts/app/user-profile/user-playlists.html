@@ -1,15 +1,64 @@
-<div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" infinite-scroll-distance='2'
-     infinite-scroll-container="'#content'" class="row" style="margin-bottom: 15px;">
-    <div class="col-md-12">
-        <h4>{{playlistsUser.length}} Playlists</h4>
-        <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12" ng-repeat="playlist in playlistsUser">
-            <img src="{{playlist.artwork}}"
-                 style="height: 161px; position: relative; width: 100%;display: block;
-                        background: -webkit-linear-gradient(-45deg, rgb(85, 147, 255) 0%, rgb(150, 27, 255) 100%);"/>
-            <p style="position: absolute; top: 0px; margin: 10px; font-size: 15px;
-                        background: rgba(0,0,0,.7); padding: 3px; color: #fff;">
-                {{playlist.name}}
-            </p>
+<div class="row" style="margin-top: 5px;">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h3 class="h3_title">
+            <i class="mdi mdi-playlist-play mdi-36px mdi-sx-orange" aria-hidden="true"></i>
+            <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">{{user.login}}'S PLAYLISTS</span>
+        </h3>
+        <div ng-repeat="playlistDTO in playlistsUser track by playlistDTO.playlist.id" class="allList">
+            <div class="options options-playlist">
+                <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                    <div class="blur" style="z-index: 1;">
+                        <div class="background" style="background-image: url({{playlistDTO.playlist.artwork}});"></div>
+                    </div>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((playlistDTO.liked) && '#ff6533') || '#fff'}"
+                                  ng-click="likePlaylist(playlistDTO.playlist.id)">
+                                <i class="fa fa-heart-o"></i>&nbsp; {{playlistDTO.totalLikes}}
+                            </span>
+                </h5>
+            </div>
+            <div class="firstImages" style="background-color: black;"
+                 ui-sref="playlist.detail({id: playlistDTO.playlist.id})">
+                <div class="blur">
+                    <div ng-if="playlistDTO.playlist.artwork == null" class="background"
+                         style="background-image: url({{playlistDTO.playlist.songs[0].artwork}});"></div>
+                    <div ng-if="playlistDTO.playlist.artwork != null" class="background"
+                         style="background-image: url({{playlistDTO.playlist.artwork}});"></div>
+                </div>
+                <div ng-if="playlistDTO.playlist.artwork == null">
+                    <img ng-src="{{playlistDTO.playlist.songs[1].artwork}}"
+                         ng-if="playlistDTO.playlist.songs.length >= 2" img-preload class="secondArt" alt="">
+                    <img ng-src="{{playlistDTO.playlist.songs[2].artwork}}"
+                         ng-if="playlistDTO.playlist.songs.length >= 3" img-preload class="thirdArt" alt="">
+                    <img ng-src="{{playlistDTO.playlist.songs[0].artwork}}"
+                         ng-if="playlistDTO.playlist.songs.length >= 1" img-preload class="firstArt" alt="">
+                </div>
+                <div ng-if="playlistDTO.playlist.artwork != null">
+                    <img ng-src="{{playlistDTO.playlist.songs[0].artwork}}"
+                         ng-if="playlistDTO.playlist.songs.length >= 1" img-preload class="secondArt" alt="">
+                    <img ng-src="{{playlistDTO.playlist.songs[1].artwork}}"
+                         ng-if="playlistDTO.playlist.songs.length >= 2" img-preload class="thirdArt" alt="">
+                    <img ng-src="{{playlistDTO.playlist.artwork}}" img-preload class="firstArt" alt="">
+                </div>
+                <div class="infoList">
+                    <p style="font-size: 17px;"><b>{{playlistDTO.playlist.name}}</b></p>
+                    <p style="font-size: 11px;">{{playlistDTO.playlist.songs.length}} TRACKS </p>
+                </div>
+            </div>
+            <!--<button class="button-options button-play">
+                        <span
+                            ng-if="playerPlaylist.getPlaylist(mediaPlayer.currentTrack) == playlistDTO.playlist.id && playerPlaylist.playlistCurrent == 'fromYourPlaylists'"
+                            ng-click="mediaPlayer.playPause()">
+                            <i style="font-size: 44px!important;" ng-if="!mediaPlayer.playing"
+                               class="material-icons">play_arrow</i>
+                            <i style="font-size: 44px!important;" ng-if="mediaPlayer.playing" class="material-icons">pause</i>
+                        </span>
+                        <span
+                            ng-if="playerPlaylist.getPlaylist(mediaPlayer.currentTrack) != playlistDTO.playlist.id || playerPlaylist.playlistCurrent != 'fromYourPlaylists'"
+                            ng-click="playerPlaylist.playSetOfPlaylists(playlists,mediaPlayer,$index,'fromYourPlaylists')">
+                            <i style="font-size: 44px!important;" class="material-icons">play_arrow</i>
+                        </span>
+        </button>-->
         </div>
     </div>
 </div>

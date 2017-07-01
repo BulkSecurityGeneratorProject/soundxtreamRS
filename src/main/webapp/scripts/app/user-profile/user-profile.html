@@ -1,64 +1,68 @@
 <style>
-    .profile-image span{
+    .profile-image span {
         height: 200px;
         width: 200px;
         position: relative;
         display: block;
     }
-    .visual-profile{
+
+    .visual-profile {
         height: 100%;
         width: 100%;
         padding: 22px 0px;
     }
-    .profile-image{
+
+    .profile-image {
         height: 100%;
         width: 200px;
         margin: 0 auto;
         position: relative;
         border-radius: 100%;
     }
-    .profile-image img{
+
+    .profile-image img {
         border-radius: 100%;
         overflow: hidden;
     }
-    .profile-image:before{
+
+    .profile-image:before {
         content: '';
         position: absolute;
-        //background: white;
-        //background: linear-gradient(rgba(0,0,0,0) 31%, #fff 102%);
+    / / background: white;
+    / / background: linear-gradient(rgba(0, 0, 0, 0) 31 %, #fff 102 %);
         top: -10px;
         left: -10px;
         bottom: -10px;
         right: -10px;
-        //box-shadow: 0px 13px 16px -12px rgba(0,0,0,.5);
+    / / box-shadow: 0 px 13 px 16 px - 12 px rgba(0, 0, 0, .5);
         border-radius: 100%;
         /*-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
         -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);*/
-        //background: #fff;
+    / / background: #fff;
     }
 
-    .header-background-mask{
-       /* position: absolute!important;
-        z-index: 2;
-        top: 0;
-        left: 0;
-        border-top: 250px solid transparent;
-        border-right: 50vw rgba(255, 251, 251, 0.69) solid;*/
+    .header-background-mask {
+        /* position: absolute!important;
+         z-index: 2;
+         top: 0;
+         left: 0;
+         border-top: 250px solid transparent;
+         border-right: 50vw rgba(255, 251, 251, 0.69) solid;*/
 
-        position: absolute!important;
+        position: absolute !important;
         z-index: 2;
         top: 82px;
         left: 0;
         bottom: 0;
         border-top: 70px solid transparent;
-        //border-right: 50vw rgba(255, 251, 251, 0.69) solid;
+    / / border-right: 50 vw rgba(255, 251, 251, 0.69) solid;
 
         border-right: 50vw rgba(59, 59, 59, 0.51) solid;
     }
 
-    .track-background-mask-first{
-        position: absolute!important;
+    .track-background-mask-first {
+        position: absolute !important;
         z-index: 2;
         top: 200px;
         left: 0;
@@ -67,12 +71,12 @@
         border-right: 27vw rgba(59, 59, 59, 0.51) solid;
     }
 
-    .track-wrapper{
+    .track-wrapper {
         position: relative;
     }
 
-    .track-background-mask{
-        position: absolute!important;
+    .track-background-mask {
+        position: absolute !important;
         z-index: 2;
         top: 110px;
         left: 0;
@@ -81,37 +85,50 @@
         border-right: 185px rgba(59, 59, 59, 0.51) solid;
     }
 
-</style>
-<div>
-    <div class="row">
-        <div class="header-profile" style="position: relative;">
-            <div class="header-background-mask"></div>
-            <div class="header-background" style="background: url('{{user.user_image}}');"></div>
-            <div class="header-profile-image">
-                <img src="{{user.user_image}}" alt="" height="100%" width="100%">
-            </div>
-            <div class="header-profile-info">
-                <div class="profile-username">
-                    <span>{{user.nickname || user.login}}</span>
-                </div>
-                <div></div>
-                <div class="profile-realname">
-                    <div><span>{{user.firstName}} {{user.lastName}}</span></div>
-                </div>
-                <div style="margin-top: 25px;margin-bottom: 2px; ">
-                        <span>
-                            <button class="sx__button sx_button_follow" ng-class="{true:'active',false:''}[user.followedByUser]" ng-click="follow(user)">
-                                <i class="mdi mdi-check" ng-if="user.followedByUser"></i>
-                                <i class="mdi mdi-plus" ng-if="!user.followedByUser"></i>
-                                {{ user.followedByUser ? 'Following' : 'Follow' }}
-                            </button>
-                        </span>
-                    <span style="color: rgba(255, 255, 255, 0.81);position: relative;display:inline-block;padding: 3px;">{{user.totalFollowers}} followers</span>
-                </div>
+    .scroll-header {
+        background: rgb(243, 243, 243);
+        position: fixed;
+        top: 0px;
+        left: 100px;
+        z-index: 62;
+        padding: 10px;
+        right: 0;
+        display: block;
+        transform: translate3d(0,-100%,0);
+        -webkit-transform: translate3d(0,-100%,0);
+        transition: transform .3s;
+        //border-bottom: 1px solid rgba(124, 124, 124, 0.51);
+    }
 
+    .scroll-header-visible{
+        transform: translate3d(0,0,0);
+        -webkit-transform: translate3d(0,0,0);
+    }
+</style>
+<div class="scroll-header">
+    <div style="display: flex;">
+        <div style="height: 50px; width: 50px;border-radius: 50%;margin-right: 15px;">
+            <img src="{{user.user_image}}" width="100%" height="100%" alt="" style="border-radius: 50%;">
+        </div>
+        <div style="flex: 1; display: inline-flex;align-items: center;">
+            <span style="font-size: 20px;">{{user.login}}</span>
+        </div>
+        <div style="display: inline-flex;align-items: center;">
+            <div class="profile-stats-holder" style="position: relative;">
+                    <span>
+                        <button class="sx__button sx_button_follow"
+                                ng-class="{true:'active',false:''}[user.followedByUser]" ng-click="follow(user)">
+                            <i class="mdi mdi-check" ng-if="user.followedByUser"></i>
+                            <i class="mdi mdi-plus" ng-if="!user.followedByUser"></i>
+                            {{ user.followedByUser ? 'Following' : 'Follow' }}
+                        </button>
+                    </span>
                 <div class="profile-stats">
                     <div class="label-sx" ui-sref="user-profile.following">
-                        <span>{{user.totalFollowings}} following</span>
+                        <span>{{user.totalFollowers  || '0' }} {{user.totalFollowers == 1 ? 'follower':'followers'}}</span>
+                    </div>
+                    <div class="label-sx" ui-sref="user-profile.following">
+                        <span>{{user.totalFollowing || '0'}} following</span>
                     </div>
                     <div class="label-sx">
                         <span>{{tracksUser.length}} tracks</span>
@@ -120,8 +137,72 @@
             </div>
         </div>
     </div>
-    <div ui-view="user-view" class="user-library">
-        <div class="row">
+</div>
+<div>
+    <div class="row" style="position: relative;overflow: hidden;margin-bottom: 10px;">
+        <!--<div class="row-header-background"  style="background: url('{{user.profile_header}}');"></div>-->
+        <div class="header-profile" style="position: relative;">
+            <!--<div class="header-background-mask"></div>-->
+            <div profile-header="{{user.login}}" class="header-background"
+                 style="background: url('{{user.profile_header}}');"></div>
+            <div class="header-profile-image">
+                <img src="{{user.user_image}}" alt="" height="100%" width="100%">
+            </div>
+            <div class="header-profile-info">
+                <div class="profile-username">
+                    <span>{{user.nickname || user.login}}</span>
+                </div>
+                <div></div>
+                <div class="profile-realname" ng-show="user.firstName!= null || user.lastName!=null">
+                    <div><span>{{user.firstName}} {{user.lastName}}</span></div>
+                </div>
+                <div class="profile-stats-holder">
+                    <span>
+                        <button class="sx__button sx_button_follow"
+                                ng-class="{true:'active',false:''}[user.followedByUser]" ng-click="follow(user)">
+                            <i class="mdi mdi-check" ng-if="user.followedByUser"></i>
+                            <i class="mdi mdi-plus" ng-if="!user.followedByUser"></i>
+                            {{ user.followedByUser ? 'Following' : 'Follow' }}
+                        </button>
+                    </span>
+                    <div class="profile-stats">
+                        <div class="label-sx" ui-sref="user-profile.following">
+                            <span>{{user.totalFollowers  || '0' }} {{user.totalFollowers == 1 ? 'follower':'followers'}}</span>
+                        </div>
+                        <div class="label-sx" ui-sref="user-profile.following">
+                            <span>{{user.totalFollowing || '0'}} following</span>
+                        </div>
+                        <div class="label-sx">
+                            <span>{{tracksUser.length}} tracks</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="user-profile-library">
+        <div class="row" style="border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;">
+            <div class="col-md-6 col-md-offset-3 col-sm-12">
+                <ul style="list-style: none;padding: 0;">
+                    <div class="titles" style="font-size: 25px;">Popular tracks</div>
+                    <li ng-show="topTracks.length < 1">{{user.login}} don't have any popular track</li>
+                    <li ng-repeat="track in topTracks" class="topTracks" style="display: flex;padding: 5px;" ng-show="topTracks.length > 0">
+                        <div style="width: 40px;align-self: center;">{{$index+1}}</div>
+                        <div style="width: 40px;height: 40px;align-self: center;margin-right: 5px;">
+                            <image-soundxtream style="width: 100%; position: relative;height: 100%;overflow: hidden;display: block;background-size: contain;" image="{{track.song.artwork}}"></image-soundxtream>
+                        </div>
+                        <div style="flex: 1;align-self: center;overflow: hidden;text-overflow: ellipsis;">
+                            {{track.song.name}}
+                        </div>
+                        <div style="min-width: 15%;align-self: center;text-align: right;padding-right: 15px;">
+                            <i class="mdi mdi-play"></i> {{track.plays}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;padding-bottom: 10px;">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <button class="sx__button sx_button_floated to-left" ui-sref="user-profile.tracks">View all</button>
                 <h3 class="h3_title">
@@ -172,7 +253,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-top: 5px;">
+        <div class="row" style="border-bottom: 1px solid rgba(158, 158, 158, 0);margin-bottom: 10px;padding-bottom: 10px;">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h3 class="h3_title">
                     <i class="mdi mdi-playlist-play mdi-36px mdi-sx-orange" aria-hidden="true"></i>
@@ -239,17 +320,26 @@
     </div>
 </div>
 <style>
-    .card-prof{
-        -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Firefox 3.5 - 3.6 */
+    .topTracks:hover{
+        background: rgba(158, 158, 158, 0.31);
+    }
+    .card-prof {
+        -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23); /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23); /* Firefox 3.5 - 3.6 */
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
     }
+    .user-profile-library{
+        width: 1265px;
+        margin: 0 auto;
+    }
+
     .btn-upload-over {
         position: absolute;
         top: 0;
         left: 0;
     }
-    .h5-title-info{
+
+    .h5-title-info {
         border-width: 0px 0px 0px 6px;
         border-color: #6F00F8;
         border-style: solid;
@@ -261,18 +351,16 @@
     }
 
     .track-container .blur > .background {
-        top: 0!important;
-        bottom: 0!important;
+        top: 0 !important;
+        bottom: 0 !important;
     }
 
-
-
-    @media (max-width: 1368px){
+    @media (max-width: 1368px) {
         .track-wrapper {
-            //width: 350px;
+        / / width: 350 px;
             /*width: 175px;
             height: 175px;*/
-            width: 220px!important;
+            width: 220px !important;
             height: 220px;
         }
     }
@@ -303,25 +391,25 @@
 
     .track-container > h5 {
         width: 100%;
-        //margin-top: -100%;
+    / / margin-top: - 100 %;
         transition: all 0.4s ease;
     }
 
-    .track-container{
+    .track-container {
         overflow: hidden;
     }
 
-    .latest_badge{
+    .latest_badge {
         background: #ff5d29;
         font-size: 22px;
         position: absolute;
         bottom: 10px;
-       // box-shadow: 0px 5px #d23b0b;
+    / / box-shadow: 0 px 5 px #d23b0b;
         border-radius: 3px;
         text-transform: capitalize;
     }
 
-    .options-playlist{
+    .options-playlist {
         top: 4px;
     }
 
@@ -329,7 +417,7 @@
         margin-top: 0px;
         transition: all 0.4s ease;
     }*/
-    .sx_button_bottom{
+    .sx_button_bottom {
         position: absolute;
         bottom: 10px;
         right: 10px;
@@ -338,20 +426,21 @@
         border-color: #ff5d29;
     }
 
-    @media (max-width: 768px){
-        .track-wrapper{
+    @media (max-width: 768px) {
+        .track-wrapper {
             width: 100%;
             height: auto;
         }
-        .track-wrapper:before{
+
+        .track-wrapper:before {
             display: block;
             content: "";
             width: 100%;
-            padding-top: 56.25%!important;
+            padding-top: 56.25% !important;
         }
     }
 
-    .sx__button.sx_button_floated.to-left{
+    .sx__button.sx_button_floated.to-left {
         left: 1053px;
     }
 
@@ -370,15 +459,15 @@
         padding-left: 8.5px;
     }
 
-    button.sx__button.sx_button_player:hover{
-        border-radius: 100%!important;
+    button.sx__button.sx_button_player:hover {
+        border-radius: 100% !important;
         height: 42px;
         width: 42px;
-        padding-top: 6px!important;
-        padding-left: 8.5px!important;
+        padding-top: 6px !important;
+        padding-left: 8.5px !important;
     }
 
-    .stats{
+    .stats {
         position: absolute;
         bottom: 0px;
         left: 0;
@@ -400,68 +489,21 @@
     button.sx__button.sx_button_locked {
         background: #989898;
         color: #fff;
-        border: 1px solid rgba(0,0,0,.2);
+        border: 1px solid rgba(0, 0, 0, .2);
     }
 
     button.sx__button.sx_button_locked:hover {
-        background: #808080!important;
-        color: #fff!important;
-        border: 1px solid rgba(0,0,0,.2)!important;
+        background: #808080 !important;
+        color: #fff !important;
+        border: 1px solid rgba(0, 0, 0, .2) !important;
     }
 
-    .track-wrapper:not(:first-child){
+    .track-wrapper:not(:first-child) {
         height: 220px;
         width: 220px;
     }
 
-    .header-profile{
-        height: 250px;
-       // display: inline-flex;
-        display: block;
-        align-items: center;
-        margin: 20px auto;
-
-        //width: calc(100vw - 156px);
-
-        width: 50vw;
-
-        padding: 25px;
-
-        overflow: hidden;
-
-
-
-        /* height: auto;
-         display: inline-flex;
-         margin: 20px;
-         width: 50vw;
-         padding: 20px;*/
-    }
-
-    .header-profile::before{
-        /*display: inline-block;
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        border-top: 223px solid rgba(255, 137, 82, 0);
-        border-right: 590px solid #ff8952;*/
-
-
-        /*display: inline-block;
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: -20px;
-        left: -20px;
-        border-top: 223px solid rgba(255, 137, 82, 0);
-        border-right: 590px solid #ff8952;*/
-    }
-
-    .header-profile *{
+    .header-profile * {
         vertical-align: top;
         position: relative;
     }
@@ -487,66 +529,51 @@
         z-index: 222;
     }
 
-    .header-profile-info > div:not(.header-profile-background){
+    .header-profile-info > div:not(.header-profile-background) {
         z-index: 22;
     }
 
-    .profile-stats{
-        bottom: 0px;
+    .profile-stats-holder {
         position: absolute;
+        bottom: 0;
+        display: flex;
+        padding: 3px 5px 3px 5px;
+        background: rgba(0, 0, 0, .5);
+        right: 0;
     }
 
-    .label-sx{
+    .profile-stats-holder span:nth-child(1) {
+        align-self: center;
+    }
+
+    .label-sx {
         position: relative;
-        color: #ff5d29;
         display: inline-block;
-        padding:5px 10px 5px 10px;
+        padding: 5px 10px 5px 10px;
+        color: #FFF;
     }
 
-    .label-sx::before {
-        display: block;
-        content: "";
-        width: 85%;
-        height: 15px;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        border-top: 1px solid #ff8952;
-        border-left: 1px solid #ff8952;
-    }
-
-    .label-sx::after{
-        display: block;
-        content: "";
-        width: 85%;
-        height: 15px;
-        position: absolute;
-        right: 0px;
-        bottom: 0px;
-        border-bottom: 1px solid #ff8952;
-        border-right: 1px solid #ff8952;
-    }
-    .profile-username{
+    .profile-username {
         display: inline-block;
         width: auto;
         margin-top: 15px;
-        //background: rgba(0,0,0,0.7);
+    / / background: rgba(0, 0, 0, 0.7);
         padding: 8px 10px 8px 10px;
         color: #FFF;
-        background: rgba(0,0,0,.5);
+        background: rgba(0, 0, 0, .5);
     }
 
-    .profile-realname{
+    .profile-realname {
         display: inline-block;
         width: auto;
         margin-top: 2px;
         padding: 8px 10px 8px 10px;
-       // background: rgba(0,0,0,0.7);
+    / / background: rgba(0, 0, 0, 0.7);
         color: #FFF;
-        background: rgba(0,0,0,.5);
+        background: rgba(0, 0, 0, .5);
     }
 
-    .header-background{
+    /*.header-background{
         position: absolute;
         height: 104%;
         width: 102%;
@@ -559,33 +586,20 @@
         z-index: 1;
         bottom: 0px;
         right: 0px;
-    }
+    }*/
 
-
-    .header-profile::before{
-        display: block;
-        content: "";
-        width: 85%;
-        height: 65px;
+    .header-background {
         position: absolute;
-        top: 0px;
-        left: 0px;
-        border-top: 1px solid #ff8952;
-        border-left: 1px solid #ff8952;
-        z-index: 30;
-    }
-
-    .header-profile::after{
-        display: block;
-        content: "";
-        width: 85%;
-        height: 65px;
-        position: absolute;
-        right: 0px;
+        height: 100%;
+        width: 100%;
+        /* top: -5px; */
+        /* left: -5px; */
+        background-size: 100% !important;
+        background-position: center center !important;
+        /* filter: blur(10px); */
+        z-index: 1;
         bottom: 0px;
-        border-bottom: 1px solid #ff8952;
-        border-right: 1px solid #ff8952;
-        z-index: 30;
+        right: 0px;
     }
 
     .allList {

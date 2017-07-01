@@ -1,12 +1,20 @@
 <div class="row">
-    <div class="col-md-10" infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page"
-         infinite-scroll-distance='2'
-         infinite-scroll-container="'#content'">
+    <div class="col-md-12" infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" infinite-scroll-distance="1" infinite-scroll-container="'#content'">
         <h3 class="h3_title">
             <i class="mdi mdi-heart mdi-36px mdi-sx-orange" aria-hidden="true"></i>
             <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">YOUR TRACKS LIKES</span>
         </h3>
-        <div ng-repeat="song_user in song_users" class="track-box" style="margin-left: 13px;">
+        <div class="clear"></div>
+        <div ng-cloak class="no-likes" style="display: none;height: 50vh;">
+            <div style="flex: 1; align-self: center;text-align: center;">
+                <h3 class="h3_title"><span style="display: inline-flex;vertical-align: text-top;" class="titles">You don't have any track liked.</span></h3><br>
+                <button class="sx__button" style="font-size: 15px;" ui-sref="charts-top">
+                    <i style="font-size: 24px;" class="mdi mdi-playlist-plus"></i>
+                    <span style="vertical-align: top; line-height: 1.8;">Explore charts</span>
+                </button>
+            </div>
+        </div>
+        <div ng-cloak ng-repeat="song_user in song_users" class="track-box" style="margin-left: 13px;">
             <div class="track-image">
                 <img ng-src="{{song_user.song.artwork}}" img-preload
                      style="background: -webkit-linear-gradient(-45deg, rgb(85, 147, 255) 0%, rgb(150, 27, 255) 100%);"/>
@@ -50,43 +58,6 @@
                     {{song_user.song.name}}</h5>
                 <h6 ui-sref="user-profile({login:song_user.song.user.login})">{{song_user.song.user.login}}</h6>
             </div>
-        </div>
-    </div>
-    <div ng-cloak class="col-md-12 likes_empty_warning" ng-if="song_users.length == 0">
-        <span><i class="mdi mdi-heart-off"></i><span>No likes</span></span>
-    </div>
-    <div class="col-md-2" ng-if="song_users.length > 0">
-        <h4 class="titles">FILTERS (beta)</h4>
-        <div class="form-group">
-            <label class="control-label" for="field_name">Filter by name</label>
-            <input type="text" class="form-control" name="name" id="field_name" ng-model="filterName"/>
-        </div>
-        <div>
-            <label>Filter by type</label>
-            <div class="radio">
-                <input type="radio" id="original" name="radio" ng-model="song.typeSong"
-                       value="original"/>
-                <label for="original"><span></span>Original</label>
-                <br>
-                <input type="radio" id="remix" name="radio" ng-model="song.typeSong" value="remix"/>
-                <label for="remix"><span></span>Remix</label>
-                <br>
-                <input type="radio" id="mashup" name="radio" ng-model="song.typeSong" value="mashup"/>
-                <label for="mashup"><span></span>Mashup</label>
-                <br>
-                <input type="radio" id="bootleg" name="radio" ng-model="song.typeSong" value="bootleg"/>
-                <label for="bootleg"><span></span>Bootleg</label>
-                <br>
-                <input type="radio" id="set" name="radio" ng-model="song.typeSong" value="set"/>
-                <label for="set"><span></span>Set (Festivals, Concerts)</label>
-                <br>
-                <input type="radio" id="radio" name="radio" ng-model="song.typeSong" value="radio"/>
-                <label for="radio"><span></span>Radio shows</label>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="field_name">Filter by label, discography</label>
-            <input type="text" class="form-control" name="name" id="field_name" ng-model="filterName"/>
         </div>
     </div>
 </div>

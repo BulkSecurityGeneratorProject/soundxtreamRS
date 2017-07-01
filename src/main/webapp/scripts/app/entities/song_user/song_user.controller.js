@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('soundxtreamappApp')
-    .controller('Song_userController', function ($scope, $state, Song_user, Song_userSearch, $mdToast,ParseLinks) {
+    .controller('Song_userController', function ($scope, $state, Song_user, Song_userSearch, $mdToast,toaster,ParseLinks) {
 
         $scope.song_users = [];
         $scope.predicate = 'id';
@@ -14,6 +14,9 @@ angular.module('soundxtreamappApp')
                     if(result[i].liked == true){
                         $scope.song_users.push(result[i]);
                     }
+                }
+                if($scope.song_users.length<1){
+                    $('.no-likes').css({"opacity":"1", "display":"flex"});
                 }
             });
         };
@@ -69,17 +72,7 @@ angular.module('soundxtreamappApp')
 
             var resImg = result.song.artwork;
             if(result.liked == false){
-                $mdToast.show({
-                    template: '<md-toast>'+
-                    '<img class="img-toaster" ng-src="'+resImg+'" height="40px" width="40px"/>'+
-                    '<span class="md-toast-text" flex>' +
-                    '<p class="p_toaster">'+result.song.name+'</p>' +
-                    '<small>Was removed from your collection</small>' +
-                    '</span>'+
-                    '</md-toast>',
-                    hideDelay: 1500,
-                    position: 'bottom right'
-                });
+                toaster.pop('success',"Success","Track removed from your favorites");
             }
         };
     });

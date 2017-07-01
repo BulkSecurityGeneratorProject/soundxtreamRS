@@ -106,6 +106,8 @@ public class UserService {
         newUser.setLastName(lastName);
         newUser.setEmail(email);
         newUser.setLangKey(langKey);
+        newUser.setUser_image("assets/images/default_image.jpg");
+        newUser.setProfile_header("assets/images/default_image.jpg");
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
@@ -125,6 +127,8 @@ public class UserService {
         user.setFirstName(managedUserDTO.getFirstName());
         user.setLastName(managedUserDTO.getLastName());
         user.setEmail(managedUserDTO.getEmail());
+        user.setUser_image("assets/images/default_image.jpg");
+        user.setProfile_header("assets/images/default_image.jpg");
         if (managedUserDTO.getLangKey() == null) {
             user.setLangKey("en"); // default language is English
         } else {
@@ -148,7 +152,7 @@ public class UserService {
         return user;
     }
 
-    public void updateUserInformation(String nickname, String firstName, String lastName, String email, String langKey,String user_image, String description) {
+    public void updateUserInformation(String nickname, String firstName, String lastName, String email, String langKey,String user_image,String profile_header, String description) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUser().getUsername()).ifPresent(u -> {
             u.setNickname(nickname);
             u.setFirstName(firstName);
@@ -157,6 +161,7 @@ public class UserService {
             u.setLangKey(langKey);
             //PARA CAMBIAR LA IMAGEN DEL USUARIO
             u.setUser_image(user_image);
+            u.setProfile_header(profile_header);
             u.setDescription(description);
             userRepository.save(u);
             userSearchRepository.save(u);

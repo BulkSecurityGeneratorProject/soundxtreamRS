@@ -13,6 +13,8 @@ angular.module('soundxtreamappApp').controller('UploadController',
                 $scope.account = account;
             });
 
+            var jsmediatags = window.jsmediatags;
+
             $scope.stepOne = false;
             $scope.stepTwo = false;
             $scope.stepThree = false;
@@ -72,6 +74,7 @@ angular.module('soundxtreamappApp').controller('UploadController',
             }
 
             $scope.$watch('files', function () {
+
                 $scope.uploadSong($scope.files);
             });
 
@@ -109,15 +112,22 @@ angular.module('soundxtreamappApp').controller('UploadController',
                     Song.update($scope.song, onSaveSuccess, onSaveError);
                 } else {
                     console.log($scope.picFile);
-                    if ($scope.picFile == undefined) {
+                    if ($scope.picFile == undefined && ($scope.artworkFile == undefined || $scope.artworkFile == null)) {
                         //$scope.uploadArt($scope.artworkFile);
                         $scope.song.artwork = $rootScope.account.user_image;
                     } else {
-                        var imageBase64 = $scope.croppedArtwork;
-                        var blob = dataURItoBlob(imageBase64);
-                        var file = new File([blob], "ds.jpg");
+                        if($scope.artworkFile != null && ($scope.croppedArtwork == undefined || $scope.croppedArtwork == "")){
+                            var blob = dataURItoBlob($scope.artworkFile);
+                            var file = new File([blob], "ds.jpg");
+                            $scope.uploadArt(file);
+                        }
+                        else{
+                            var imageBase64 = $scope.croppedArtwork;
+                            var blob = dataURItoBlob(imageBase64);
+                            var file = new File([blob], "ds.jpg");
 
-                        $scope.uploadArt(file);
+                            $scope.uploadArt(file);
+                        }
                     }
                     if ($scope.bannerFile != undefined) {
                         var imageBase64Banner = $scope.croppedBanner;
@@ -230,9 +240,78 @@ angular.module('soundxtreamappApp').controller('UploadController',
             $scope.uploadOK = false;
             $scope.uploadStart = false;
 
+
+
+            /*function dataURItoBlob(dataURI, callback) {
+                // convert base64 to raw binary data held in a string
+                // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+                var byteString = window.atob(dataURI.split(',')[1]);
+
+                // separate out the mime component
+                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+                // write the bytes of the string to an ArrayBuffer
+                var ab = new ArrayBuffer(byteString.length);
+                var ia = new Uint8Array(ab);
+                for (var i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+
+                // write the ArrayBuffer to a blob, and you're done
+                //var bb = new Blob([ab]);
+                var url = URL.createObjectURL(new Blob([ab] , {type:'image/jpg'}));
+                return url;
+            }*/
+
+            function blobToFile(theBlob, fileName){
+                //A Blob() is almost a File() - it's just missing the two properties below which we will add
+                theBlob.lastModifiedDate = new Date();
+                theBlob.name = fileName;
+                return theBlob;
+            }
+
+            $scope.artworkFile = null;
+
             $scope.uploadSong = function (files) {
                 $scope.filesUpload = files;
                 if (files != null) {
+
+                    jsmediatags.read(files[0], {
+                        onSuccess: function(tag) {
+                            var tags = tag.tags;
+                            console.log(tags);
+                           // $scope.song.name = tags.title;
+
+                            var image = tags.picture;
+                            if (image) {
+
+
+                                var base64String = "";
+                                for (var i = 0; i < image.data.length; i++) {
+                                    base64String += String.fromCharCode(image.data[i]);
+                                }
+                                var base64 = "data:image/jpeg;base64," +
+                                    window.btoa(base64String);
+
+                                var contentType = 'image/jpg';
+
+                                var url = dataURItoBlob(base64);
+                                console.log(url);
+
+                                $scope.artworkFile = base64;
+
+                                document.getElementById('picture').setAttribute('src',base64);
+                            } else {
+                                document.getElementById('picture').style.display = "none";
+                            }
+
+                        }
+                    });
+
+                    if($scope.artworkFile != null){
+                        $scope.picFile = $scope.artworkFile;
+                    }
+
                     uploadUsingUpload(files[0]);
                     var accURL = (files[0].name.replace(/\s/g,"")).replace("(","-");
                     accURL = accURL.replace(")","").toLowerCase();
@@ -265,15 +344,14 @@ angular.module('soundxtreamappApp').controller('UploadController',
                 var songLocationName = "";
                 console.log(file);
 
+                    $scope.song.name = file.name;
+                    songLocationName = file.name.toLowerCase();
+                    songLocationName = songLocationName.split(' ').join('-');
+                    songLocationName = $scope.account.login + "-" + songLocationName;
+                
+
                 var songArtworkName = file.name.toLowerCase();
                 var ext = file.name.split('.').pop();
-                console.log(ext);
-
-
-                $scope.song.name = file.name;
-                songLocationName = file.name.toLowerCase();
-                songLocationName = songLocationName.split(' ').join('-');
-                songLocationName = $scope.account.login + "-" + songLocationName;
 
                 upload = Upload.upload({
                     url: 'api/upload',

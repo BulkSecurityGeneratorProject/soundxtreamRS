@@ -13,7 +13,7 @@
                     "pattern": "Your username can only contain lower-case letters and digits."
                 }
             },
-            "success": "<strong>Registration saved!</strong> Please check your email for confirmation.",
+            "success": "<div><h4>Registration complete.</h4><p>Please check your email for confirmation</p></div>",
             "error": {
                 "fail": "<strong>Registration failed!</strong> Please try again later.",
                 "userexists": "<strong>Login name already registered!</strong> Please choose another one.",

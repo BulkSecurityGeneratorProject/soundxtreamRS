@@ -1,5 +1,6 @@
 package com.xavierpandis.soundxtream.repository;
 
+import com.xavierpandis.soundxtream.domain.Song;
 import com.xavierpandis.soundxtream.domain.Track_count;
 
 import org.springframework.data.jpa.repository.*;
@@ -33,4 +34,7 @@ public interface Track_countRepository extends JpaRepository<Track_count,Long> {
 
     @Query("select count(track_count), track_count.city from Track_count track_count where track_count.song.id = :id GROUP BY track_count.city")
     List<Object> groupStatsGeogByCity(@Param("id") Long id);
+
+    @Query("select track_count.song from Track_count track_count GROUP BY track_count.song ORDER BY count(track_count) desc")
+    List<Song> top50tracks();
 }

@@ -34,8 +34,8 @@ var psChartConfig = {
         xAxis: {
             axisLabel: "Dates",
             showMaxMin: false,
-            rotateLabels: -90,
-            tickFormat: function (d) {
+            rotateLabels: -90
+            /*tickFormat: function (d) {
                 return d3.time.format('%d-%m-%y')(new Date(d))
             },
             tickValues: function(values) {
@@ -43,7 +43,7 @@ var psChartConfig = {
                     return new Date(v.x);
                 });
                 return a;
-            }
+            }*/
         },
         xDomain: [new Date(),today],
         yAxis: {

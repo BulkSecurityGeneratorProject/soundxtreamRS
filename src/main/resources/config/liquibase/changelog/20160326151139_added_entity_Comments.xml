@@ -21,21 +21,21 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="comment_text" type="varchar(255)">
+            <column name="comment_text" type="mediumtext">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="date_comment" type="timestamp">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="song_id" type="bigint"/>
             <column name="user_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="comments" columnName="date_comment" columnDataType="datetime"/>
 
-        
+
         <addForeignKeyConstraint baseColumnNames="song_id"
                                  baseTableName="comments"
                                  constraintName="fk_comments_song_id"

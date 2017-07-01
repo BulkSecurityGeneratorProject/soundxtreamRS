@@ -707,5 +707,20 @@ public class SongResource {
     }
 
 
+    @RequestMapping(value = "/most-played-songs/artist/{artist}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<SongDTO>> getMostPlayedTracksOfArtist(@PathVariable String artist){
+
+        List<Song> songs = songRepository.findMostPlayedTracksUser(artist);
+
+        List<SongDTO> listSongDTO = songService.getInfoSong(songs);
+
+        listSongDTO = listSongDTO.stream().limit(5).collect(Collectors.toList());
+
+        return new ResponseEntity<>(listSongDTO, null, HttpStatus.OK);
+    }
+
 
 }

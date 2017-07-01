@@ -3,13 +3,13 @@
     <div class="col-xs-12">
         <h4>Latest activity from the people you’re following:</h4>
     </div>
-    <div class="col-md-10 col-md-push-1">
+    <div class="col-md-12">
         <div class="row">
             <div class="col-md-8">
                 <div ng-repeat="activity in activities" class="result-row">
                     <div ng-if="activity.type == 'upload_track'">
                         <span class="type_feed"><i class="ion-feed ion-upload"></i> {{activity.song.song.user.login}} uploaded a track</span>
-                        <img src="{{activity.song.song.artwork ? activity.song.song.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <img image-soundxtream="{{activity.song.song.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.song.song.user.login}}</span></p>
                             <p><span class="feed-title" ui-sref="song.detail({accessUrl: activity.song.song.access_url,user: activity.song.song.user.login, id: activity.song.song.id})">{{activity.song.song.name}}</span></p>
@@ -18,7 +18,7 @@
                     </div>
                     <div ng-if="activity.type == 'shared_track'">
                         <span class="type_feed"><i class="ion-feed ion-android-share"></i> {{activity.shareTrack.user.login}} shared a track</span>
-                        <img src="{{activity.song.song.artwork ? activity.song.song.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <img image-soundxtream="{{activity.song.song.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.song.song.user.login}}</span></p>
                             <p><span class="feed-title" ui-sref="song.detail({accessUrl: activity.song.song.access_url,user: activity.song.song.user.login, id: activity.song.song.id})">{{activity.song.song.name}}</span></p>
@@ -27,7 +27,7 @@
                     </div>
                     <div ng-if="activity.type == 'created_playlist'">
                         <span class="type_feed"><i class="ion-feed ion-plus"></i> {{activity.playlist.user.login}} created a playlist</span>
-                        <img src="{{activity.playlist.artwork ? activity.playlist.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <img image-soundxtream="{{activity.playlist.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.playlist.user.login}}</span></p>
                             <p><span class="feed-title">{{activity.playlist.name}}</span></p>
@@ -35,7 +35,7 @@
                     </div>
                     <div ng-if="activity.type == 'shared_playlist'">
                         <span class="type_feed"><i class="ion-feed ion-plus"></i> {{activity.playlist.user.login}} shared a playlist</span>
-                        <img src="{{activity.playlist.artwork ? activity.playlist.artwork : '/assets/images/default_image.jpg'}}" class="header_feed" width="140px" height="140px" alt="">
+                        <img image-soundxtream="{{activity.playlist.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" width="140px" height="140px" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.playlist.user.login}}</span></p>
                             <p><span class="feed-title">{{activity.playlist.name}}</span></p>
@@ -90,26 +90,13 @@
         background: rgb(0, 0, 0);
     }
     .result-row .feed-info{
-        /*display: inline-block;
-        width: calc(99% - 210px);
-        margin-left: -4px;
-        padding-left: 6px;
-        padding-top: 6px;*/
-
-        display: inline-block;
-        width: 100%;
-        /* margin-left: -4px; */
-        /* padding-left: 6px; */
-        /* padding-top: 6px; */
-        /* margin-bottom: 6px; */
-        position: absolute;
-        bottom: 0;
-        left: 0;
+        flex: 1;
         padding: 5px;
     }
     .result-row img{
         display: inline-block;
-        width: auto;
+        width: 120px;
+        height: 120px;
     }
     .type_feed{
         position: absolute;
@@ -117,6 +104,7 @@
         left: 0;
         color: #504d4a;
         font-size: 15px;
+        width: 350px;
         display: block;
     }
     .type_feed .ion-feed{
@@ -134,27 +122,19 @@
         object-fit: contain;
     }
     .result-row{
-        display: inline-block;
         position: relative;
-        width: 300px;
         margin-top: 30px;
         margin-left: 9px;
-
-        /*display: block;
-        position: relative;
-        width: 100%;
-        //margin: 0 0 10px 0;
-        margin-top: 30px;*/
-        -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);  /* Firefox 3.5 - 3.6 */
-        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
-        background: #fff;
+        display: flex;
+        border-bottom: 1px solid rgba(132,132,132,0.35);
+        padding-bottom: 15px;
     }
     .result-row *{
         vertical-align: top;
     }
     .result-row > div{
         position: relative;
+        display: flex;
     }
     .info{
         position: absolute;
@@ -168,7 +148,7 @@
         background-image: url('/assets/images/logo_home.jpg');
         background-position: center;
         background-size: cover;
-        height: 320px;
+        height: 120px;
         /*margin-left: -15px;
         margin-right: -15px;*/
     }

@@ -17,7 +17,7 @@ public interface CommentsRepository extends JpaRepository<Comments,Long> {
     @Query("select comments from Comments comments where comments.user.login = ?#{principal.username}")
     List<Comments> findByUserIsCurrentUser();
 
-    @Query("select comments from Comments comments where comments.song.id = :song_id")
+    @Query("select comments from Comments comments where comments.song.id = :song_id ORDER BY comments.date_comment desc")
     Page<Comments> findCommentsBySong(@Param("song_id") Long id,Pageable pageable);
 
 }

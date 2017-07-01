@@ -18,6 +18,11 @@ angular.module('soundxtreamappApp').controller('SongToPlaylist',
                 $scope.playlists = result;
             });*/
 
+            $scope.closeModal = function(){
+                //$uibModalInstance.close();
+                $uibModalInstance.dismiss('cancel');
+            }
+
             $scope.load = function (id) {
                 Playlist.get({id: id}, function (result) {
                     $scope.playlist = result;
@@ -94,9 +99,15 @@ angular.module('soundxtreamappApp').controller('SongToPlaylist',
                     }
                     Playlist.update(playlist, function(result){
                         $rootScope.$broadcast('soundxtreamappApp:playlistUpdated', result);
+                        toaster.pop('success', "Success", "Track added to "+result.name);
                     });
                     $uibModalInstance.close();
                 }
+                else{
+                    toaster.pop('warning', "Track in playlist", $scope.songDTO.song.name+" is already in this playlist");
+                }
+
+
 
                 /*$scope.playlist.$promise.then(function (result) {
                     var exist = false;

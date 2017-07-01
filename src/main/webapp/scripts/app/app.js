@@ -15,7 +15,7 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
     'nemLogging', 'ngMap', 'hm.readmore','ui.mention',
     'uiCropper',
     'chart.js',
-    'ngColorThief',
+    'ngColorThief',,
     // jhipster-needle-angularjs-add-module JHipster will add new module here
     'ui.bootstrap', 'ui.router',  'infinite-scroll', 'angular-loading-bar'])
     .run(function ($log, $rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
@@ -170,17 +170,82 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
             });
         };
     })
-    .directive('img', function () {
+   /* .directive('imageSoundxtream', function() {
         return {
-            restrict: 'E',
-            link: function (scope, element, attrs) {
-                // show an image-missing image
-                element.error(function () {
-                   // var url = '/assets/images/default_image.jpg';
-                    //element.prop('src', url);
+            restrict: 'A',
+            scope: { imageSoundxtream: '@' },
+            link: function(scope, element, attrs) {
+                element.one('load', function() {
+                    element.attr('src', scope.imageSoundxtream);
                 });
             }
-        }
+        };
+    })*/
+    .directive('profileHeader', function($rootScope,$timeout, $uibModal) {
+        return {
+            restrict: 'A',
+            scope: { profileHeader: '@' },
+            link: function(scope, element, attrs) {
+                scope.$watch('profileHeader',function(newValue){
+                    if($rootScope.account.login == newValue){
+                        $timeout(function(){
+                            $('<div class="button-change-header">' +
+                                '<button class="sx__button sx__button_activated">Change image</button>' +
+                                '<input class="headerImageChooser sx-hidden" style="display:none;" type="file" accept="image/jpeg,image/pjpeg,image/png">'+
+                                '</div>').appendTo('.header-profile-info');
+
+                            $('.profile-stats-holder > span').hide();
+
+                            $('.button-change-header button').click(function(){
+                                $('.headerImageChooser').click();
+                                $('.headerImageChooser').on("change", function (changeEvent) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (loadEvent) {
+                                        scope.$apply(function () {
+                                            scope.fileread = loadEvent.target.result;
+                                            $uibModal.open({
+                                                templateUrl: 'scripts/app/account/settings/change-header.html',
+                                                controller: 'ChangeHeaderController',
+                                                size: 'lg',
+                                                resolve: {
+                                                    user: function(){
+                                                        return $rootScope.account;
+                                                    },
+                                                    image: function(){
+                                                        return scope.fileread;
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+                                    reader.readAsDataURL(changeEvent.target.files[0]);
+                                });
+                            });
+                        });
+                    }
+                    else{
+                        $('.profile-stats-holder > span').show();
+                    }
+                });
+            }
+        };
+    })
+    .directive('imageSoundxtream', function () {
+        return function(scope, element, attrs){
+            restrict: 'A',
+                attrs.$observe('image', function(value) {
+                    if(value!=null){
+                        element.css({
+                            'background-image': 'url(' + value +')'
+                        });
+                    }
+                    else{
+                        element.css({
+                            'background-image': 'url(assets/images/default_image.jpg)'
+                        });
+                    }
+                });
+        };
     })
     .config(function ($colorThiefProvider,cfpLoadingBarProvider,$stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, AlertServiceProvider) {
         // uncomment below to make alerts look like toast
@@ -197,7 +262,7 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
         httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);
 
 
-        $urlRouterProvider.otherwise('/stream');
+        $urlRouterProvider.otherwise('/feed');
         $stateProvider.state('site', {
             'abstract': true,
             views: {

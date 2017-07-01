@@ -173,10 +173,10 @@
 </style>
 <div class="page-content">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12" style="width: 100vw;">
             <div style="position: relative;">
                 <h4 style="display: inline-block;" class="titles">15 most listened tracks</h4>
-                <button class="sx__button sx__button__primary sx_button_floated" style="margin-top: 8px;">View all</button>
+                <button class="sx__button sx__button__primary sx_button_floated" ui-sref="charts-top" style="margin-top: 8px;">View all</button>
             </div>
             <div ng-repeat="songDTO in tracks track by songDTO.song.id" class="track-wrapper" style="background-image: url({{songDTO.song.artwork}});">
                 <div class="track-container">
