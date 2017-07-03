@@ -105,7 +105,7 @@ angular.module('soundxtreamappApp')
         $timeout(function(){
             $(document).scroll(function() {
                 var y = $(this).scrollTop();
-                if (y > 100) {
+                if (y > 300) {
                     $('.scroll-header').addClass("scroll-header-visible");
                 } else {
                     $('.scroll-header').removeClass("scroll-header-visible");

@@ -25,9 +25,9 @@ angular.module('soundxtreamappApp')
                     $scope.playlists.push(result[i]);
                 }
 
-                if($scope.playlists.length<1){
+                /*if($scope.playlists.length<1){
                     $('.no-playlists').css({"opacity":"1", "display":"flex"});
-                }
+                }*/
                 console.log($scope.playlists);
             });
         };

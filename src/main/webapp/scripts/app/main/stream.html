@@ -9,7 +9,7 @@
                 <div ng-repeat="activity in activities" class="result-row">
                     <div ng-if="activity.type == 'upload_track'">
                         <span class="type_feed"><i class="ion-feed ion-upload"></i> {{activity.song.song.user.login}} uploaded a track</span>
-                        <img image-soundxtream="{{activity.song.song.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
+                        <img image-feed="{{activity.song.song.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.song.song.user.login}}</span></p>
                             <p><span class="feed-title" ui-sref="song.detail({accessUrl: activity.song.song.access_url,user: activity.song.song.user.login, id: activity.song.song.id})">{{activity.song.song.name}}</span></p>
@@ -18,7 +18,7 @@
                     </div>
                     <div ng-if="activity.type == 'shared_track'">
                         <span class="type_feed"><i class="ion-feed ion-android-share"></i> {{activity.shareTrack.user.login}} shared a track</span>
-                        <img image-soundxtream="{{activity.song.song.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
+                        <img image-feed="{{activity.song.song.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.song.song.user.login}}</span></p>
                             <p><span class="feed-title" ui-sref="song.detail({accessUrl: activity.song.song.access_url,user: activity.song.song.user.login, id: activity.song.song.id})">{{activity.song.song.name}}</span></p>
@@ -27,7 +27,7 @@
                     </div>
                     <div ng-if="activity.type == 'created_playlist'">
                         <span class="type_feed"><i class="ion-feed ion-plus"></i> {{activity.playlist.user.login}} created a playlist</span>
-                        <img image-soundxtream="{{activity.playlist.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
+                        <img image-feed="{{activity.playlist.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.playlist.user.login}}</span></p>
                             <p><span class="feed-title">{{activity.playlist.name}}</span></p>
@@ -35,7 +35,7 @@
                     </div>
                     <div ng-if="activity.type == 'shared_playlist'">
                         <span class="type_feed"><i class="ion-feed ion-plus"></i> {{activity.playlist.user.login}} shared a playlist</span>
-                        <img image-soundxtream="{{activity.playlist.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" width="140px" height="140px" alt="">
+                        <img image-feed="{{activity.playlist.artwork}}" src="/assets/images/default_image.jpg" class="header_feed" width="140px" height="140px" alt="">
                         <div class="feed-info">
                             <p><span class="feed-title user">{{activity.playlist.user.login}}</span></p>
                             <p><span class="feed-title">{{activity.playlist.name}}</span></p>

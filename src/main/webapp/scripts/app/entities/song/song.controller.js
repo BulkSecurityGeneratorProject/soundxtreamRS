@@ -17,11 +17,12 @@ angular.module('soundxtreamappApp')
                 sort: [$scope.predicate + ',' + ($scope.reverse ? 'asc' : 'desc')]
             }, function (result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
+                /*if(result.length==0){
+                    $('.no-tracks').css({"opacity":"1", "display":"flex"});
+                    return;
+                }*/
                 for (var i = 0; i < result.length; i++) {
                     $scope.songs.push(result[i]);
-                }
-                if($scope.songs.length<1){
-                    $('.no-tracks').css({"opacity":"1", "display":"flex"});
                 }
             });
 

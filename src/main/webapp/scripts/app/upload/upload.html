@@ -25,7 +25,7 @@
             <div class="form_upload" >
                 <div class="progress-wrapper" ng-show="percentage > 0 && !stepOne" style="width: 70%; background: #fff;margin: 0 auto;">
                     <div class="progress" >
-                        <div style="position: absolute;top: -29px;font-size: 23px;"><span>{{percentage}}%</span></div>
+                        <div style="transform: skewX(45deg);position: absolute;top: -33px;font-size: 23px;"><span class="titles" style="font-family:bebas;">{{percentage}}%</span></div>
                         <div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}"
                              aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( percentage + '%' ) }">
                             <span class="sr-only">{{percentage}}% Complete</span>
@@ -33,78 +33,44 @@
                     </div>
                 </div>
                 <style>
-
-
-                    /*.form_upload::before{
-                        display: block;
-                        content: "";
-                        width: 85%;
-                        height: 65px;
-                        position: absolute;
-                        top: 0px;
-                        left: 0px;
-                        border-top: 1px solid #ff8952;
-                        border-left: 1px solid #ff8952;
-                        z-index: 30;
-                    }
-
-                    .form_upload::after{
-                        display: block;
-                        content: "";
-                        width: 85%;
-                        height: 65px;
-                        position: absolute;
-                        right: 0px;
-                        bottom: 0px;
-                        border-bottom: 1px solid #ff8952;
-                        border-right: 1px solid #ff8952;
-                        z-index: 30;
-                    }*/
-
-                    .header-background-mask{
-                        position: absolute!important;
-                        z-index: 2;
-                        top: 132px;
-                        left: 0;
-                        bottom: 0;
-                        border-top: 98px solid transparent;
-                        border-right: 100vw rgba(59, 59, 59, 0.83) solid;
-                    }
-                    .header-background{
-                        //background: url(assets/images/soundxtream_logo.png), #595959;
-                        position: absolute;
-                        height: 104%;
-                        width: 102%;
-                        top: -5px;
-                        left: -5px;
-                        background-size: 100%!important;
-                    // background-attachment: fixed!important;
-                        background-position: center center!important;
-                        filter: blur(2px);
-                        z-index: 1;
-                        bottom: 0px;
-                        right: 0px;
-                    }
-
                     .progress-wrapper{
-                        display: block;
+                        display: flex;
                         width: 100%;
                         height: 600px;
 
                         position: relative;
                     }
                     .progress{
-                        width: 50%;
+                        width: 100%;
                         display: block;
-                        position: absolute;
                         overflow: visible;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-45%, -45%);
-                        background-color: rgba(255, 120, 76, 0.19);
+                        height: 5px;
+                        align-self: center;
+                        transform: skewX(-45deg);
+                        background-color: rgba(33, 33, 33, 0.18);
                     }
                     .progress-bar{
                         background-color: #ff5d29;
+
+                        transition: all 4s ease-out;
+                        animation-timing-function: ease-in-out;
+
+                        animation: progressBarColor 1s linear 0s infinite;
+                        -moz-animation: progressBarColor 1s linear 0s reverse none;
+                        -webkit-animation: progressBarColor 1s linear 0s infinite;
+                        -o-animation: progressBarColor 1s linear 0s infinite;
+                    }
+
+                    @keyframes progressBarColor {
+                        0%{
+                            background-color: #ff8200;
+                        }
+                        50%{
+                            background-color: #ff5d29;
+                        }
+                        80%{
+                            background-color: #ff4933;
+                        }
                     }
 
                 </style>
@@ -128,21 +94,27 @@
 
                             <div style="width: 260px; height: auto; min-height: 230px;margin: 0px 20px 0px 0px;">
                                 <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
-                                     accept="image/*">
-                                    <div style="width: 100%; height: auto; display: inline-block;">
-                                        <img src="{{croppedArtwork}}" alt="" height="auto" style="min-height: 221px;vertical-align: top;" width="85%" style="display: inline-block;" id="picture">
-                                        <button ngf-select ng-model="picFile" style="display: inline-block; width: 12%;vertical-align: top;"
-                                                class="sx__button sx__button__primary" accept="image/*">
-                                            <i class="mdi mdi-upload" tooltip="Upload image"></i>
-                                        </button>
+                                     accept="image/*" ng-init="hideCrop=true">
+                                    <div style="width: 100%; height: 221px; display: inline-block;">
+                                        <div style="display: flex;">
+                                            <img src="{{croppedArtwork}}" alt="" height="auto" width="85%" style="flex: 1; max-height: 221px;display: inline-block;width: 221px; height: 221px;vertical-align: top;" id="picture"/>
+                                            <div style="display: inline-block;">
+                                                <button ngf-select ng-model="picFile" style="display: block; vertical-align: top;"
+                                                        class="sx__button sx__button__primary" accept="image/*">
+                                                    <i class="mdi mdi-upload" tooltip="Upload image"></i>
+                                                </button>
+                                                <button type="button" class="sx__button sx__button__primary" style="display: block;  vertical-align: top;" ng-click="hideCrop=false">
+                                                    <i class="mdi mdi-crop" tooltip="Crop image"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <ui-cropper ng-show="picFile!=null" style="width: 260px; height: 260px;display: inline-block;" area-type="square" image="picFile  | ngfDataUrl"
+                                    <ui-cropper ng-hide="hideCrop" style="width: 260px; height: 260px;display: inline-block;" area-type="square" image="picFile"
                                                 result-image="croppedArtwork" result-image-size="500"
                                                 ng-init="croppedArtwork=''"
-                                                live-view="blockingObject"
                                                 result-image-quality="1.0" init-max-area="true">
                                     </ui-cropper>
-                                    <button type="button" class="sx__button sx__button__primary">OK?</button>
                                 </div>
                             </div>
                             <div style="flex:1;">

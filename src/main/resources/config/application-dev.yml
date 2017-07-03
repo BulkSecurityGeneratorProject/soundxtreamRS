@@ -11,6 +11,14 @@
 # ===================================================================
 
 spring:
+    servlet:
+        multipart:
+            max-file-size: 2048000KB
+            max-request-size: 2048000KB
+    http:
+        multipart:
+            max-file-size: 2048000KB
+            max-request-size: 2048000KB
     profiles:
         active: dev
     devtools:
@@ -68,7 +76,7 @@ server:
 # JHipster specific properties
 # ===================================================================
 
-multipart.maxFileSize:  2048000KB
+multipart.maxFileSize: 2048000KB
 multipart.maxRequestSize: 2048000KB
 
 jhipster:

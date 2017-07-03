@@ -96,9 +96,8 @@ angular.module('soundxtreamappApp').controller('UploadController',
             };
 
             var onSaveSuccess = function (result) {
-                $timeout(function () {
-                    $state.go('song', null, null);
-                }, 1000);
+                //$state.go('song.detail', {accessUrl: result.access_url,user: result.user.login, id: result.id}, null);
+                $state.go('song',null, {reload:true});
                 toaster.pop('success', "Success", "Song uploaded!");
             };
 
@@ -299,10 +298,11 @@ angular.module('soundxtreamappApp').controller('UploadController',
                                 console.log(url);
 
                                 $scope.artworkFile = base64;
+                                $scope.picFile = url;
 
                                 document.getElementById('picture').setAttribute('src',base64);
                             } else {
-                                document.getElementById('picture').style.display = "none";
+                                //document.getElementById('picture').style.display = "none";
                             }
 
                         }
@@ -348,7 +348,7 @@ angular.module('soundxtreamappApp').controller('UploadController',
                     songLocationName = file.name.toLowerCase();
                     songLocationName = songLocationName.split(' ').join('-');
                     songLocationName = $scope.account.login + "-" + songLocationName;
-                
+
 
                 var songArtworkName = file.name.toLowerCase();
                 var ext = file.name.split('.').pop();

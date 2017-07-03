@@ -36,8 +36,8 @@
     .change-header-modal {
         width: 900px;
         margin: 5% auto;
-        background: rgb(255, 255, 255);
-        box-shadow: 0px 23px 34px -20px rgba(255, 96, 20, 0.62);
+        /*background: rgb(255, 255, 255);
+        box-shadow: 0px 23px 34px -20px rgba(255, 96, 20, 0.62);*/
         border-radius: 3px;
     }
 
@@ -51,18 +51,19 @@
 
 <div class="change-header-modal">
     <div class="row">
+
+        <div class="close-modal" style="color: #ff6c3e;font-size: 40px;display: flex;justify-content: flex-end;"><i ng-click="closeModal()" class="mdi mdi-close"></i></div>
+
         <form name="form" role="form" novalidate ng-submit="save()" show-validation>
             <div class="row">
-                <!--<div style="width: 600px; height: auto; background: url('{{image}}');"></div>-->
-
-                <div style="width: 850px; height: 265px;margin: 20px auto;">
-                    <h3>Resize and position your profile header</h3>
+                <div style="width: 850px; height: 100%;margin: 20px auto;">
+                    <h3 style="font-family: bebas; font-size: 40px; color: #ff6c3e;">Resize and position your profile header</h3>
                     <div class="line"></div>
-                    <ui-cropper area-type="rectangle" image="image" init-max-area="true" aspect-ratio="4.7"
-                                result-image-format="image/jpg" result-image-size='{w: 1265,h: 265}' result-image="croppedArtwork" result-image-quality="1.0">
+                    <ui-cropper area-type="rectangle" image="image" init-max-area="true" aspect-ratio="4"
+                                result-image-format="image/jpg" result-image-size='{w: 1265,h: 315}' result-image="croppedArtwork" result-image-quality="1.0">
                     </ui-cropper>
                 </div>
-                <div class="crop-result-profile" style="margin-bottom: 10px; margin-top: 10px; align-items: center;position: relative;width: 850px; height: 178px;display: flex;margin: 20px auto;">
+                <div class="crop-result-profile" style="margin-bottom: 10px; margin-top: 10px; align-items: center;position: relative;width: 850px; height: 212px;display: flex;margin: 20px auto;">
                     <div class="crop-result-area" style="position: absolute; top:0; bottom:0; left:0; right:0;background-size:100%;background-repeat:no-repeat;background-image: url('{{croppedArtwork}}');"></div>
                     <div class="crop-previsual-profile" style="display: inherit; transform: scale(.68548);-webkit-transform: scale(.68548);">
                         <div style="width: 200px; height: 200px; border-radius: 50%;background-repeat:no-repeat; background-size: contain; background-image: url('{{settingsAccount.user_image}}');"></div>
@@ -74,7 +75,7 @@
                 </div>
 
 
-                <div><button ng-click="savebanner()">save</button></div>
+                <div style="margin: 20px;"><button class="sx__button" ng-click="savebanner()">save</button></div>
             </div>
         </form>
     </div>
@@ -82,6 +83,11 @@
 </div>
 
 <style>
+    ui-cropper.fixed-height {
+        height: 270px;
+        position: relative;
+        overflow: hidden;
+    }
     .cropArea {
         background: #E4E4E4;
         overflow: hidden;

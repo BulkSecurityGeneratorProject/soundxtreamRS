@@ -12,6 +12,14 @@ angular.module('soundxtreamappApp')
 
         $scope.image = image;
 
+        var reader = new FileReader();
+        reader.onload = function (loadEvent) {
+            $scope.$apply(function () {
+                $scope.image = loadEvent.target.result;
+            });
+        }
+        reader.readAsDataURL(image);
+
         $scope.savebanner = function(){
 
             var imageBase64 = $scope.croppedArtwork;
@@ -19,6 +27,10 @@ angular.module('soundxtreamappApp')
             var file = new File([blob],"ds.jpg");
 
             uploadUsingUploadArtwork(file);
+        }
+
+        $scope.closeModal = function(){
+            $uibModalInstance.dismiss('cancel');
         }
 
         function dataURItoBlob(dataURI) {

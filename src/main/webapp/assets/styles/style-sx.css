@@ -2378,17 +2378,6 @@ div#create-comment-box[contenteditable]:empty:before{
 }
 
 
-.header-profile {
-    height: 250px;
-    display: block;
-    align-items: center;
-    margin: 20px auto;
-    width: 1000px;
-    padding: 25px;
-    overflow: hidden;
-    z-index:1;
-}
-
 .header-background-mask {
     position: absolute!important;
     z-index: 2;
@@ -2414,7 +2403,8 @@ div#create-comment-box[contenteditable]:empty:before{
 }
 
 .header-profile {
-    height: 265px;
+   // height: 265px;
+    height: 315px;
     display: flex;
     align-items: center;
     margin: 0px auto;

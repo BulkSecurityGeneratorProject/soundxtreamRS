@@ -280,11 +280,7 @@ angular.module('soundxtreamappApp')
 
         $scope.chartOptions2 = {
             title: {
-                text: 'Solar Employment Growth by Sector, 2010-2016'
-            },
-
-            subtitle: {
-                text: 'Source: thesolarfoundation.com'
+                text: 'This track vs all your tracks'
             },
 
             yAxis: {

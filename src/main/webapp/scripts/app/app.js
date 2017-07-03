@@ -170,17 +170,17 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
             });
         };
     })
-   /* .directive('imageSoundxtream', function() {
+    .directive('imageFeed', function() {
         return {
             restrict: 'A',
-            scope: { imageSoundxtream: '@' },
+            scope: { imageFeed: '@' },
             link: function(scope, element, attrs) {
                 element.one('load', function() {
-                    element.attr('src', scope.imageSoundxtream);
+                    element.attr('src', scope.imageFeed);
                 });
             }
         };
-    })*/
+    })
     .directive('profileHeader', function($rootScope,$timeout, $uibModal) {
         return {
             restrict: 'A',
@@ -199,26 +199,20 @@ angular.module('soundxtreamappApp', ['LocalStorageModule', 'tmh.dynamicLocale', 
                             $('.button-change-header button').click(function(){
                                 $('.headerImageChooser').click();
                                 $('.headerImageChooser').on("change", function (changeEvent) {
-                                    var reader = new FileReader();
-                                    reader.onload = function (loadEvent) {
-                                        scope.$apply(function () {
-                                            scope.fileread = loadEvent.target.result;
-                                            $uibModal.open({
-                                                templateUrl: 'scripts/app/account/settings/change-header.html',
-                                                controller: 'ChangeHeaderController',
-                                                size: 'lg',
-                                                resolve: {
-                                                    user: function(){
-                                                        return $rootScope.account;
-                                                    },
-                                                    image: function(){
-                                                        return scope.fileread;
-                                                    }
-                                                }
-                                            });
-                                        });
-                                    }
-                                    reader.readAsDataURL(changeEvent.target.files[0]);
+                                    $uibModal.open({
+                                        templateUrl: 'scripts/app/account/settings/change-header.html',
+                                        controller: 'ChangeHeaderController',
+                                        size: 'lg',
+                                        resolve: {
+                                            user: function(){
+                                                return $rootScope.account;
+                                            },
+                                            image: function(){
+                                                return changeEvent.target.files[0];
+                                            }
+                                        }
+                                    });
+
                                 });
                             });
                         });

@@ -175,15 +175,19 @@ public class PlaylistResource {
 
             graphics.dispose();
 
+            String playlistName =playlist.getName().replaceAll(":", "-");
+            playlistName = playlistName.replaceAll(" ", "-");
+
             try{
-                if (ImageIO.write(bImage, "png", new File("./src/main/webapp/uploads/"+playlist.getName()+"-"+playlist.getId()+".jpg"))){
+
+                if (ImageIO.write(bImage, "png", new File("./src/main/webapp/uploads/"+playlistName+"-"+playlist.getId()+".jpg"))){
                     System.out.println("-- saved");
                 }
             }catch (IOException e){
                 e.printStackTrace();
             }
 
-            playlist.setArtwork("uploads/"+playlist.getName()+"-"+playlist.getId()+".jpg");
+            playlist.setArtwork("uploads/"+playlistName+"-"+playlist.getId()+".jpg");
 
         }else{
             if(songsList.size() >= 1){

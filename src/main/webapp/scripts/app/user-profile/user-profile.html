@@ -94,15 +94,100 @@
         padding: 10px;
         right: 0;
         display: block;
-        transform: translate3d(0,-100%,0);
-        -webkit-transform: translate3d(0,-100%,0);
+        transform: translate3d(0, -100%, 0);
+        -webkit-transform: translate3d(0, -100%, 0);
         transition: transform .3s;
-        //border-bottom: 1px solid rgba(124, 124, 124, 0.51);
+    / / border-bottom: 1 px solid rgba(124, 124, 124, 0.51);
     }
 
-    .scroll-header-visible{
-        transform: translate3d(0,0,0);
-        -webkit-transform: translate3d(0,0,0);
+    .scroll-header-visible {
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+
+    .topTracks-user-profile {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-size: contain;
+        display: block;
+        background-repeat: no-repeat;
+    }
+
+    .topTrack-num-1 {
+        order: 3;
+        width: 200px;
+        height: 200px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-2 {
+        order: 2;
+        width: 190px;
+        height: 190px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-3 {
+        order: 4;
+        width: 180px;
+        height: 180px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-4 {
+        order: 1;
+        width: 160px;
+        height: 160px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-5 {
+        order: 5;
+        width: 160px;
+        height: 160px;
+        align-self: flex-end;
+    }
+
+    li.topTrack {
+        margin: 8px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .topTrack-position {
+        position: absolute;
+        z-index: 1;
+        margin: 7px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0px 5px 0px 5px;
+        color: #fff;
+    }
+
+    .topTrack-plays {
+        position: absolute;
+        bottom: 0;
+        left: 45%;
+        z-index: 1;
+        margin: 7px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0px 5px 0px 5px;
+        color: #fff;
+    }
+
+    .topTrack:hover .topTrack-info {
+        transform: translate3d(0, 0, 0);
+    }
+
+    .topTrack-info {
+        transition: all .4s;
+        transform: translate3d(0, -100%, 0);
+    }
+
+    .trackTop-controls button.sx__button.sx_button_player {
+        transform: translate(-50%, -50%);
+        top: 14%;
+        left: 15%;
     }
 </style>
 <div class="scroll-header">
@@ -150,11 +235,11 @@
             </div>
             <div class="header-profile-info">
                 <div class="profile-username">
-                    <span>{{user.nickname || user.login}}</span>
+                    <span style="font-size: 20px;">{{user.nickname || user.login}}</span>
                 </div>
                 <div></div>
                 <div class="profile-realname" ng-show="user.firstName!= null || user.lastName!=null">
-                    <div><span>{{user.firstName}} {{user.lastName}}</span></div>
+                    <div><span style="font-size: 18px;">{{user.firstName}} {{user.lastName}}</span></div>
                 </div>
                 <div class="profile-stats-holder">
                     <span>
@@ -182,15 +267,18 @@
         </div>
     </div>
     <div class="user-profile-library">
-        <div class="row" style="border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;">
+        <div class="row" style="display:none;border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;">
             <div class="col-md-6 col-md-offset-3 col-sm-12">
                 <ul style="list-style: none;padding: 0;">
                     <div class="titles" style="font-size: 25px;">Popular tracks</div>
                     <li ng-show="topTracks.length < 1">{{user.login}} don't have any popular track</li>
-                    <li ng-repeat="track in topTracks" class="topTracks" style="display: flex;padding: 5px;" ng-show="topTracks.length > 0">
+                    <li ng-repeat="track in topTracks" class="topTracks" style="display: flex;padding: 5px;"
+                        ng-show="topTracks.length > 0">
                         <div style="width: 40px;align-self: center;">{{$index+1}}</div>
                         <div style="width: 40px;height: 40px;align-self: center;margin-right: 5px;">
-                            <image-soundxtream style="width: 100%; position: relative;height: 100%;overflow: hidden;display: block;background-size: contain;" image="{{track.song.artwork}}"></image-soundxtream>
+                            <image-soundxtream
+                                style="width: 100%; position: relative;height: 100%;overflow: hidden;display: block;background-size: contain;"
+                                image="{{track.song.artwork}}"></image-soundxtream>
                         </div>
                         <div style="flex: 1;align-self: center;overflow: hidden;text-overflow: ellipsis;">
                             {{track.song.name}}
@@ -203,13 +291,64 @@
             </div>
         </div>
         <div class="row" style="border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;padding-bottom: 10px;">
+            <div class="titles" style="text-align: center;font-size: 30px;"><i class="mdi mdi-trending-up"></i> Popular
+                tracks
+            </div>
+            <ul style="display: flex;padding:0;justify-content: center;list-style: none;">
+                <li ng-repeat="track in topTracks" class="topTrack topTrack-num-{{$index+1}}">
+                    <!--<span class="topTrack-position"></span>-->
+                    <div style="width: 100%;height: 100%;position: relative;">
+                        <image-soundxtream class="topTracks-user-profile"
+                                           image="{{track.song.artwork}}"></image-soundxtream>
+                        <div class="topTrack-info"
+                             style="position: absolute;top:0;left: 0;right: 0;bottom:0;background: rgba(25, 25, 25, 0.82);">
+                           <span
+                               style=" text-align: center;color: #fff; display: flex;align-items: center;height: 100%;padding: 15px;">
+                               <span><a style="text-decoration: none;color:inherit;" href="/#/{{track.song.user.login}}/track/{{track.song.access_url}}">{{track.song.name}}</a></span>
+                           </span>
+                        </div>
+                        <div class="trackTop-controls">
+                            <button class="sx__button sx_button_player"
+                                    ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == track.song.id && playerPlaylist.playlistCurrent == 'fromTracks'+user.login"
+                                    ng-click="mediaPlayer.playPause()">
+                                <i ng-if="!mediaPlayer.playing" class="mdi mdi-play mdi-24px"></i>
+                                <i ng-if="mediaPlayer.playing" class="mdi mdi-pause mdi-24px"></i>
+                            </button>
+                            <button class="sx__button sx_button_player"
+                                    ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != track.song.id || playerPlaylist.playlistCurrent != 'fromTracks'+user.login"
+                                    ng-click="playerPlaylist.addSongAll(topTracks,mediaPlayer,$index,'fromTracks'+user.login)">
+                                <i class="mdi mdi-play mdi-24px"></i>
+                            </button>
+                        </div>
+                        <div class="stats">
+                            <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                                <div class="blur" style="z-index: 1;">
+                                    <div class="background"
+                                         style="background-image: url({{track.song.artwork}});"></div>
+                                </div>
+                                <span style="outline: 0;z-index: 2;position: relative;color: #fff;padding-right: 5px;">
+                                    <i class="mdi mdi-pound"></i> {{$index+1}}
+                                </span>
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;">
+                                    <i class="mdi mdi-play"></i>&nbsp; {{track.plays}}
+                                </span>
+                            </h5>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="row"
+             style="border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;padding-bottom: 10px;">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <button class="sx__button sx_button_floated to-left" ui-sref="user-profile.tracks">View all</button>
                 <h3 class="h3_title">
                     <i class="mdi mdi-bookmark-music mdi-36px mdi-sx-orange" aria-hidden="true"></i>
                     <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">{{user.login}}'S TRACKS</span>
                 </h3>
-                <div ng-repeat="songDTO in tracksUser track by songDTO.song.id" class="track-wrapper" style="background-image: url({{songDTO.song.artwork}});">
+                <div ng-repeat="songDTO in tracksUser track by songDTO.song.id" class="track-wrapper"
+                     style="background-image: url({{songDTO.song.artwork}});">
                     <div class="track-container">
                         <h5 style="cursor: pointer;text-align: center;"
                             ui-sref="song.detail({accessUrl: songDTO.song.access_url,user: songDTO.song.user.login, id: songDTO.song.id})">
@@ -218,33 +357,41 @@
                             </div>
                             <span>{{songDTO.song.name}}</span>
                         </h5>
-                        <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromTracks'+user.login"
+                        <button class="sx__button sx_button_player"
+                                ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromTracks'+user.login"
                                 ng-click="mediaPlayer.playPause()">
                             <i ng-if="!mediaPlayer.playing" class="mdi mdi-play mdi-24px"></i>
                             <i ng-if="mediaPlayer.playing" class="mdi mdi-pause mdi-24px"></i>
                         </button>
-                        <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromTracks'+user.login"
+                        <button class="sx__button sx_button_player"
+                                ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromTracks'+user.login"
                                 ng-click="playerPlaylist.addSongAll(tracksUser,mediaPlayer,$index,'fromTracks'+user.login)">
                             <i class="mdi mdi-play mdi-24px"></i>
                         </button>
                         <div class="stats">
                             <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
                                 <div class="blur" style="z-index: 1;">
-                                    <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                                    <div class="background"
+                                         style="background-image: url({{songDTO.song.artwork}});"></div>
                                 </div>
-                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;" ng-if="$index == 0">
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                    ng-if="$index == 0">
                                     Newest
                                 </span>
-                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;" >
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;">
                                     <i class="mdi mdi-play"></i>&nbsp; {{songDTO.plays}}</span>
-                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
-                                      ng-style="{color : ((songDTO.liked) && '#ff6533') || '#fff'}"
-                                      ng-click="like(songDTO.song.id)">
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                    ng-style="{color : ((songDTO.liked) && '#ff6533') || '#fff'}"
+                                    ng-click="like(songDTO.song.id)">
                                     <i class="fa fa-heart-o"></i>&nbsp; {{songDTO.totalLikes}}
                                 </span>
-                                <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
-                                      ng-style="{color : ((songDTO.shared) && '#ff6533') || '#fff'}"
-                                      ng-click="share(songDTO.song.id)">
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                    ng-style="{color : ((songDTO.shared) && '#ff6533') || '#fff'}"
+                                    ng-click="share(songDTO.song.id)">
                                     <i class="fa fa-retweet"></i>&nbsp; {{songDTO.totalShares}}
                                 </span>
                             </h5>
@@ -253,7 +400,8 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="border-bottom: 1px solid rgba(158, 158, 158, 0);margin-bottom: 10px;padding-bottom: 10px;">
+        <div class="row"
+             style="border-bottom: 1px solid rgba(158, 158, 158, 0);margin-bottom: 10px;padding-bottom: 10px;">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h3 class="h3_title">
                     <i class="mdi mdi-playlist-play mdi-36px mdi-sx-orange" aria-hidden="true"></i>
@@ -263,7 +411,8 @@
                     <div class="options options-playlist">
                         <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
                             <div class="blur" style="z-index: 1;">
-                                <div class="background" style="background-image: url({{playlistDTO.playlist.artwork}});"></div>
+                                <div class="background"
+                                     style="background-image: url({{playlistDTO.playlist.artwork}});"></div>
                             </div>
                             <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
                                   ng-style="{color : ((playlistDTO.liked) && '#ff6533') || '#fff'}"
@@ -320,15 +469,17 @@
     </div>
 </div>
 <style>
-    .topTracks:hover{
+    .topTracks:hover {
         background: rgba(158, 158, 158, 0.31);
     }
+
     .card-prof {
         -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23); /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
         -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23); /* Firefox 3.5 - 3.6 */
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
     }
-    .user-profile-library{
+
+    .user-profile-library {
         width: 1265px;
         margin: 0 auto;
     }
@@ -518,10 +669,24 @@
     }
 
     .header-profile-info {
+        /*display: inline-block;
+        position: relative;
+        !*height: 200px;
+        max-height: 200px;*!
+        min-height: 265px;
+        height: 265px;
+        max-height: 100%;
+        width: 62%;
+        overflow: hidden;
+        max-width: 100vw;
+        padding-left: 20px;
+        z-index: 222;*/
+
         display: inline-block;
         position: relative;
-        height: 200px;
-        max-height: 200px;
+        min-height: 220px;
+        height: 305px;
+        max-height: 220px;
         width: 62%;
         overflow: hidden;
         max-width: 100vw;

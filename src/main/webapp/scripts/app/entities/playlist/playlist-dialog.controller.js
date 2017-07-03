@@ -113,7 +113,7 @@ angular.module('soundxtreamappApp').controller('PlaylistDialogController',
 
             $scope.uploadBanner = function (file) {
                 if (file != null) {
-                    uploadBannerSong(file)
+                    uploadBannerSong(file);
                 }
             }
 

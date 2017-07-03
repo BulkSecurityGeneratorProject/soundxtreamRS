@@ -150,7 +150,12 @@ angular.module('soundxtreamappApp').controller('SongToPlaylist',
                     }
                 }
                 if(!existName){
-                    Playlist.save($scope.playlistNew);
+                    Playlist.save($scope.playlistNew,function(res){
+                        var arr=$scope.playlists;
+                        arr=[res,...arr];
+
+                        $scope.playlists = arr;
+                    });
                     //$scope.playlists = Playlist.getPlaylistUser({});
                     //$scope.playlists.push($scope.playlistNew);
                     $scope.playlistNew = null;

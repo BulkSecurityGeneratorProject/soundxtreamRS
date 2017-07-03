@@ -9,8 +9,14 @@
     <div id="options-menu-container">
         <ul id="options-list">
             <li class="option-menu" ng-switch-when="true">
+                <a ui-sref="home">
+                    <span class="mdi mdi-home mdi-36px"></span>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="option-menu" ng-switch-when="true">
                 <a ui-sref="feed">
-                    <span class="mdi mdi-home-modern mdi-36px"></span>
+                    <span class="mdi mdi-history mdi-36px"></span>
                     <span>Feed</span>
                 </a>
             </li>
@@ -64,12 +70,12 @@
                     </li>
                 </ul>
             </li>
-            <li class="option-menu" ng-switch-when="true">
+            <!--<li class="option-menu" ng-switch-when="true">
                 <a ui-sref="user-profile({login: account.login})">
                     <span class="mdi mdi-account-box mdi-36px"></span>
                     <span>User profile</span>
                 </a>
-            </li>
+            </li>-->
             <li class="option-menu" ng-switch-when="true">
                 <a ui-sref="upload">
                     <span class="mdi mdi-upload mdi-36px"></span>

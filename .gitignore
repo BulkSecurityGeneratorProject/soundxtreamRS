@@ -4,6 +4,8 @@
 /src/main/webapp/dist
 /src/main/webapp/uploads/**
 /src/main/webapp/bower_components/**
+/src/main/resources/GeoLite2-City.mmdb
+/src/main/resources/GeoLite2-Country.mmdb
 
 ######################
 # Node

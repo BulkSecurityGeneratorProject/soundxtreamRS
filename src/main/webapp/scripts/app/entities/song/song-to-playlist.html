@@ -28,12 +28,14 @@
     </div>
 </div>-->
 <div>
-    <div class="songPlaylis-modal">
+    <div class="songPlaylist-modal">
         <div style="display: flex;">
-            <div class="new-playlist" style="flex: 100%;">
-                <span>Create new playlist</span><input type="text" ng-change="checkName()" ng-model="playlistNew.name"><button style="margin-left: 10px;margin-top: 3px;margin-bottom: 3px;" class="sx__button" ng-click="create()">Create</button>
-            </div>
-            <div class="close-modal mdi mdi-close" ng-click="closeModal()" style="color: #ff6c3e;font-size: 40px;flex: 1;"></div>
+            <div class="close-modal mdi mdi-close" ng-click="closeModal()" style="text-align: right;color: #ff6c3e;font-size: 40px;flex: 1;"></div>
+        </div>
+        <h3 style="font-family: bebas; font-size: 40px; color: #ff6c3e;">Create new playlist</h3>
+        <div class="new-playlist" style="flex: 100%;">
+            <input type="text" class="input-sx" placeholder="Give it name" ng-change="checkName()" style="width: 100%;" ng-model="playlistNew.name">
+            <button style="margin-top: 3px;margin-bottom: 3px;" class="sx__button" ng-click="create()">Create</button>
         </div>
         <h3 style="font-family: bebas; font-size: 40px; color: #ff6c3e;">Add to playlist</h3>
         <div class="addPlaylist-playlist-grid">
@@ -44,7 +46,7 @@
                 </div>
                 <div class="addPlaylist-name">
                     <div>{{playlist.name}}</div>
-                    <div style="color: #e0e0e0; font-size: 15px;">{{playlist.full_duration != null ? playlist.full_duration:'0'}} seconds</div>
+                    <div style="color: #e0e0e0; font-size: 15px;"><i class="mdi mdi-timer"></i> {{playlist.full_duration != null ? playlist.full_duration:'0' | toMinSecNum}}</div>
                     <div style="color: #e0e0e0; font-size: 15px;">{{playlist.songs.length}} {{playlist.songs.length > 1 || playlist.songs.length == 0? 'Tracks':'Track'}}</div>
 
                 </div>
@@ -157,10 +159,9 @@
         margin-left: 0px;
     }
 
-    .songPlaylis-modal {
+    .songPlaylist-modal {
+        width: 500px;
         margin: 5% auto;
-        background: rgb(255, 255, 255);
-        box-shadow: 0px 23px 34px -20px rgba(255, 96, 20, 0.62);
-        border-radius: 3px;
     }
+
 </style>
